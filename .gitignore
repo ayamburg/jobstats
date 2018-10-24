@@ -6,6 +6,8 @@
 *.exe
 *.o
 *.so
+*.pyo
+*.pyc
 
 # Packages #
 ############
@@ -39,6 +41,5 @@ Thumbs.db
 
 # Folders #
 ######################
-*/.idea/
-*/venv/
-*/__pycache__/
+venv/
+.idea/
