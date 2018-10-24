@@ -6,9 +6,12 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-#Blogpost to be indexed into ElasticSearch
-class BlogPost(models.Model):
-	author = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'blogpost')
-	posted_date = models.DateField(default=timezone.now)
-   	title = models.CharField(max_length=200)
-   	text = models.TextField(max_length=1000)
+# Job listing to be indexed into ElasticSearch
+
+
+class JobListing(models.Model):
+    indeed_id = models.BigIntegerField()
+    posted_date = models.DateField(default=timezone.now)
+    title = models.CharField(max_length=200)
+    location = models.CharField(max_length=200, default='N/A')
+    description = models.TextField(max_length=10000)
