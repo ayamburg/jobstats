@@ -21,6 +21,7 @@ class JobListingDocument(DocType):
             'posted_date',
             'title',
             'location',
+            'company',
             'description',
         ]
 
