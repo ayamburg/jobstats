@@ -26,15 +26,14 @@ def get_job_description(URL, indeed_id):
     else:
         soup = BeautifulSoup(job.text, "html.parser")
         result = soup.find(name='div', attrs={"class": "jobsearch-JobComponent-description icl-u-xs-mt--md"})
-        title = soup.find(name='h3', attrs={"class" : "icl-u-xs-mb--xs icl-u-xs-mt--none jobsearch-JobInfoHeader-title"})
+        title = soup.find(name='h3', attrs={"class": "icl-u-xs-mb--xs icl-u-xs-mt--none jobsearch-JobInfoHeader-title"})
         # get the job posted time and clean it to "1 day ago" format
-        date_info = soup.find(name='div', attrs={"class" : "jobsearch-JobMetadataFooter"})
+        date_info = soup.find(name='div', attrs={"class": "jobsearch-JobMetadataFooter"})
         date_text = date_info.get_text()
         num = re.search(r'\d+',  date_text).group()
         print(num)
         date_posted = get_date_posted(date_text, currentDT, num)
-        location = soup.find("split")
-        location = location.get_text()
+        location = soup.find(name='span', attrs={'class': 'location'}).get_text()
         print(location)
         print(indeed_id)
         print(date_posted)

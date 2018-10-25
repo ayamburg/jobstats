@@ -27,7 +27,29 @@ def extract_job_links(soup):
     return done_links
 
 
-def get_job_description(one_job_URL):
+def extract_location_from_result(soup):
+    locations = []
+    spans = soup.findAll('span', attrs={'class': 'location'})
+    for span in spans:
+        locations.append(span.text)
+    return locations
+
+
+def get_company(soup):
+    companies = []
+    for div in soup.findAll(name='div', attrs={'class': 'row'}):
+        name = div.findAll(name='span', attrs={'class': 'company'})
+        if len(name) > 0:
+            for x in name:
+                companies.append(x.text.strip())
+        else:
+            other = div.find_all(name='span', attrs={'class': 'result-linklsource'})
+            for span in other:
+                companies.append(span.text.strip())
+        return companies
+
+
+def get_everything(one_job_URL, location, company_name):
     indeed_id = one_job_URL
     listing_URL = job_URL + one_job_URL
     job = requests.get(listing_URL)
@@ -42,14 +64,11 @@ def get_job_description(one_job_URL):
         date_info = soup.find(name='div', attrs={"class" : "jobsearch-JobMetadataFooter"})
         date_text = date_info.get_text()
         num = re.search(r'\d+',  date_text).group()
-        print(date_text)
+        #print(date_text)
         date_posted = get_date_posted(date_text, currentDT, num)
-        location = soup.find("title")
-        location = location.get_text()
-        start = location.find('-') + 2
-        stop = location.find('-', start + 1)
-        final_location = date_text[start:stop]
-        print(final_location)
+        #location = soup.find(name='span', attrs={'class': 'location'}).get_text()
+        print(company_name)
+        print(location)
         print(indeed_id)
         print(date_posted)
         print(title.get_text())
@@ -83,6 +102,9 @@ else:
         results = requests.get(URL)
         soup = BeautifulSoup(results.text, "html.parser")
         result = soup.find(id='resultsCol')
-        for k in extract_job_links(result):
-            get_job_description(k)
+        names = get_company(result)
+        counter = 0
+        for j, k in zip(extract_job_links(result), extract_location_from_result(result)):
+            get_everything(j, k, names[counter])
+            counter + 1
     print("done:\n")
