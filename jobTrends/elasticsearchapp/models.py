@@ -14,4 +14,5 @@ class JobListing(models.Model):
     posted_date = models.DateField(default=timezone.now)
     title = models.CharField(max_length=200)
     location = models.CharField(max_length=200, default='N/A')
+    company = models.CharField(max_length=200, default='N/A')
     description = models.TextField(max_length=10000)
