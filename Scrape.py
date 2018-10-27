@@ -2,6 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 import datetime
 import re
+# TODO grab salary and scrape by date
+# TODO grab only non sponsored job info
+#for x in listings:
+#...     date = x.find(name='span', attrs={"class":"date"})
+#...     print(date)
+
 
 currentDT = datetime.datetime.now()
 Number_of_pages = 2
@@ -27,26 +33,41 @@ def extract_job_links(soup):
     return done_links
 
 
-def extract_location_from_result(soup):
-    locations = []
-    spans = soup.findAll('span', attrs={'class': 'location'})
-    for span in spans:
-        locations.append(span.text)
-    return locations
+#def extract_location_from_result(soup):
+#    locations = []
+#    spans = soup.findAll('span', attrs={'class': 'location'})
+#    for span in spans:
+#        locations.append(span.text)
+#    return locations
+
+
+def get_location(soup):
+    posting_start = soup.find(name='div', attrs={'class': 'jobsearch-JobComponent icl-u-xs-mt--sm'})
+    header_div = posting_start.find('div')
+    rating_and_location = header_div.findAll(name='div', attrs={'class': 'icl-u-lg-mr--sm icl-u-xs-mr--xs'})
+    location = rating_and_location[-1].nextSibling.get_text()
+    return location
+
+
+#def get_company(soup):
+#    companies = []
+#    for div in soup.find_all(name='div', attrs={'class': 'row'}):
+#        name = div.find_all(name='span', attrs={'class': 'company'})
+#        if len(name) > 0:
+#            for x in name:
+#                companies.append(x.text.strip())
+#        else:
+#            other = div.find_all(name='span', attrs={'class': 'result-linklsource'})
+#            for y in other:
+#                companies.append(y.text.strip())
+#    return companies
 
 
 def get_company(soup):
-    companies = []
-    for div in soup.find_all(name='div', attrs={'class': 'row'}):
-        name = div.find_all(name='span', attrs={'class': 'company'})
-        if len(name) > 0:
-            for x in name:
-                companies.append(x.text.strip())
-        else:
-            other = div.find_all(name='span', attrs={'class': 'result-linklsource'})
-            for y in other:
-                companies.append(y.text.strip())
-    return companies
+    meta_data = soup.find(name='div', attrs={"class": "jobsearch-JobMetadataFooter"})
+    date_text = meta_data.get_text()
+    splits = date_text.split(' -', 1)
+    return splits[0]
 
 
 def get_description(soup):
@@ -71,11 +92,11 @@ def process_date_posted(relative_time, currentDT, num):
     if relative_time.find('+') != -1:
         difference = currentDT - datetime.timedelta(days=31)
         return difference.date()
-    elif relative_time.find('days') != -1:
+    elif relative_time.find('day') != -1:
         days = num
         difference = currentDT - datetime.timedelta(days=int(days))
         return difference.date()
-    elif relative_time.find('hours') != -1:
+    elif relative_time.find('hour') != -1:
         hours = num
         difference = currentDT - datetime.timedelta(hours=int(hours))
         return difference.date()
@@ -89,12 +110,13 @@ if results.status_code != 200:
     print("Error: " + results.status_code)
 else:
     for i in range(Number_of_pages):
-        URL = URL + str(count * 10)
-        results = requests.get(URL)
+        current_URL = URL + str(count * 10)
+        print(current_URL)
+        results = requests.get(current_URL)
         soup = BeautifulSoup(results.text, "html.parser")
         result = soup.find(id='resultsCol')
-        locations = extract_location_from_result(result)
-        names = get_company(soup)
+        #locations = extract_location_from_result(result)
+        #names = get_company(soup)
         counter = 0
         for j in extract_job_links(result):
             listing_URL = job_URL + j
@@ -104,13 +126,14 @@ else:
             else:
                 job_soup = BeautifulSoup(single_job.text, "html.parser")
                 print("LISTING...")
-                print(counter)
                 print(j)  # jk indeed id
-                get_description(job_soup)
                 print(get_title(job_soup))
                 print(get_date_posted(job_soup))
-                print(locations[counter])
-                print(names[counter])
+                print(get_location(job_soup))
+                print(get_company(job_soup))
+                #print(get_description(job_soup))
+
                 print("\n")
             counter = counter + 1
+        count = count + 1
     print("done:\n")
