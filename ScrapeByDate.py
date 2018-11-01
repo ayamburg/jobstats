@@ -2,21 +2,21 @@ import requests
 from bs4 import BeautifulSoup
 import datetime
 import re
-# TODO grab salary and scrape by date
-# TODO grab only non sponsored job info
-#for x in listings:
-#...     date = x.find(name='span', attrs={"class":"date"})
-#...     print(date)
-
+import sys
 
 currentDT = datetime.datetime.now()
-Number_of_pages = 2
-count = 0
-URL = "https://www.indeed.com/jobs?q=computer+science&filter=0&start="
+Number_of_pages = 7
+count = 46
+URL = "https://www.indeed.com/jobs?q=computer+science&sort=date&filter=0&start="
 job_URL = "https://www.indeed.com/viewjob?jk="
 results = requests.get(URL)
 soup = BeautifulSoup(results.text, "html.parser")
 result = soup.find(id='resultsCol')
+
+
+def get_oldest_acceptable_date(days_old):
+    date_of_oldest = currentDT - datetime.timedelta(days=days_old - 1)
+    return date_of_oldest
 
 
 def extract_job_links(soup):
@@ -33,34 +33,12 @@ def extract_job_links(soup):
     return done_links
 
 
-#def extract_location_from_result(soup):
-#    locations = []
-#    spans = soup.findAll('span', attrs={'class': 'location'})
-#    for span in spans:
-#        locations.append(span.text)
-#    return locations
-
-
 def get_location(soup):
     posting_start = soup.find(name='div', attrs={'class': 'jobsearch-JobComponent icl-u-xs-mt--sm'})
     header_div = posting_start.find('div')
     rating_and_location = header_div.findAll(name='div', attrs={'class': 'icl-u-lg-mr--sm icl-u-xs-mr--xs'})
     location = rating_and_location[-1].nextSibling.get_text()
     return location
-
-
-#def get_company(soup):
-#    companies = []
-#    for div in soup.find_all(name='div', attrs={'class': 'row'}):
-#        name = div.find_all(name='span', attrs={'class': 'company'})
-#        if len(name) > 0:
-#            for x in name:
-#                companies.append(x.text.strip())
-#        else:
-#            other = div.find_all(name='span', attrs={'class': 'result-linklsource'})
-#            for y in other:
-#                companies.append(y.text.strip())
-#    return companies
 
 
 def get_company(soup):
@@ -106,17 +84,22 @@ def process_date_posted(relative_time, currentDT, num):
         print("ERROR: date format not recognized")
 
 
+# MAIN
+if len(sys.argv) != 2:
+    print("Error: please enter how many days old the oldest listing scraped should be.")
+    exit(0)
+
+oldest_date_not_encountered = True
+oldest_date = get_oldest_acceptable_date(int(sys.argv[1]))
 if results.status_code != 200:
     print("Error: " + results.status_code)
 else:
-    for i in range(Number_of_pages):
+    while oldest_date_not_encountered:
         current_URL = URL + str(count * 10)
         print(current_URL)
         results = requests.get(current_URL)
         soup = BeautifulSoup(results.text, "html.parser")
         result = soup.find(id='resultsCol')
-        #locations = extract_location_from_result(result)
-        #names = get_company(soup)
         counter = 0
         for j in extract_job_links(result):
             listing_URL = job_URL + j
@@ -125,14 +108,19 @@ else:
                 print("Error: " + single_job.status_code)
             else:
                 job_soup = BeautifulSoup(single_job.text, "html.parser")
-                print("LISTING...")
-                print(j)  # jk indeed id
-                print(get_title(job_soup))
-                print(get_date_posted(job_soup))
-                print(get_location(job_soup))
-                print(get_company(job_soup))
-                #print(get_description(job_soup))
-
+                date = get_date_posted(job_soup)
+                if date != oldest_date:
+                    # TODO hook these into database model
+                    print("LISTING...")
+                    print(j)  # jk indeed id
+                    print(get_title(job_soup))
+                    print(date)
+                    print(get_location(job_soup))
+                    print(get_company(job_soup))
+                    #print(get_description(job_soup))
+                else:
+                    print("Hit job posted ", oldest_date, ", shutting down...")
+                    oldest_date_not_encountered = False
                 print("\n")
             counter = counter + 1
         count = count + 1
