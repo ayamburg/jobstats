@@ -1,0 +1,12 @@
+# this file contains cron jobs which will run our daily scraper at a given time every day
+# open your local crontab using 'crontab -e' and copy one of the cron jobs from here into the file
+# you will most likely need to modify the file paths in the job you copied before it works
+# feel free to add your own entry to this file
+# guide to creating cron jobs: http://www.adminschoice.com/crontab-quick-reference
+# web editor for cron jobs: https://crontab.guru/
+
+# Andrey's Local Crontab
+47 23 * * * cd /Users/andrey/documents/CMPS115/jobTrends && /Users/andrey/documents/CMPS115/jobTrends/venv/bin/python3 /Users/andrey/documents/CMPS115/jobTrends/manage.py scrapebydate 1
+
+# Production Crontab
+10 10 * * * cd /root/CMPS115/jobTrends && /usr/bin/python3 /root/CMPS115/jobTrends/manage.py scrapebydate 1

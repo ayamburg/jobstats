@@ -1,0 +1,20 @@
+#Andrey's Common Commands
+
+#venv activate
+source venv/bin/activate
+
+#migrations
+python3 manage.py makemigrations
+python3 manage.py migrate
+
+#elasticsearch reindex
+python3 manage.py search_index --rebuild
+
+#run server
+  #local
+python3 manage.py runserver
+  #outside accessible
+python3 manage.py runserver 0.0.0.0:8000
+
+#run scraper
+python3 manage.py scrapebydate 1
