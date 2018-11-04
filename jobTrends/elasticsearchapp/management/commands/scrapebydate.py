@@ -7,7 +7,6 @@ import datetime
 import re
 import sys
 
-
 currentDT = datetime.datetime.now()
 Number_of_pages = 20
 count = 0
@@ -85,7 +84,7 @@ def process_date_posted(relative_time, currentDT, num):
     elif relative_time.find('just') != -1:
         return currentDT.date()
     else:
-        print("ERROR: date format not recognized")
+        log_file.write("ERROR: date format not recognized")
 
 
 class Command(BaseCommand):
@@ -97,14 +96,21 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         global results, count, soup, result
         oldest_date_not_encountered = True
-        print(options)
+        log_name = str(datetime.datetime.now()) + "_scrape.log"
+        log_file = open(log_name, "a+")
+        log_file.write(str(options))
+        job_count = 0
+        new_jobs = 0
         oldest_date = get_oldest_acceptable_date(int(options['scrape_days'][0]))
         if results.status_code != 200:
-            print("Error: " + results.status_code)
+            log_file.write("Error: " + results.status_code)
         else:
             while oldest_date_not_encountered and count != Number_of_pages:
                 current_URL = URL + str(count * 50)
-                print(current_URL)
+                log_file.write('\n')
+                log_file.write(current_URL)
+                log_file.write('\n')
+                print('page---------')
                 results = requests.get(current_URL)
                 soup = BeautifulSoup(results.text, "html.parser")
                 result = soup.find(id='resultsCol')
@@ -113,30 +119,47 @@ class Command(BaseCommand):
                     listing_URL = job_URL + j
                     single_job = requests.get(listing_URL)
                     if single_job.status_code != 200:
-                        print("Error: " + single_job.status_code)
+                        log_file.write("Error: " + single_job.status_code)
                     else:
                         job_soup = BeautifulSoup(single_job.text, "html.parser")
                         date = get_date_posted(job_soup)
                         if date != oldest_date:
-                            # TODO hook these into database model
-                            print("LISTING...")
-                            print(j)  # jk indeed id
-                            print(get_title(job_soup))
-                            print(date)
-                            print(get_location(job_soup))
-                            print(get_company(job_soup))
-                            print("description length: ", len(get_description(job_soup)))
-                            listing = JobListing(indeed_id=j,
-                                                 title=get_title(job_soup),
-                                                 posted_date=date,
-                                                 location=get_location(job_soup),
-                                                 company=get_company(job_soup),
-                                                 description=get_description(job_soup))
-                            listing.save()
+                            log_file.write("LISTING...")
+                            log_file.write(j)  # jk indeed id
+                            log_file.write(', ')
+                            log_file.write(get_title(job_soup))
+                            log_file.write(', ')
+                            log_file.write(str(date))
+                            log_file.write(', ')
+                            log_file.write(get_location(job_soup))
+                            log_file.write(', ')
+                            log_file.write(get_company(job_soup))
+                            log_file.write(', ')
+                            log_file.write(str(len(get_description(job_soup))))
+                            listing = JobListing.objects.update_or_create(
+                                indeed_id=j,
+                                defaults={'title': get_title(job_soup),
+                                          'posted_date': date,
+                                          'location': get_location(job_soup),
+                                          'company': get_company(job_soup),
+                                          'description': get_description(job_soup)})
+                            listing[0].save()
+                            job_count += 1
+                            if listing[1]:
+                                log_file.write(', NEW JOB')
+                                print('*', end='')
+                                new_jobs += 1
+                            print(str(job_count))
+
                         else:
-                            print("Hit job posted ", oldest_date, ", shutting down...")
+                            log_file.write("Hit job posted " + str(oldest_date) + ", shutting down...")
                             oldest_date_not_encountered = False
-                        print("\n")
+                        log_file.write("\n")
                     counter = counter + 1
                 count = count + 1
-            print("done:\n")
+            log_file.write("done!")
+            log_file.write("\ntotal jobs scraped: " + str(job_count))
+            log_file.write("\nnew jobs scraped: " + str(new_jobs))
+            print("done!\n")
+            print("\ntotal jobs scraped: " + str(job_count))
+            print("\nnew jobs scraped: " + str(new_jobs))
