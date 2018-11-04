@@ -9,9 +9,9 @@ import sys
 
 
 currentDT = datetime.datetime.now()
-Number_of_pages = 7
+Number_of_pages = 20
 count = 0
-URL = "https://www.indeed.com/jobs?q=computer+science&sort=date&filter=0&start="
+URL = "https://www.indeed.com/jobs?q=computer+science&sort=date&filter=0&limit=50&start="
 job_URL = "https://www.indeed.com/viewjob?jk="
 results = requests.get(URL)
 soup = BeautifulSoup(results.text, "html.parser")
@@ -102,8 +102,8 @@ class Command(BaseCommand):
         if results.status_code != 200:
             print("Error: " + results.status_code)
         else:
-            while oldest_date_not_encountered:
-                current_URL = URL + str(count * 10)
+            while oldest_date_not_encountered and count != Number_of_pages:
+                current_URL = URL + str(count * 50)
                 print(current_URL)
                 results = requests.get(current_URL)
                 soup = BeautifulSoup(results.text, "html.parser")
@@ -125,7 +125,7 @@ class Command(BaseCommand):
                             print(date)
                             print(get_location(job_soup))
                             print(get_company(job_soup))
-                            #print(get_description(job_soup))
+                            print("description length: ", len(get_description(job_soup)))
                             listing = JobListing(indeed_id=j,
                                                  title=get_title(job_soup),
                                                  posted_date=date,
