@@ -57,14 +57,26 @@
     <div class="container">
       <h1 class="mt-5">Job Trends</h1>
       <p>Charts go here!</p>
+    <table>
+        <tr>
+            <th>Indeed Id</th>
+            <th>Posted Date</th>
+            <th>Title</th>
+            <th>Location</th>
+            <th>Company</th>
+            <th>Description</th>
+        </tr>
         {% for listing in job_listings %}
-            {{ listing.indeed_id}}
-            {{ listing.posted_date }}
-            {{ listing.title }}
-            {{ listing.location }}
-            {{ listing.company }}
-            {{ listing.description }}
+         <tr>
+             <td>{{ listing.indeed_id}}</td>
+             <td>{{ listing.posted_date }}</td>
+             <td>{{ listing.title }}</td>
+             <td>{{ listing.location }}</td>
+             <td>{{ listing.company }}</td>
+             <td>{{ listing.description }}</td>
+         </tr>
         {% endfor %}
+    </table>
     </div>
     <!-- /.container -->
 
