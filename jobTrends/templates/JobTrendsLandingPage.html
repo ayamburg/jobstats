@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Logo Nav - Start Bootstrap Template</title>
+    <title>Job Trends</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'homepage/vendor/bootstrap/css/bootstrap.min.css' %}">
@@ -34,20 +34,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li>
           </ul>
         </div>
       </div>
@@ -56,27 +42,7 @@
     <!-- Page Content -->
     <div class="container">
       <h1 class="mt-5">Job Trends</h1>
-      <p>Charts go here!</p>
-    <table>
-        <tr>
-            <th>Indeed Id</th>
-            <th>Posted Date</th>
-            <th>Title</th>
-            <th>Location</th>
-            <th>Company</th>
-            <th>Description</th>
-        </tr>
-        {% for listing in job_listings %}
-         <tr>
-             <td>{{ listing.indeed_id}}</td>
-             <td>{{ listing.posted_date }}</td>
-             <td>{{ listing.title }}</td>
-             <td>{{ listing.location }}</td>
-             <td>{{ listing.company }}</td>
-             <td>{{ listing.description }}</td>
-         </tr>
-        {% endfor %}
-    </table>
+      <iframe id="encoder_iframe" class ="embed-responsive-item" frameBorder="0" height = "450px" width = "1250px" src = "{% url 'job-trends' %}" ></iframe>
     </div>
     <!-- /.container -->
 
