@@ -46,6 +46,9 @@ def home(request):
             mode='lines+markers'
         )
         data.append(trace)
-    ply.plot(data, filename='templates/job-trends.html', auto_open=False)
+
+    layout = go.Layout(showlegend=True)
+    fig = go.Figure(data=data, layout=layout)
+    ply.plot(fig, filename='templates/job-trends.html', auto_open=False)
 
     return render(request, 'JobTrendsLandingPage.html')
