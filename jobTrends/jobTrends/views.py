@@ -36,8 +36,10 @@ def home(request):
         x = []
         y = []
         for bucket in listings_search.aggregations.listings_per_day.buckets:
-            x.append(datetime.utcfromtimestamp(bucket.key/1000).strftime('%x'))
-            y.append(bucket.doc_count)
+            print(bucket.key)
+            if bucket.key >= 1541203200000:
+                x.append(datetime.utcfromtimestamp(bucket.key/1000).strftime('%x'))
+                y.append(bucket.doc_count)
 
         trace = go.Scatter(
             x=x,
