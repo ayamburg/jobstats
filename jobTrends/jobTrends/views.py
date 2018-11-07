@@ -17,7 +17,7 @@ def home(request):
     keywords = request.GET.getlist('keywords[]')
     queries = Q()
     if not keywords:
-        keywords = ['Java', 'C++', 'Python', 'Ruby']
+        keywords = ['Java', 'Python', 'Ruby', 'PHP', 'iOS', 'Android']
 
     for f in filters:
         queries = queries & Q("match", description=f)
@@ -36,7 +36,6 @@ def home(request):
         x = []
         y = []
         for bucket in listings_search.aggregations.listings_per_day.buckets:
-            print(bucket.key)
             if bucket.key >= 1541203200000:
                 x.append(datetime.utcfromtimestamp(bucket.key/1000).strftime('%x'))
                 y.append(bucket.doc_count)
