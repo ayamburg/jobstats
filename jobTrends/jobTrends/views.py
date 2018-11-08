@@ -16,6 +16,7 @@ def home(request):
     filters = request.GET.getlist('filters[]')
     keywords = request.GET.getlist('keywords[]')
     # raw = request.GET.get('raw')
+    raw = 1
     queries = Q()
     if not keywords:
         keywords = ['Java', 'Python', 'Ruby', 'PHP', 'iOS', 'Android']
