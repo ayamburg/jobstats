@@ -26,13 +26,14 @@ def home(request):
 
     data = []
 
-    # calculate total for each day
-    total_search = JobListingDocument.search()
-    total = total_search.count()
-    total_search = total_search[0:total]
-    total_search.aggs.bucket('listings_per_day', 'date_histogram', field='posted_date', interval='day')
-    total_search = total_search.execute()
-    total_buckets = total_search.aggregations.listings_per_day.buckets
+    if raw == '0':
+        # calculate total for each day
+        total_search = JobListingDocument.search()
+        total = total_search.count()
+        total_search = total_search[0:total]
+        total_search.aggs.bucket('listings_per_day', 'date_histogram', field='posted_date', interval='day')
+        total_search = total_search.execute()
+        total_buckets = total_search.aggregations.listings_per_day.buckets
 
     # calculate number of entries and add trace for each keyword
     for keyword in keywords:
