@@ -103,7 +103,7 @@ class Command(BaseCommand):
         new_jobs = 0
         oldest_date = get_oldest_acceptable_date(int(options['scrape_days'][0]))
         if results.status_code != 200:
-            log_file.write("Error: " + results.status_code)
+            log_file.write("Error: " + str(results.status_code))
         else:
             while oldest_date_not_encountered and count != Number_of_pages:
                 current_URL = URL + str(count * 50)
