@@ -87,6 +87,7 @@ def process_date_posted(relative_time, currentDT, num):
         return currentDT.date()
     else:
         log_file.write("ERROR: date format not recognized")
+        return datetime.date(2000, 1, 1)
 
 
 class Command(BaseCommand):
