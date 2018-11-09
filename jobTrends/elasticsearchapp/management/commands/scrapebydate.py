@@ -15,6 +15,8 @@ job_URL = "https://www.indeed.com/viewjob?jk="
 results = requests.get(URL)
 soup = BeautifulSoup(results.text, "html.parser")
 result = soup.find(id='resultsCol')
+log_name = str(datetime.datetime.now()) + "_scrape.log"
+log_file = open(log_name, "a+")
 
 
 def get_oldest_acceptable_date(days_old):
@@ -94,10 +96,8 @@ class Command(BaseCommand):
         parser.add_argument('scrape_days', nargs='+', type=int)
 
     def handle(self, *args, **options):
-        global results, count, soup, result
+        global results, count, soup, result, log_file
         oldest_date_not_encountered = True
-        log_name = str(datetime.datetime.now()) + "_scrape.log"
-        log_file = open(log_name, "a+")
         log_file.write(str(options))
         job_count = 0
         new_jobs = 0
