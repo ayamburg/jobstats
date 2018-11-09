@@ -119,7 +119,7 @@ class Command(BaseCommand):
                     listing_URL = job_URL + j
                     single_job = requests.get(listing_URL)
                     if single_job.status_code != 200:
-                        log_file.write("Error: " + single_job.status_code)
+                        log_file.write("Error: " + str(single_job.status_code))
                     else:
                         job_soup = BeautifulSoup(single_job.text, "html.parser")
                         date = get_date_posted(job_soup)
