@@ -75,8 +75,6 @@ def home(request):
 
 def calculate_totals():
     total_search = JobListingDocument.search()
-    total = total_search.count()
-    total_search = total_search[0:total]
     total_search.aggs.bucket('listings_per_day', 'date_histogram', field='posted_date', interval='day')
     total_search = total_search.execute()
     total_buckets = total_search.aggregations.listings_per_day.buckets
