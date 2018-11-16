@@ -42,16 +42,18 @@ def home(request):
 
         x = []
         y = []
-        for index, bucket in enumerate(listings_search.aggregations.listings_per_day.buckets):
+        idx = 0
+        for bucket in listings_search.aggregations.listings_per_day.buckets:
             if bucket.key >= SCRAPE_DATA_START:
                 x.append(datetime.utcfromtimestamp(bucket.key/1000).strftime('%x'))
                 if raw != '1':
                     try:
-                        y.append(bucket.doc_count / total_y[index])
+                        y.append(bucket.doc_count / total_y[idx])
                     except ZeroDivisionError:
                         y.append(0)
                 else:
                     y.append(bucket.doc_count)
+                idx += 1
 
         trace = go.Scatter(
             x=x,
