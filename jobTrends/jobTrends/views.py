@@ -34,8 +34,6 @@ def home(request):
     for keyword in keywords:
         query = queries & Q("match", description=keyword)
         listings_search = JobListingDocument.search().query(query)
-        key_total = listings_search.count()
-        listings_search = listings_search[0:key_total]
 
         listings_search.aggs.bucket('listings_per_day', 'date_histogram', field='posted_date', interval='day')
         listings_search = listings_search.execute()
@@ -45,7 +43,7 @@ def home(request):
         idx = 0
         for bucket in listings_search.aggregations.listings_per_day.buckets:
             if bucket.key >= SCRAPE_DATA_START:
-                x.append(datetime.utcfromtimestamp(bucket.key/1000).strftime('%x'))
+                x.append(datetime.utcfromtimestamp(bucket.key/1000).strftime('%m/%d'))
                 if raw != '1':
                     try:
                         y.append(bucket.doc_count / total_y[idx])
@@ -54,7 +52,6 @@ def home(request):
                 else:
                     y.append(bucket.doc_count)
                 idx += 1
-
         trace = go.Scatter(
             x=x,
             y=y,
