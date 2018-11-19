@@ -17,6 +17,7 @@ soup = BeautifulSoup(results.text, "html.parser")
 result = soup.find(id='resultsCol')
 log_name = str(datetime.datetime.now()) + "_scrape.log"
 log_file = open(log_name, "a+")
+sys.stderr = log_file # redirect errors to logfile
 
 
 def get_oldest_acceptable_date(days_old):
