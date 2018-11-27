@@ -28,7 +28,7 @@ def home(request):
     data = []
 
     if raw != '1':
-        total_y = calculate_totals()
+        total_y = calculate_totals(queries)
 
     # calculate number of entries and add trace for each keyword
     for keyword in keywords:
@@ -70,8 +70,8 @@ def home(request):
     return render(request, 'JobTrendsLandingPage.html')
 
 
-def calculate_totals():
-    total_search = JobListingDocument.search()
+def calculate_totals(queries):
+    total_search = JobListingDocument.search().query(queries)
     total_search.aggs.bucket('listings_per_day', 'date_histogram', field='posted_date', interval='day')
     total_search = total_search.execute()
     total_buckets = total_search.aggregations.listings_per_day.buckets
