@@ -15,12 +15,20 @@ SCRAPE_DATA_START = 1541203200000
 
 
 def home(request):
-    filters = request.GET.getlist('filters[]')
-    keywords = request.GET.getlist('keywords[]')
+    filters = request.GET.get('filters')
+    keywords = request.GET.get('keywords')
     raw = request.GET.get('raw')
     queries = Q()
-    if not keywords:
+
+    if keywords:
+        keywords = keywords.split(',')
+    else:
         keywords = ['Java', 'Python', 'Ruby', 'PHP', 'iOS', 'Android']
+
+    if filters:
+        filters = filters.split(',')
+    else:
+        filters = []
 
     for f in filters:
         queries = queries & Q("match", description=f)
