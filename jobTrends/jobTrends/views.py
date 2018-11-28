@@ -15,18 +15,18 @@ SCRAPE_DATA_START = 1541203200000
 
 
 def home(request):
-    filters = request.GET.get('filters')
-    keywords = request.GET.get('keywords')
+    get_filters = request.GET.get('filters')
+    get_keywords = request.GET.get('keywords')
     raw = request.GET.get('raw')
     queries = Q()
 
-    if keywords:
-        keywords = keywords.split(',')
+    if get_keywords:
+        keywords = get_keywords.split(',')
     else:
         keywords = ['Java', 'Python', 'Ruby', 'PHP', 'iOS', 'Android']
 
-    if filters:
-        filters = filters.split(',')
+    if get_filters:
+        filters = get_filters.split(',')
     else:
         filters = []
 
@@ -74,10 +74,7 @@ def home(request):
         y_settings = dict()
 
     x_settings = dict(
-        rangeslider=dict(
-            visible=True
-        ),
-        range=[datetime.utcfromtimestamp(SCRAPE_DATA_START/1000), datetime.today()],
+        range=[datetime.utcfromtimestamp(SCRAPE_DATA_START/1000 - 8000), datetime.today()],
         type='date'
     )
     button_config = dict(displaylogo=False,
