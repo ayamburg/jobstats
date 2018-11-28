@@ -51,7 +51,7 @@ def home(request):
         idx = 0
         for bucket in listings_search.aggregations.listings_per_day.buckets:
             if bucket.key >= SCRAPE_DATA_START:
-                x.append(datetime.utcfromtimestamp(bucket.key/1000).strftime('%m/%d'))
+                x.append(datetime.utcfromtimestamp(bucket.key/1000))
                 if raw != '1':
                     try:
                         y.append(bucket.doc_count / total_y[idx])
@@ -69,11 +69,29 @@ def home(request):
         data.append(trace)
 
     if raw != '1':
-        layout = go.Layout(showlegend=True, yaxis=dict(tickformat=".2%"))
+        y_settings = dict(tickformat=".2%")
     else:
-        layout = go.Layout(showlegend=True)
+        y_settings = dict()
+
+    x_settings = dict(
+        rangeslider=dict(
+            visible=True
+        ),
+        range=[datetime.utcfromtimestamp(SCRAPE_DATA_START/1000), datetime.today()],
+        type='date'
+    )
+    button_config = dict(displaylogo=False,
+                         modeBarButtonsToRemove=[
+                             'sendDataToCloud',
+                             'zoomOut2d',
+                             'zoomIn2d',
+                             'zoom2d',
+                             'select2d',
+                             'lasso2d',
+                             'autoScale2d'])
+    layout = go.Layout(showlegend=True, yaxis=y_settings, xaxis=x_settings)
     fig = go.Figure(data=data, layout=layout)
-    ply.plot(fig, filename='templates/job-trends.html', auto_open=False)
+    ply.plot(fig, filename='templates/job-trends.html', auto_open=False, show_link=False, config=button_config)
 
     return render(request, 'JobTrendsLandingPage.html')
 
