@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
   <head>
 
     {% load static %}
-
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,7 +14,7 @@
     <title>Job Stats</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static 'homepage/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" id="bootstrap-css" href="{% static 'homepage/vendor/bootstrap/css/bootstrap.min.css' %}">
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="{% static 'homepage/css/logo-nav.css' %}">
@@ -39,16 +39,47 @@
       </div>
     </nav>
 
+<style>
+form {
+    padding-top: 2%;
+    padding-left: 10%;
+}
+</style>
+<form method="get">
+  <div class="form-row">
+    <label for="keywords" class="text-right">Keywords:</label>
+  <div class="col-4">
+    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="Add skills/languages separated by commas eg. java, agile, etc." value={{ keywords }}>
+  </div>
+    <label for="filters" class="text-right">Filters:</label>
+  <div class="col-4">
+    <input type="text" class="form-control"  name="filters" id="filters" placeholder="Add filters separated by commas eg. java, agile, etc." value={{ filters }}>
+  </div>
+  <div class="col-2">
+  <button type="submit" value="OK" class="btn btn-primary">Submit</button>
+  </div>
+  </div>
+</form>
+
+    <!-- graphs -->
+    <style>
+      .embed-responsive-21by7
+      {
+        padding-top: 40%;
+      }
+    </style>
     <!-- Page Content -->
-    <div class="container">
-      <h1 class="mt-5">Job Stats</h1>
-      <iframe id="encoder_iframe" class ="embed-responsive-item" frameBorder="0" height = "450px" width = "1250px" src = "{% url 'job-trends' %}" ></iframe>
+    <div class="container embed-responsive embed-responsive-21by7">
+
+      <iframe id="encoder_iframe" class ="embed-responsive-item" frameBorder="0" height = "default" width = "default" src = "{% url 'job-trends' %}" allowfullscreen></iframe>
+
     </div>
     <!-- /.container -->
 
     <!-- Bootstrap core JavaScript -->
     <script src="{% static 'homepage/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'homepage/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'homepage/js/dynamicsearchbar.js' %}"></script>
 
   </body>
 

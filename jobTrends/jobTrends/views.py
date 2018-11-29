@@ -24,11 +24,13 @@ def home(request):
         keywords = get_keywords.split(',')
     else:
         keywords = ['Java', 'Python', 'Ruby', 'PHP', 'iOS', 'Android']
+        get_keywords = ''
 
     if get_filters:
         filters = get_filters.split(',')
     else:
         filters = []
+        get_filters = ''
 
     for f in filters:
         queries = queries & Q("match", description=f)
@@ -90,7 +92,7 @@ def home(request):
     fig = go.Figure(data=data, layout=layout)
     ply.plot(fig, filename='templates/job-trends.html', auto_open=False, show_link=False, config=button_config)
 
-    return render(request, 'JobTrendsLandingPage.html')
+    return render(request, 'JobTrendsLandingPage.html', {'filters': get_filters, 'keywords': get_keywords})
 
 
 def calculate_totals(queries):
