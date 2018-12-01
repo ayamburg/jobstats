@@ -12,6 +12,9 @@
 
     <title>Job Stats</title>
 
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
+
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" type="text/css" id="bootstrap-css" href="{% static 'homepage/vendor/bootstrap/css/bootstrap.min.css' %}">
 
@@ -25,8 +28,8 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="#">
-          <img src="http://placehold.it/300x60?text=Logo" width="150" height="30" alt="">
+        <a class="navbar-brand" href="http://jobstats.net">
+          JobStats
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -50,11 +53,11 @@
       <div class="form-row">
         <label for="keywords" class="text-right">Keywords:</label>
       <div class="col-4">
-      <input type="text" class="form-control" name="keywords" id="keywords" placeholder="Add skills/languages separated by commas eg. java, agile, etc." value="{{ keywords }}">
+      <input type="text" class="form-control" name="keywords" id="keywords" placeholder="Skills/languages separated by commas eg. java, agile, etc." value="{{ keywords }}">
       </div>
         <label for="filters" class="text-right">Filters:</label>
       <div class="col-4">
-        <input type="text" class="form-control"  name="filters" id="filters" placeholder="Add filters separated by commas eg. java, agile, etc." value="{{ filters }}">
+        <input type="text" class="form-control"  name="filters" id="filters" placeholder="Filters separated by commas eg. java, agile, etc." value="{{ filters }}">
       </div>
       <div class="col-2">
       <button type="submit" value="OK" class="btn btn-primary">Submit</button>
