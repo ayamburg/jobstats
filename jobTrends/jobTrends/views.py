@@ -15,11 +15,13 @@ SCRAPE_DATA_START = 1541203200000
 
 
 def home(request):
+    # get the parameters
     get_filters = request.GET.get('filters')
     get_keywords = request.GET.get('keywords')
     raw = request.GET.get('raw')
     queries = Q()
 
+    # parse parameters and set defaults if needed
     if get_keywords:
         keywords = get_keywords.split(',')
     else:
@@ -32,17 +34,19 @@ def home(request):
         filters = []
         get_filters = ''
 
+    # apply filters
     for f in filters:
-        queries = queries & Q("match", description=f)
+        queries = queries & Q("match_phrase", description=f)
 
     data = []
 
+    # calculate totals in order to display percentages
     if raw != '1':
         total_y = calculate_totals(queries)
 
     # calculate number of entries and add trace for each keyword
     for keyword in keywords:
-        query = queries & Q("match", description=keyword)
+        query = queries & Q("match_phrase", description=keyword)
         listings_search = JobListingDocument.search().query(query)
 
         listings_search.aggs.bucket('listings_per_day', 'date_histogram', field='posted_date', interval='day')
@@ -70,11 +74,13 @@ def home(request):
         )
         data.append(trace)
 
+    # display raw data if requested
     if raw != '1':
         y_settings = dict(tickformat=".2%")
     else:
         y_settings = dict()
 
+    # plotly settings
     x_settings = dict(
         range=[datetime.utcfromtimestamp(SCRAPE_DATA_START/1000 - 8000), datetime.today()],
         type='date'
@@ -90,11 +96,13 @@ def home(request):
                              'autoScale2d'])
     layout = go.Layout(showlegend=True, yaxis=y_settings, xaxis=x_settings)
     fig = go.Figure(data=data, layout=layout)
-    ply.plot(fig, filename='templates/job-trends.html', auto_open=False, show_link=False, config=button_config)
 
+    # generate plotly graph and render landing page
+    ply.plot(fig, filename='templates/job-trends.html', auto_open=False, show_link=False, config=button_config)
     return render(request, 'JobTrendsLandingPage.html', {'filters': get_filters, 'keywords': get_keywords})
 
 
+# calculate the total number of postings for each day with the applied filters
 def calculate_totals(queries):
     total_search = JobListingDocument.search().query(queries)
     total_search.aggs.bucket('listings_per_day', 'date_histogram', field='posted_date', interval='day')
