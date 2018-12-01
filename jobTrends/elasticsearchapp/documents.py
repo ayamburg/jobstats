@@ -1,5 +1,6 @@
 from django_elasticsearch_dsl import DocType, Index
 from .models import JobListing
+from elasticsearch_dsl import analyzer
 
 # Name of the Elasticsearch index
 job_listing = Index('joblistings')
@@ -8,6 +9,9 @@ job_listing.settings(
     number_of_shards=1,
     number_of_replicas=0
 )
+
+keyword_analyzer = analyzer("default", type="custom", tokenizer="whitespace", filter=["lowercase"])
+job_listing.analyzer(keyword_analyzer)
 
 
 @job_listing.doc_type

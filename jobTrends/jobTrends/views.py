@@ -9,7 +9,6 @@ import numpy as np
 import plotly.graph_objs as go
 import plotly.offline as ply
 import plotly.tools as tls
-JobListing = apps.get_model('elasticsearchapp', 'JobListing')
 
 SCRAPE_DATA_START = 1541203200000
 
@@ -25,7 +24,7 @@ def home(request):
     if get_keywords:
         keywords = get_keywords.split(',')
     else:
-        keywords = ['Java', 'Python', 'Ruby', 'PHP', 'iOS', 'Android']
+        keywords = ['SQL', 'Java', 'Python', 'JavaScript', 'C', 'C++']
         get_keywords = ''
 
     if get_filters:
