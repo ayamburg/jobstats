@@ -60,7 +60,7 @@ def home(request):
                 x.append(datetime.utcfromtimestamp(bucket.key/1000))
                 if raw != '1':
                     try:
-                        y.append(bucket.doc_count / total_y[idx])
+                        y.append(bucket.doc_count / total_y[bucket.key])
                     except ZeroDivisionError:
                         y.append(0)
                 else:
@@ -108,8 +108,8 @@ def calculate_totals(queries):
     total_search.aggs.bucket('listings_per_day', 'date_histogram', field='posted_date', interval='day')
     total_search = total_search.execute()
     total_buckets = total_search.aggregations.listings_per_day.buckets
-    total_y = []
+    total_y = {}
     for bucket in total_buckets:
         if bucket.key >= SCRAPE_DATA_START:
-            total_y.append(bucket.doc_count)
+            total_y[bucket.key] = bucket.doc_count
     return total_y
