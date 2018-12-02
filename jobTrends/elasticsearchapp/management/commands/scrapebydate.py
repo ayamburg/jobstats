@@ -43,7 +43,10 @@ def get_location(soup):
     posting_start = soup.find(name='div', attrs={'class': 'jobsearch-JobComponent icl-u-xs-mt--sm'})
     header_div = posting_start.find('div')
     rating_and_location = header_div.findAll(name='div', attrs={'class': 'icl-u-lg-mr--sm icl-u-xs-mr--xs'})
-    location = rating_and_location[-1].nextSibling.get_text()
+    if rating_and_location[-1]:
+        location = rating_and_location[-1].nextSibling.get_text()
+    else:
+        location = ''
     return location
 
 
