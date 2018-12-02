@@ -24,7 +24,7 @@ def home(request):
     if get_keywords:
         keywords = get_keywords.split(',')
     else:
-        keywords = ['SQL', 'Java', 'Python', 'JavaScript', 'C', 'C++']
+        keywords = ['Java', 'Python', 'C++', 'iOS', 'Android']
         get_keywords = ''
 
     if get_filters:
@@ -42,6 +42,8 @@ def home(request):
     # calculate totals in order to display percentages
     if raw != '1':
         total_y = calculate_totals(queries)
+
+    max_percent = 0
 
     # calculate number of entries and add trace for each keyword
     for keyword in keywords:
@@ -65,6 +67,8 @@ def home(request):
                 else:
                     y.append(bucket.doc_count)
                 idx += 1
+        if max(y) > max_percent:
+            max_percent = max(y)
         trace = go.Scatter(
             x=x,
             y=y,
@@ -75,7 +79,7 @@ def home(request):
 
     # display raw data if requested
     if raw != '1':
-        y_settings = dict(tickformat=".2%")
+        y_settings = dict(tickformat=".2%", range=[0, max_percent+0.01])
     else:
         y_settings = dict()
 
