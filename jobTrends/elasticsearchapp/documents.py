@@ -49,3 +49,7 @@ class JobListingDocument(DocType):
         # Paginate the django queryset used to populate the index with the specified size
         # (by default there is no pagination)
         # queryset_pagination = 5000
+
+    @staticmethod
+    def get_analyzer():
+        return keyword_analyzer
