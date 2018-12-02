@@ -67,8 +67,9 @@ def home(request):
                 else:
                     y.append(bucket.doc_count)
                 idx += 1
-        if max(y) > max_percent:
-            max_percent = max(y)
+        if len(y) != 0:
+            if max(y) > max_percent:
+                max_percent = max(y)
         trace = go.Scatter(
             x=x,
             y=y,
