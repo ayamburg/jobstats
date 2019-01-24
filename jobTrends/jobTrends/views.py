@@ -50,7 +50,7 @@ def home(request):
         query = queries & Q("match_phrase", description=keyword)
         listings_search = JobListingDocument.search().query(query)
 
-        listings_search.aggs.bucket('listings_per_day', 'date_histogram', field='posted_date', interval='day')
+        listings_search.aggs.bucket('listings_per_day', 'date_histogram', field='posted_date', interval='week')
         listings_search = listings_search.execute()
 
         x = []
@@ -109,7 +109,7 @@ def home(request):
 # calculate the total number of postings for each day with the applied filters
 def calculate_totals(queries):
     total_search = JobListingDocument.search().query(queries)
-    total_search.aggs.bucket('listings_per_day', 'date_histogram', field='posted_date', interval='day')
+    total_search.aggs.bucket('listings_per_day', 'date_histogram', field='posted_date', interval='week')
     total_search = total_search.execute()
     total_buckets = total_search.aggregations.listings_per_day.buckets
     total_y = {}
