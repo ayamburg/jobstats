@@ -25,7 +25,14 @@ def get_oldest_acceptable_date(days_old):
     return date_of_oldest
 
 
+def log_err(err):
+    if err != '':
+        log_file.write(err)
+        return True
+    return False
+
 def extract_job_links(soup):
+    #No fail safes yet, might need them
     jobLinks = [link.get('href') for link in result.find_all('a')]
     jobLinks = [link for link in jobLinks if '/rc/' in str(link)]
     done_links = []
@@ -40,35 +47,58 @@ def extract_job_links(soup):
 
 
 def get_location(soup):
+    err = ''
+    location = ''
     posting_start = soup.find(name='div', attrs={'class': 'jobsearch-JobComponent icl-u-xs-mt--sm'})
+    if posting_start is None:
+        err = "ERROR: in get_location, posting_start not found"
+        return location, err
     header_div = posting_start.find('div')
+    if header_div is None:
+        err = "ERROR: in get_location, header_div not found"
+        return location, err
     rating_and_location = header_div.findAll(name='div', attrs={'class': 'icl-u-lg-mr--sm icl-u-xs-mr--xs'})
-    if rating_and_location[-1]:
+    location = ''
+    if len(rating_and_location) == 0:
+        err = "ERROR: in get_location, rating_and_location empty"
+        return location, err
+    elif rating_and_location[-1]:
         location = rating_and_location[-1].nextSibling.get_text()
-    else:
-        location = ''
-    return location
+    return location, err
 
 
 def get_company(soup):
+    err = ''
     meta_data = soup.find(name='div', attrs={"class": "jobsearch-JobMetadataFooter"})
+    if meta_data is None:
+        err = "META_DATA_COMPANY_NOT_FOUND"
+        return '', err
     date_text = meta_data.get_text()
     splits = date_text.split(' -', 1)
-    return splits[0]
+    return splits[0], err
 
 
 def get_description(soup):
+    err = ''
     result = soup.find(name='div', attrs={"class": "jobsearch-JobComponent-description icl-u-xs-mt--md"})
-    return result.get_text()
+    if result is None:
+        err = "DESCRIPTION_NOT_FOUND"
+        return '', err
+    return result.get_text(), err
 
 
 def get_title(soup):
+    err = ''
     title = soup.find(name='h3', attrs={"class": "icl-u-xs-mb--xs icl-u-xs-mt--none jobsearch-JobInfoHeader-title"})
-    return title.get_text()
+    if title is None:
+        err = "TITLE_NOT_FOUND"
+    return title.get_text(), err
 
 
 def get_date_posted(soup):
     date_info = soup.find(name='div', attrs={"class": "jobsearch-JobMetadataFooter"})
+    if date_info is None:
+        return datetime.date(2000, 1, 1)
     date_text = date_info.get_text()
     num = re.search(r'\d+', date_text).group()
     date_posted = process_date_posted(date_text, currentDT, num)
@@ -126,21 +156,30 @@ class Command(BaseCommand):
                     if single_job.status_code != 200:
                         log_file.write("Error: " + str(single_job.status_code))
                     else:
+                        err = ''
                         job_soup = BeautifulSoup(single_job.text, "html.parser")
                         date = get_date_posted(job_soup)
+                        title, err = get_title(job_soup)
+                        if log_err(err): continue
+                        location, err = get_location(job_soup)
+                        if log_err(err): continue
+                        company, err = get_company(job_soup)
+                        if log_err(err): continue
+                        description, err = get_description(job_soup)
+                        if log_err(err): continue
                         if date != oldest_date:
                             log_file.write("LISTING...")
                             log_file.write(j)  # jk indeed id
                             log_file.write(', ')
-                            log_file.write(get_title(job_soup))
+                            log_file.write(title)
                             log_file.write(', ')
                             log_file.write(str(date))
                             log_file.write(', ')
-                            log_file.write(get_location(job_soup))
+                            log_file.write(location)
                             log_file.write(', ')
-                            log_file.write(get_company(job_soup))
+                            log_file.write(company)
                             log_file.write(', ')
-                            log_file.write(str(len(get_description(job_soup))))
+                            log_file.write(str(len(description)))
                             listing = JobListing.objects.update_or_create(
                                 indeed_id=j,
                                 defaults={'title': get_title(job_soup),
@@ -155,7 +194,6 @@ class Command(BaseCommand):
                                 print('*', end='')
                                 new_jobs += 1
                             print(str(job_count))
-
                         else:
                             log_file.write("Hit job posted " + str(oldest_date) + ", shutting down...")
                             oldest_date_not_encountered = False

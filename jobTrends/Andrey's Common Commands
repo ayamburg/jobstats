@@ -18,3 +18,29 @@ python3 manage.py runserver 0.0.0.0:8000
 
 #run scraper
 python3 manage.py scrapebydate 1
+
+#Switch to Postgres
+Make a copy of settings.ini.sample
+Rename this copy to settings.ini
+Enter your desired username and password into the file
+Use this username/password when creating your user in psql
+
+sudo apt-get install libpq-dev postgresql postgresql-contrib
+pip3 install psycopg2
+pip3 install configparser
+psql
+CREATE DATABASE jobstats;
+ALTER ROLE myprojectuser SET client_encoding TO 'utf8';
+ALTER ROLE myprojectuser SET default_transaction_isolation TO 'read committed';
+ALTER ROLE myprojectuser SET timezone TO 'UTC';
+GRANT ALL PRIVILEGES ON DATABASE jobstats TO myprojectuser;
+\q
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py dbshell
+TRUNCATE django_content_type CASCADE;
+\q
+download https://drive.google.com/file/d/1icKBXmFBZi77tLDax6E1mGaU2XwBkvCE/view?usp=sharing
+The following command will take forever:
+python3 manage.py loaddata dump.json
+python3 manage.py search_index --rebuild

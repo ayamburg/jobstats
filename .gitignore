@@ -29,6 +29,7 @@ jobTrends/templates/job-trends.html
 *.sql
 *.sqlite
 *.sqlite3
+*.json
 
 # OS generated files #
 ######################
@@ -44,3 +45,7 @@ Thumbs.db
 ######################
 venv/
 .idea/
+
+# Settings #
+#####################
+settings.ini
