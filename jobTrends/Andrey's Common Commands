@@ -28,8 +28,10 @@ Use this username/password when creating your user in psql
 sudo apt-get install libpq-dev postgresql postgresql-contrib
 pip3 install psycopg2
 pip3 install configparser
+sudo su - postgres
 psql
 CREATE DATABASE jobstats;
+CREATE USER <your username from settings.ini> WITH PASSWORD 'your password from settings.ini';
 ALTER ROLE myprojectuser SET client_encoding TO 'utf8';
 ALTER ROLE myprojectuser SET default_transaction_isolation TO 'read committed';
 ALTER ROLE myprojectuser SET timezone TO 'UTC';
