@@ -22,6 +22,8 @@ jobTrends/templates/job-trends.html
 *.rar
 *.tar
 *.zip
+node_modules/
+jobTrends/static/bundles/
 
 # Logs and databases #
 ######################

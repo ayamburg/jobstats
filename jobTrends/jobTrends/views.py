@@ -103,7 +103,7 @@ def home(request):
 
     # generate plotly graph and render landing page
     ply.plot(fig, filename='templates/job-trends.html', auto_open=False, show_link=False, config=button_config)
-    return render(request, 'JobTrendsLandingPage.html', {'filters': get_filters, 'keywords': get_keywords})
+    return render(request, 'index.html', {'filters': get_filters, 'keywords': get_keywords})
 
 
 # calculate the total number of postings for each day with the applied filters
