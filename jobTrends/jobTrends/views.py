@@ -20,7 +20,6 @@ def home(request):
     get_filters = request.GET.get('filters')
     get_keywords = request.GET.get('keywords')
     raw = request.GET.get('raw')
-    queries = Q()
 
     # parse parameters and set defaults if needed
     if get_keywords:
@@ -35,6 +34,13 @@ def home(request):
         filters = []
         get_filters = ''
 
+    plot_trends(filters, keywords, raw, 'week', 'templates/job-trends.html')
+    return render(request, 'JobTrendsLandingPage.html', {'filters': get_filters, 'keywords': get_keywords})
+
+
+def plot_trends(filters, keywords, raw, period, file):
+    queries = Q()
+
     # apply filters
     for f in filters:
         queries = queries & Q("match_phrase", description=f)
@@ -43,7 +49,7 @@ def home(request):
 
     # calculate totals in order to display percentages
     if raw != '1':
-        total_y = calculate_totals(queries)
+        total_y = calculate_totals(queries, period)
 
     max_percent = 0
 
@@ -52,7 +58,7 @@ def home(request):
         query = queries & Q("match_phrase", description=keyword)
         listings_search = JobListingDocument.search().query(query)
 
-        listings_search.aggs.bucket('listings_per_day', 'date_histogram', field='posted_date', interval='week')
+        listings_search.aggs.bucket('listings_per_day', 'date_histogram', field='posted_date', interval=period)
         listings_search = listings_search.execute()
 
         x = []
@@ -104,14 +110,13 @@ def home(request):
     fig = go.Figure(data=data, layout=layout)
 
     # generate plotly graph and render landing page
-    ply.plot(fig, filename='templates/job-trends.html', auto_open=False, show_link=False, config=button_config)
-    return render(request, 'index.html', {'filters': get_filters, 'keywords': get_keywords})
+    ply.plot(fig, filename=file, auto_open=False, show_link=False, config=button_config)
 
 
 # calculate the total number of postings for each day with the applied filters
-def calculate_totals(queries):
+def calculate_totals(queries, period):
     total_search = JobListingDocument.search().query(queries)
-    total_search.aggs.bucket('listings_per_day', 'date_histogram', field='posted_date', interval='week')
+    total_search.aggs.bucket('listings_per_day', 'date_histogram', field='posted_date', interval=period)
     total_search = total_search.execute()
     total_buckets = total_search.aggregations.listings_per_day.buckets
     total_y = {}
@@ -123,7 +128,7 @@ def calculate_totals(queries):
 
 class JobListings(View):
     title = "Jobs"
-    template = 'index.html'
+    template = 'jobs.html'
 
     def get(self, request):
         jobs = list(JobListing.objects.values('pk', 'title'))
