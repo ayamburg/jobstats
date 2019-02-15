@@ -9,6 +9,8 @@ import numpy as np
 import plotly.graph_objs as go
 import plotly.offline as ply
 import plotly.tools as tls
+from django.views import View
+from elasticsearchapp.models import JobListing
 
 SCRAPE_DATA_START = 1541203200000
 
@@ -117,3 +119,18 @@ def calculate_totals(queries):
         if bucket.key >= SCRAPE_DATA_START:
             total_y[bucket.key] = bucket.doc_count
     return total_y
+
+
+class JobListings(View):
+    title = "Jobs"
+    template = 'index.html'
+
+    def get(self, request):
+        jobs = list(JobListing.objects.values('pk', 'title'))
+
+        context = {
+            'title': self.title,
+            'props': jobs,
+        }
+
+        return render(request, self.template, context)
