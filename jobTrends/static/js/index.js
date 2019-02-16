@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import TrendGraph from './trend_graph.js'
 
 class Test extends React.Component {
     render() {
@@ -15,8 +16,14 @@ class TestChild extends React.Component {
     }
 }
 
+class MLTrendGraph extends React.Component {
+    render() {
+        return <TrendGraph x={window.props}
+                           y={window.props}/>;
+    }
+}
 
 ReactDOM.render(
-    <Test/>,
+    <MLTrendGraph />,
     window.react_mount,
 );

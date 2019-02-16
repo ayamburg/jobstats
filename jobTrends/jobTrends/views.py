@@ -38,6 +38,46 @@ def home(request):
     return render(request, 'JobTrendsLandingPage.html', {'filters': get_filters, 'keywords': get_keywords})
 
 
+class JobListings(View):
+    title = "Jobs"
+    template = 'jobs.html'
+
+    def get(self, request):
+        get_filters = request.GET.get('filters')
+        get_keywords = request.GET.get('keywords')
+        raw = request.GET.get('raw')
+
+        # parse parameters and set defaults if needed
+        if get_keywords:
+            keywords = get_keywords.split(',')
+        else:
+            keywords = ['Java', 'Python']
+            get_keywords = ''
+
+        if get_filters:
+            filters = get_filters.split(',')
+        else:
+            filters = ['Machine Learning']
+            get_filters = ''
+
+        plot_trends(filters, keywords, raw, 'week', 'static/html/ml-trends.html')
+        jobs = list(JobListing.objects.values('pk', 'title'))
+
+        context = {
+            'title': self.title,
+            'props': jobs,
+            'filters': get_filters,
+            'keywords': get_keywords
+        }
+        return render(request, self.template, context)
+
+
+# Plot a line graph in plotly
+# filters: filters applied on graph
+# keywords: keywords displayed on graph
+# raw: determines if raw values are displayed: 1 for raw values, 0 for percent values
+# period: Determines granularity of data, eg: 'week', 'day'
+# file: path to html file where graph will be stored
 def plot_trends(filters, keywords, raw, period, file):
     queries = Q()
 
@@ -124,18 +164,3 @@ def calculate_totals(queries, period):
         if bucket.key >= SCRAPE_DATA_START:
             total_y[bucket.key] = bucket.doc_count
     return total_y
-
-
-class JobListings(View):
-    title = "Jobs"
-    template = 'jobs.html'
-
-    def get(self, request):
-        jobs = list(JobListing.objects.values('pk', 'title'))
-
-        context = {
-            'title': self.title,
-            'props': jobs,
-        }
-
-        return render(request, self.template, context)
