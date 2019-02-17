@@ -12,7 +12,7 @@ def jobs(request):
     get_filters = request.GET.get('filters')
     get_keywords = request.GET.get('keywords')
     raw = request.GET.get('raw')
-    if raw != 1:
+    if raw != '1':
         raw = 0
 
     # parse parameters and set defaults if needed
