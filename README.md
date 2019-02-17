@@ -1,2 +1,1 @@
-# CMPS115
-Group Project: JobTrends
+# CMPS116
