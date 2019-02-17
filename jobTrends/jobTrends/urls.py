@@ -16,14 +16,11 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from . import views
-from django.views.generic import TemplateView
-from .views import JobListings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home),
-    url(r'job-trends.html/', TemplateView.as_view(template_name="job-trends.html"), name='job-trends'),
-    url(r'jobs/', JobListings.as_view(), name='jobs')
+    url(r'jobs/', views.jobs)
 ]
 
 

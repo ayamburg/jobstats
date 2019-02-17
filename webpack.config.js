@@ -5,11 +5,14 @@ var BundleTracker = require('webpack-bundle-tracker');
 module.exports = {
   context: __dirname,
 
-  entry: './jobTrends/static/js/index.js',
+  entry: {
+    index: './jobTrends/static/js/index.js',
+    jobs: './jobTrends/static/js/jobs.js'
+  },
 
   output: {
       path: path.resolve('./jobTrends/static/bundles/'),
-      filename: "[name]-[hash].js",
+      filename: '[name].js',
   },
 
   plugins: [
