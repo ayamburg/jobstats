@@ -11,7 +11,7 @@ class MLTrendGraph extends React.Component {
 const App = () => (
     <div>
         <nav>
-            <a href="/">Jobs</a>
+            <a href="/">Index</a>
         </nav>
         <MLTrendGraph/>
     </div>
