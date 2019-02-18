@@ -19,6 +19,12 @@ python3 manage.py runserver 0.0.0.0:8000
 #run scraper
 python3 manage.py scrapebydate 1
 
+#run webpack
+npm run build
+
+#run webpack automatically when needed
+npm run watch
+
 #Switch to Postgres
 Make a copy of settings.ini.sample
 Rename this copy to settings.ini
