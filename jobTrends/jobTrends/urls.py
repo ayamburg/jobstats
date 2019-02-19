@@ -22,7 +22,3 @@ urlpatterns = [
     url(r'^$', views.home),
     url(r'jobs/', views.jobs)
 ]
-
-
-
-
