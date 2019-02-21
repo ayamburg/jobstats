@@ -54,7 +54,7 @@ def get_trend_data(filters, keywords, raw, period):
         all_x.append(x)
         all_y.append(y)
         all_keywords.append(keyword)
-    return {'x': all_x, 'y': all_y, 'keywords': all_keywords}
+    return {'x': all_x, 'y': all_y, 'keywords': all_keywords, 'raw': raw, 'filters': filters, 'period': period}
 
 
 # calculate the total number of postings for each day with the applied filters

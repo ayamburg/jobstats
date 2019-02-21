@@ -24,8 +24,6 @@ def jobs(request):
         keywords = ['python', 'java']
 
     page_data = get_trend_data(filters, keywords, raw, period)
-    page_data['raw'] = raw
-    page_data['filters'] = filters
     context = {
         'title': 'Jobs',
         'props': page_data,
