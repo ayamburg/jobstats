@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.shortcuts import render
-from .data_handler import get_data
+from .data_handler import *
+from .request_parser import *
+from django.http.response import JsonResponse
+from django.views.generic import View
 
 
 def home(request):
@@ -9,28 +12,33 @@ def home(request):
 
 
 def jobs(request):
-    get_filters = request.GET.get('filters')
-    get_keywords = request.GET.get('keywords')
-    raw = request.GET.get('raw')
-    if raw != '1':
-        raw = 0
+    request_data = parse_data_request(request)
+    filters = request_data['filters']
+    keywords = request_data['keywords']
+    raw = request_data['raw']
+    period = request_data['period']
 
-    # parse parameters and set defaults if needed
-    if get_keywords:
-        keywords = get_keywords.split(',')
-    else:
-        keywords = ['Java', 'Python']
+    if not filters:
+        filters = ['machine learning']
+    if not keywords:
+        keywords = ['python', 'java']
 
-    if get_filters:
-        filters = get_filters.split(',')
-    else:
-        filters = ['Machine Learning']
-
-    page_data = get_data(filters, keywords, raw, 'week')
-    page_data['raw'] = raw
-    page_data['filters'] = filters
+    page_data = get_trend_data(filters, keywords, raw, period)
     context = {
         'title': 'Jobs',
         'props': page_data,
     }
     return render(request, 'jobs.html', context)
+
+
+class TrendData(View):
+    def get(self, request, *args, **kwargs):
+        print('Api got TrendData request:')
+        request_data = parse_data_request(request)
+        filters = request_data['filters']
+        keywords = request_data['keywords']
+        raw = request_data['raw']
+        period = request_data['period']
+        page_data = get_trend_data(filters, keywords, raw, period)
+
+        return JsonResponse(page_data)

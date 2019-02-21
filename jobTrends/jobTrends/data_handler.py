@@ -12,10 +12,13 @@ SCRAPE_DATA_START = 1541203200000
 # keywords: keywords displayed on data
 # raw: determines if raw values are given: 1 for raw values, 0 for percent values
 # period: Determines granularity of data, eg: 'week', 'day'
-def get_data(filters, keywords, raw, period):
+def get_trend_data(filters, keywords, raw, period):
     all_x = []
     all_y = []
     all_keywords = []
+
+    if not keywords:
+        raise ValueError("get_trend_data must be called with at least one keywords arg")
 
     queries = Q()
     # apply filters
@@ -51,7 +54,7 @@ def get_data(filters, keywords, raw, period):
         all_x.append(x)
         all_y.append(y)
         all_keywords.append(keyword)
-    return {'x': all_x, 'y': all_y, 'keywords': all_keywords}
+    return {'x': all_x, 'y': all_y, 'keywords': all_keywords, 'raw': raw, 'filters': filters, 'period': period}
 
 
 # calculate the total number of postings for each day with the applied filters

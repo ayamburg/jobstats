@@ -16,7 +16,6 @@ from configparser import RawConfigParser
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ SECRET_KEY = '+3hkeg)zc*4kw7*n&d5dvsrkg(x-jd834u^xas!-9v=(8*qc$+'
 DEBUG = True
 
 ALLOWED_HOSTS = ['50.116.4.79', '23.92.27.61', '127.0.0.1', 'jobtrendz.org', 'jobstats.net']
-
 
 # Application definition
 
@@ -40,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'elasticsearchapp',
     'django_elasticsearch_dsl',
-    'webpack_loader'
+    'webpack_loader',
+    'rest_framework'
 ]
 
 WEBPACK_LOADER = {
@@ -48,6 +47,15 @@ WEBPACK_LOADER = {
         'BUNDLE_DIR_NAME': 'bundles/',
         'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
 }
 
 MIDDLEWARE = [
@@ -80,7 +88,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'jobTrends.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -125,7 +132,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -139,12 +145,11 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATICFILES_DIRS = (
-     os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static'),
 )
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
 
