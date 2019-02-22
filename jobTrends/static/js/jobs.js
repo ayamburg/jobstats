@@ -1,102 +1,54 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import TrendGraph from './trend_graph.js'
-import axios from 'axios'
-
-class GraphForm extends React.Component {
-    constructor(props) {
-        super(props);
-        let raw_check = false;
-        if(window.props.raw === '1')
-            raw_check = true;
-        this.state = {
-            keywords: window.props.keywords,
-            filters: window.props.filters,
-            period: window.props.period,
-            raw_bool: raw_check,
-            graph_data: {
-                keywords: window.props.keywords,
-                filters: window.props.filters,
-                period: window.props.period,
-                raw: window.props.raw,
-                x: window.props.x,
-                y: window.props.y
-            }
-        };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-        let raw = '0';
-        if (this.state.raw_bool)
-            raw = '1';
-        axios.get('/api/trend_data', {
-            responseType: 'json',
-            params: {
-                keywords: this.state.keywords.toString(),
-                filters: this.state.filters.toString(),
-                period: this.state.period,
-                raw: raw,
-            }
-        })
-            .then(response => {
-                this.setState({
-                    graph_data: response.data
-                });
-            });
-    }
-
-    render() {
-        return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        Keywords:
-                        <input name="keywords" type="text" value={this.state.keywords} onChange={this.handleChange}/>
-                    </label>
-                    <br/>
-                    <label>
-                        Filters:
-                        <input name="filters" type="text" value={this.state.filters} onChange={this.handleChange}/>
-                    </label>
-                    <br/>
-                    <label>
-                        Period:
-                        <input name="period" type="text" value={this.state.period} onChange={this.handleChange}/>
-                    </label>
-                    <br/>
-                    <label>
-                        Raw:
-                        <input name="raw_bool" type="checkbox" checked={this.state.raw_bool} onChange={this.handleChange}/>
-                    </label>
-                    <br/>
-                    <input type="submit" value="Submit"/>
-                </form>
-                <TrendGraph data={this.state.graph_data}/>
-            </div>
-        );
-    }
-}
+import BlockCard from './BlockCard';
+import RankedList from './RankedList';
 
 const App = () => (
     <div>
+        <div>
+            <h1>test</h1>
+        </div>
+        <div>
+        <BlockCard payload={
+            <RankedList
+                alt1="#1"
+                src1="/static/images/plogo.png"
+                primary1="Every programming is best programming"
+                alt2="#1"
+                src2="/static/images/plogo.png"
+                primary2="Every programming is best programming"
+                alt3="#1"
+                src3="/static/images/plogo.png"
+                primary3="Every programming is best programming"
+                alt4="#1"
+                src4="/static/images/plogo.png"
+                primary4="Every programming is best programming"
+                alt5="#1"
+                src5="/static/images/plogo.png"
+                primary5="Every programming is best programming"
+                alt6="#1"
+                src6="/static/images/plogo.png"
+                primary6="Every programming is best programming"
+                alt7="#1"
+                src7="/static/images/plogo.png"
+                primary7="Every programming is best programming"
+                alt8="#1"
+                src8="/static/images/plogo.png"
+                primary8="Every programming is best programming"
+                alt9="#1"
+                src9="/static/images/plogo.png"
+                primary9="Every programming is best programming"
+                alt10="#1"
+                src10="/static/images/plogo.png"
+                primary10="Every programming is best programming"
+
+            />}/>
+        </div>
         <nav>
             <a href="/">Index</a>
         </nav>
-        <GraphForm/>
+        <TrendGraph data={window.props}/>
     </div>
 );
 
