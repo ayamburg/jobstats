@@ -1,6 +1,3 @@
-from .data_handler import SCRAPE_DATA_START
-
-
 def parse_data_request(request):
     get_filters = request.GET.get('filters')
     get_keywords = request.GET.get('keywords')
@@ -21,7 +18,7 @@ def parse_data_request(request):
     if get_start:
         start = int(get_start) * 1000
     else:
-        start = SCRAPE_DATA_START
+        start = None
 
     if get_keywords:
         keywords = get_keywords.split(',')

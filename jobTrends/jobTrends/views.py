@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.shortcuts import render
-from .data_handler import *
+from .data_handler import DataHandler
 from .request_parser import *
 from django.http.response import JsonResponse
 from django.views.generic import View
 
+
+SCRAPE_DATA_START = 1541203200000
 
 def home(request):
     return render(request, 'index.html')
@@ -23,7 +25,7 @@ def jobs(request):
     if not keywords:
         keywords = ['python', 'java']
 
-    page_data = get_trend_data(filters, keywords, raw, period)
+    page_data = DataHandler(SCRAPE_DATA_START).get_trend_data(filters, keywords, raw, period)
     context = {
         'title': 'Jobs',
         'props': page_data,
@@ -39,6 +41,24 @@ class TrendData(View):
         keywords = request_data['keywords']
         raw = request_data['raw']
         period = request_data['period']
-        page_data = get_trend_data(filters, keywords, raw, period)
+        start = request_data['start']
+        if not start:
+            start = SCRAPE_DATA_START
+        page_data = DataHandler(start).get_trend_data(filters, keywords, raw, period)
+
+        return JsonResponse(page_data)
+
+
+class BarData(View):
+    def get(self, request, *args, **kwargs):
+        print('Api got BarData request:')
+        request_data = parse_data_request(request)
+        filters = request_data['filters']
+        keywords = request_data['keywords']
+        raw = request_data['raw']
+        start = request_data['start']
+        if not start:
+            start = SCRAPE_DATA_START
+        page_data = DataHandler(start).get_bar_data(filters, keywords, raw)
 
         return JsonResponse(page_data)
