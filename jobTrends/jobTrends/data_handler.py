@@ -73,7 +73,7 @@ class DataHandler:
             raise ValueError("get_bar_data must be called with at least one keywords arg")
 
         queries = Q()
-        queries = queries & Q("range", field='posted_date', gte=self.start)
+        # queries = queries & Q("range", field='posted_date', gte=self.start)
         # apply filters
         for f in filters:
             queries = queries & Q("match_phrase", description=f)
@@ -119,6 +119,6 @@ class DataHandler:
 
     # calculate the total number of postings with the applied filters
     def calculate_bar_totals(self, queries):
-        queries = queries & Q("range", query={'posted_date', {'gte': self.start}})
+        # queries = queries & Q("range", field='posted_date', gte=self.start)
         total_search = JobListingDocument.search().query(queries)
         return total_search.count()
