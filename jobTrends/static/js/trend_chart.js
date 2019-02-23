@@ -7,8 +7,8 @@ export default class TrendChart extends React.Component{
         let traces = [];
         for (let i = 0; i < this.props.data.y.length; i++)
         {
-            for(let j = 0; j < this.props.data.y[i]; j++){
-                this.props.data.y[i]= this.props.data.y[i][j] * 100;
+            for(let j = 0; j < this.props.data.y[i].length; j++){
+                this.props.data.y[i][j]= this.props.data.y[i][j] * 100;
             }
         }
         for (let i = 0; i < this.props.data.keywords.length; i++) {
@@ -44,7 +44,7 @@ export default class TrendChart extends React.Component{
                             yAxes: [{
                                 ticks: {
                                     min: 0,
-                                    stepSize: 0.2,
+                                    stepSize: 10,
                                     callback: function(value) {
                                         return value + "%"
                                     }
