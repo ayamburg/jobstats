@@ -9,6 +9,7 @@ from django.views.generic import View
 
 SCRAPE_DATA_START = 1541203200000
 
+
 def home(request):
     return render(request, 'index.html')
 
@@ -35,7 +36,6 @@ def jobs(request):
 
 class TrendData(View):
     def get(self, request, *args, **kwargs):
-        print('Api got TrendData request:')
         request_data = parse_data_request(request)
         filters = request_data['filters']
         keywords = request_data['keywords']
@@ -51,7 +51,6 @@ class TrendData(View):
 
 class BarData(View):
     def get(self, request, *args, **kwargs):
-        print('Api got BarData request:')
         request_data = parse_data_request(request)
         filters = request_data['filters']
         keywords = request_data['keywords']
@@ -60,5 +59,15 @@ class BarData(View):
         if not start:
             start = SCRAPE_DATA_START
         page_data = DataHandler(start).get_bar_data(filters, keywords, raw)
+
+        return JsonResponse(page_data)
+
+
+class TopSkills(View):
+    def get(self, request, *args, **kwargs):
+        request_data = parse_data_request(request)
+        filters = request_data['filters']
+        start = request_data['start']
+        page_data = DataHandler(start).get_top_skills(start, filters)
 
         return JsonResponse(page_data)
