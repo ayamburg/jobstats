@@ -5,7 +5,7 @@ export default class HorizontalBarGraph extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            chartData:{
+            barData:{
                 labels: ['Boston', 'New York', 'San Francisco'],
                 datasets:[
                     {
@@ -27,11 +27,11 @@ export default class HorizontalBarGraph extends React.Component {
         }
     }
     render(){
-        console.log(this.state.chartData);
+        console.log(this.state.barData);
         return (
             <div className="HorizontalBarGraph">
                 <HorizontalBar
-                    data={this.state.chartData}
+                    data={this.state.barData}
                     options={{
                         maintainAspectRatio: false
                     }}
