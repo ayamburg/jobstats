@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'jobs/', views.jobs),
     url(r'api/trend_data', views.TrendData.as_view()),
     url(r'api/bar_data', views.BarData.as_view()),
+    url(r'api/top_skills', views.TopSkills.as_view()),
 ]

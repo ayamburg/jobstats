@@ -73,6 +73,7 @@ class DataHandler:
             raise ValueError("get_bar_data must be called with at least one keywords arg")
 
         queries = Q()
+        queries = queries & Q("range", field='posted_date', gte=self.start)
         # apply filters
         for f in filters:
             queries = queries & Q("match_phrase", description=f)
@@ -95,6 +96,15 @@ class DataHandler:
             all_keywords.append(keyword)
         return {'y': all_y, 'keywords': all_keywords, 'raw': raw, 'filters': filters}
 
+    def get_top_skills(self, count, filters):
+        queries = Q()
+        queries = queries & Q("range", field='posted_date', gte=self.start)
+        search = JobListingDocument.search().query(queries)
+        search.aggs.bucket('word_count', 'terms', field='description')
+        search = search.execute()
+        print(search)
+        return search
+
     # calculate the total number of postings for each day with the applied filters
     def calculate_trend_totals(self, queries, period):
         total_search = JobListingDocument.search().query(queries)
@@ -109,5 +119,6 @@ class DataHandler:
 
     # calculate the total number of postings with the applied filters
     def calculate_bar_totals(self, queries):
+        queries = queries & Q("range", query={'posted_date', {'gte': self.start}})
         total_search = JobListingDocument.search().query(queries)
         return total_search.count()
