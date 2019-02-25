@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -14,7 +14,7 @@ import Divider from '@material-ui/core/Divider';
 
 class RankedList extends React.Component {
     //state = {};
-    constructor() {
+    constructor(props) {
         super(props);
         this.state = {};
     }
@@ -22,17 +22,17 @@ class RankedList extends React.Component {
     createList() {
         const rc = this;
 
-        let list = []
+        let list = [];
         for (let i = 0; i < rc.props.keys.length; i++) {
-            let listItem = 
-            <div>
-                <TopTenItem 
-                    alt={i.toString()}
-                    src={"/static/images/" + rc.props.keys[i] + "-icon.png"}
-                    primary={rc.props.keys[i]}
-                />
-                <Divider />
-            </div>
+            let listItem =
+                <div key={i}>
+                    <TopTenItem
+                        alt={(i + 1).toString()}
+                        src={"/static/images/" + rc.props.keys[i] + "-icon.png"}
+                        primary={rc.props.keys[i]}
+                    />
+                    <Divider/>
+                </div>;
 
             list.push(listItem);
         }

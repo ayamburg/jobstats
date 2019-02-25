@@ -26,7 +26,7 @@ const styles = {
 
 class TopTenItem extends React.Component {
     //state = {}
-    constructor() {
+    constructor(props) {
       super(props);
       this.state = {};
     }
