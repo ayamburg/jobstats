@@ -65,7 +65,6 @@ class DataHandler:
     # raw: determines if raw values are given: 1 for raw values, 0 for percent values
     # period: Determines granularity of data, eg: 'week', 'day'
     def get_bar_data(self, filters, keywords, raw):
-        print(self.start)
         all_y = []
         all_keywords = []
         total_y = 0
