@@ -10,11 +10,11 @@ import sys
 currentDT = datetime.datetime.now()
 Number_of_pages = 20
 count = 0
-URL = "https://www.indeed.com/jobs?q=computer+science&sort=date&filter=0&limit=50&start="
+#URL = "https://www.indeed.com/jobs?q=computer+science&fromage=" + options['scrape_days'][0] + "&sort=date&filter=0&limit=50&start="
 job_URL = "https://www.indeed.com/viewjob?jk="
-results = requests.get(URL)
-soup = BeautifulSoup(results.text, "html.parser")
-result = soup.find(id='resultsCol')
+#results = requests.get(URL)
+#soup = BeautifulSoup(results.text, "html.parser")
+#result = soup.find(id='resultsCol')
 log_name = str(datetime.datetime.now()) + "_scrape.log"
 log_file = open(log_name, "a+")
 sys.stderr = log_file # redirect errors to logfile
@@ -27,7 +27,7 @@ def get_oldest_acceptable_date(days_old):
 
 def log_err(err):
     if err != '':
-        log_file.write(err)
+        log_file.write("***LOG_ERROR INVOKED WITH: " + err)
         return True
     return False
 
@@ -80,11 +80,11 @@ def get_company(soup):
 
 def get_description(soup):
     err = ''
-    result = soup.find(name='div', attrs={"class": "jobsearch-JobComponent-description icl-u-xs-mt--md"})
-    if result is None:
+    thisresult = soup.find(name='div', attrs={"class": "jobsearch-JobComponent-description icl-u-xs-mt--md"})
+    if thisresult is None:
         err = "DESCRIPTION_NOT_FOUND"
         return '', err
-    return result.get_text(), err
+    return thisresult.get_text(), err
 
 
 def get_title(soup):
@@ -92,6 +92,7 @@ def get_title(soup):
     title = soup.find(name='h3', attrs={"class": "icl-u-xs-mb--xs icl-u-xs-mt--none jobsearch-JobInfoHeader-title"})
     if title is None:
         err = "TITLE_NOT_FOUND"
+        return '', err
     return title.get_text(), err
 
 
@@ -136,6 +137,17 @@ class Command(BaseCommand):
         log_file.write(str(options))
         job_count = 0
         new_jobs = 0
+
+        iFrom = int(options['scrape_days'][0]) + 2
+        iTo = int(options['scrape_days'][0]) + 1
+
+        URL = "https://www.indeed.com/jobs?q=computer+science&fromage=" + str(iFrom) + "&toage=" + str(iTo) + "&sort=date&filter=0&limit=50&start="
+        print("URL IS: ", URL)
+
+        results = requests.get(URL)
+        soup = BeautifulSoup(results.text, "html.parser")
+        result = soup.find(id='resultsCol')
+
         oldest_date = get_oldest_acceptable_date(int(options['scrape_days'][0]))
         if results.status_code != 200:
             log_file.write("Error: " + str(results.status_code))
@@ -149,6 +161,7 @@ class Command(BaseCommand):
                 results = requests.get(current_URL)
                 soup = BeautifulSoup(results.text, "html.parser")
                 result = soup.find(id='resultsCol')
+
                 counter = 0
                 for j in extract_job_links(result):
                     listing_URL = job_URL + j
