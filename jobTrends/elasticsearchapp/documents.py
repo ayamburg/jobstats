@@ -1,4 +1,4 @@
-from django_elasticsearch_dsl import DocType, Index
+from django_elasticsearch_dsl import DocType, Index, fields
 from .models import JobListing
 from elasticsearch_dsl import analyzer, tokenizer
 
@@ -28,6 +28,8 @@ job_listing.analyzer(keyword_analyzer)
 
 @job_listing.doc_type
 class JobListingDocument(DocType):
+    keywords = fields.TextField(attr="description", fielddata=True)
+
     class Meta:
         model = JobListing  # The model associated with this DocType
 
