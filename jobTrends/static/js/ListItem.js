@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+//import 'typeface-roboto';
 //import classes from '*.module.css';
 
 
@@ -16,8 +17,8 @@ const styles = {
     },
     bigAvatar: {
       margin: 10,
-      width: 60,
-      height: 60,
+      width: 80,
+      height: 80,
     },
 };
   
@@ -36,11 +37,15 @@ class TopTenItem extends React.Component {
 
         return (
         <ListItem alignItems="flex-start">
-            <h2>
+            <Typography variant="h4" gutterBottom>
               {li.props.alt}
-            </h2>
+            </Typography>
             <ListItemText
-              primary={li.props.primary}
+              primary={
+                <Typography variant="h3" align="center" gutterBottom>
+                  {li.props.primary}
+                </Typography>
+              }
             />
             <ListItemAvatar>
               <Avatar alt={li.props.alt} src={li.props.src} className={styles.bigAvatar} />

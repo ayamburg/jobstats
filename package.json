@@ -27,6 +27,7 @@
     "plotly.js": "^1.44.4",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
-    "react-plotly.js": "^2.2.0"
+    "react-plotly.js": "^2.2.0",
+    "typeface-roboto": "0.0.54"
   }
 }
