@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import BlockCard from './BlockCard';
+import RankedList from './RankedList';
 import HorizontalBarGraph from './bar_graph.js'
 import TrendChart from './trend_chart.js'
 import axios from 'axios'
@@ -41,11 +43,6 @@ class GraphForm extends React.Component {
 
         state_params[name] = value;
         this.reloadData(state_params);
-        if (name !== 'data_component') {
-            this.setState({
-                [name]: value
-            });
-        }
     }
 
     reloadData(state_params) {
@@ -65,6 +62,10 @@ class GraphForm extends React.Component {
                 })
                     .then(response => {
                         this.setState({
+                            keywords: state_params.keywords,
+                            filters: state_params.filters,
+                            period: state_params.period,
+                            raw_bool: state_params.raw_bool,
                             data_component: state_params.data_component,
                             graph_data: response.data
                         });
@@ -83,6 +84,32 @@ class GraphForm extends React.Component {
                 })
                     .then(response => {
                         this.setState({
+                            keywords: state_params.keywords,
+                            filters: state_params.filters,
+                            period: state_params.period,
+                            raw_bool: state_params.raw_bool,
+                            data_component: state_params.data_component,
+                            graph_data: response.data
+                        });
+                    });
+                break;
+            case 'list':
+                if (state_params.raw_bool)
+                    raw = '1';
+                axios.get('/api/bar_data', {
+                    responseType: 'json',
+                    params: {
+                        keywords: state_params.keywords.toString(),
+                        filters: state_params.filters.toString(),
+                        raw: raw,
+                    }
+                })
+                    .then(response => {
+                        this.setState({
+                            keywords: state_params.keywords,
+                            filters: state_params.filters,
+                            period: state_params.period,
+                            raw_bool: state_params.raw_bool,
                             data_component: state_params.data_component,
                             graph_data: response.data
                         });
@@ -97,6 +124,8 @@ class GraphForm extends React.Component {
                 return (<TrendChart data={this.state.graph_data}/>);
             case 'bar_graph':
                 return (<HorizontalBarGraph data={this.state.graph_data}/>);
+            case 'list':
+                return (<BlockCard payload={<RankedList keys={this.state.keywords}/>}/>)
         }
     }
 
@@ -111,6 +140,7 @@ class GraphForm extends React.Component {
                 >
                     <MenuItem value={'trend_chart'}>Trend Chart</MenuItem>
                     <MenuItem value={'bar_graph'}>Bar Graph</MenuItem>
+                    <MenuItem value={'list'}>List</MenuItem>
                 </Select>
                 <br/>
                 <Select
@@ -140,7 +170,7 @@ const App = () => (
         <nav>
             <a href="/">Index</a>
         </nav>
-        <GraphForm/>
+        <GraphForm data={window.props}/>
     </div>
 );
 

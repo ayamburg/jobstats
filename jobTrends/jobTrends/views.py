@@ -24,7 +24,7 @@ def jobs(request):
     if not filters:
         filters = ['machine learning']
     if not keywords:
-        keywords = ['python', 'java']
+        keywords = ['Python', 'Java']
 
     page_data = DataHandler(SCRAPE_DATA_START).get_trend_data(filters, keywords, raw, period)
     context = {
