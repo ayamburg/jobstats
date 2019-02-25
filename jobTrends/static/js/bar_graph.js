@@ -3,16 +3,18 @@ import {HorizontalBar, Bar} from 'react-chartjs-2';
 
 export default class HorizontalBarGraph extends React.Component {
     render() {
-        var displayData = this.props.data.y
+        var displayData = this.props.data.y;
         let ticks = {
-            min: 0
-        }
+            min: 0,
+            stepSize: 0,
+            callback: function (value) {
+                return value
+            }
+        };
 
-        if (this.props.data.raw !== '1')
-        {
-            for (let i = 0; i < this.props.data.y.length; i++) 
-            {
-                    displayData[i] = (this.props.data.y[i]* 100).toFixed(2);
+        if (this.props.data.raw !== '1') {
+            for (let i = 0; i < this.props.data.y.length; i++) {
+                displayData[i] = (this.props.data.y[i] * 100).toFixed(2);
             }
             ticks = {
                 min: 0,
@@ -59,7 +61,7 @@ export default class HorizontalBarGraph extends React.Component {
                 <HorizontalBar
                     data={bar_data}
                     options={{
-                        legend: { display: false },
+                        legend: {display: false},
                         tooltips: {
                             backgroundColor: 'rgba(255, 255, 255, 0.9)',
                             borderColor: 'rgba(0, 0, 0, 0.9)',

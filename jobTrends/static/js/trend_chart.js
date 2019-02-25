@@ -1,6 +1,6 @@
 import React from 'react';
 import {Line} from 'react-chartjs-2';
-import { Tooltip } from '@material-ui/core';
+import {Tooltip} from '@material-ui/core';
 
 var colorArray = [
     'rgba(255, 99, 132, 0.9)',
@@ -28,30 +28,29 @@ export default class TrendChart extends React.Component {
         var percentData = [],
             cols = 3;
 
-        var dateLabels = []
+        var dateLabels = [];
         //init the grid matrix
         for (var i = 0; i < cols; i++) {
             percentData[i] = [];
             dateLabels[i] = [];
         }
 
-        let ticks = {}
-        let scaleLabel = {}
+        let ticks = {};
+        let scaleLabel = {};
 
         for (let i = 0; i < this.props.data.x.length; i++) {
             for (let j = 0; j < this.props.data.x[i].length; j++) {
-                dateLabels[i][j] = this.props.data.x[i][j].slice(0,10);
+                dateLabels[i][j] = this.props.data.x[i][j].slice(0, 10);
             }
         }
 
-        if (this.props.data.raw !== '1')
-        {
+        if (this.props.data.raw !== '1') {
             for (let i = 0; i < this.props.data.y.length; i++) {
                 for (let j = 0; j < this.props.data.y[i].length; j++) {
                     percentData[i][j] = (this.props.data.y[i][j] * 100).toFixed(2);
                 }
             }
-            
+
             for (let i = 0; i < this.props.data.keywords.length; i++) {
                 traces.push({
                     data: percentData[i],
@@ -67,7 +66,7 @@ export default class TrendChart extends React.Component {
                     fill: false
 
                 });
-                
+
             }
             ticks = {
                 min: 0,
@@ -75,14 +74,12 @@ export default class TrendChart extends React.Component {
                 callback: function (value) {
                     return value + "%"
                 }
-            }
+            };
             scaleLabel = {
                 display: true,
                 labelString: "Percent of Listings"
             }
-        }
-        else if (this.props.data.raw === '1')
-        {
+        } else if (this.props.data.raw === '1') {
             for (let i = 0; i < this.props.data.keywords.length; i++) {
                 traces.push({
                     data: this.props.data.y[i],
@@ -99,8 +96,12 @@ export default class TrendChart extends React.Component {
                 });
             }
             ticks = {
-                min: 0
-            }
+                min: 0,
+                stepSize: 0,
+                callback: function (value) {
+                    return value
+                }
+            };
             scaleLabel = {
                 display: true,
                 labelString: "Number of Listings"
