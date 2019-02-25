@@ -32,21 +32,59 @@ export default class TrendChart extends React.Component {
             percentData[i] = [];
         }
 
-        for (let i = 0; i < this.props.data.y.length; i++) {
-            for (let j = 0; j < this.props.data.y[i].length; j++) {
-                percentData[i][j] = this.props.data.y[i][j] * 100;
+        let ticks = {}
+        let scaleLabel = {}
+
+        if (this.props.data.raw !== '1')
+        {
+            for (let i = 0; i < this.props.data.y.length; i++) {
+                for (let j = 0; j < this.props.data.y[i].length; j++) {
+                    percentData[i][j] = this.props.data.y[i][j] * 100;
+                }
+            }
+            
+            for (let i = 0; i < this.props.data.keywords.length; i++) {
+                traces.push({
+                    data: percentData[i],
+                    label: this.props.data.keywords[i],
+                    borderColor: [
+                        colorSelector(colorArray, i)
+                    ],
+                    fill: false
+                });
+                
+            }
+            ticks = {
+                min: 0,
+                stepSize: 10,
+                callback: function (value) {
+                    return value + "%"
+                }
+            }
+            scaleLabel = {
+                display: true,
+                labelString: "Percent of Listings"
             }
         }
-
-        for (let i = 0; i < this.props.data.keywords.length; i++) {
-            traces.push({
-                data: percentData[i],
-                label: this.props.data.keywords[i],
-                borderColor: [
-                    colorSelector(colorArray, i)
-                ],
-                fill: false
-            });
+        else if (this.props.data.raw === '1')
+        {
+            for (let i = 0; i < this.props.data.keywords.length; i++) {
+                traces.push({
+                    data: this.props.data.y[i],
+                    label: this.props.data.keywords[i],
+                    borderColor: [
+                        colorSelector(colorArray, i)
+                    ],
+                    fill: false
+                });
+            }
+            ticks = {
+                min: 0
+            }
+            scaleLabel = {
+                display: true,
+                labelString: "Number of Listings"
+            }
         }
 
         this.state = {
@@ -74,17 +112,8 @@ export default class TrendChart extends React.Component {
                                 }
                             }],
                             yAxes: [{
-                                ticks: {
-                                    min: 0,
-                                    stepSize: 10,
-                                    callback: function (value) {
-                                        return value + "%"
-                                    }
-                                },
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: "Percentage"
-                                }
+                                ticks: ticks,
+                                scaleLabel: scaleLabel
                             }]
                         }
                     }}
