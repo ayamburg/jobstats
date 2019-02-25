@@ -1,23 +1,24 @@
 import React from 'react';
 import {Line} from 'react-chartjs-2';
+import { Tooltip } from '@material-ui/core';
 
 var colorArray = [
-    'rgba(255, 99, 132, 0.6)',
-    'rgba(54, 162, 235, 0.6)',
-    'rgba(255, 206, 86, 0.6)',
-    'rgba(190, 100, 150, 0.6)',
-    'rgba(178, 120, 100, 0.6)',
-    'rgba(64, 250, 20, 0.6)',
-    'rgba(4, 0, 140, 0.6)',
-    'rgba(0, 0, 0, 0.6)',
-    'rgba(30, 251, 255, 0.6)'
+    'rgba(255, 99, 132, 0.9)',
+    'rgba(54, 162, 235, 0.9)',
+    'rgba(255, 206, 86, 0.9)',
+    'rgba(190, 100, 150, 0.9)',
+    'rgba(178, 120, 100, 0.9)',
+    'rgba(64, 250, 20, 0.9)',
+    'rgba(4, 0, 140, 0.9)',
+    'rgba(0, 0, 0, 0.9)',
+    'rgba(30, 251, 255, 0.9)'
 ];
 
 function colorSelector(colorArray, count) {
     if (count <= 10) {
         return colorArray[count];
     } else {
-        return 'rgba(189, 195, 199, 1)';
+        return 'rgba(189, 195, 199, 0.9)';
     }
 }
 
@@ -27,19 +28,27 @@ export default class TrendChart extends React.Component {
         var percentData = [],
             cols = 3;
 
+        var dateLabels = []
         //init the grid matrix
         for (var i = 0; i < cols; i++) {
             percentData[i] = [];
+            dateLabels[i] = [];
         }
 
         let ticks = {}
         let scaleLabel = {}
 
+        for (let i = 0; i < this.props.data.x.length; i++) {
+            for (let j = 0; j < this.props.data.x[i].length; j++) {
+                dateLabels[i][j] = this.props.data.x[i][j].slice(0,10);
+            }
+        }
+
         if (this.props.data.raw !== '1')
         {
             for (let i = 0; i < this.props.data.y.length; i++) {
                 for (let j = 0; j < this.props.data.y[i].length; j++) {
-                    percentData[i][j] = this.props.data.y[i][j] * 100;
+                    percentData[i][j] = (this.props.data.y[i][j] * 100).toFixed(2);
                 }
             }
             
@@ -50,7 +59,13 @@ export default class TrendChart extends React.Component {
                     borderColor: [
                         colorSelector(colorArray, i)
                     ],
+                    backgroundColor: [
+                        colorSelector(colorArray, i)
+                    ],
+                    pointHoverBackgroundColor: 'rgba(64, 64, 64, 0.6)',
+                    pointHoverBorderColor: 'rgba(64, 64, 64, 0.6)',
                     fill: false
+
                 });
                 
             }
@@ -75,6 +90,11 @@ export default class TrendChart extends React.Component {
                     borderColor: [
                         colorSelector(colorArray, i)
                     ],
+                    backgroundColor: [
+                        colorSelector(colorArray, i)
+                    ],
+                    pointHoverBackgroundColor: 'rgba(64, 64, 64, 0.6)',
+                    pointHoverBorderColor: 'rgba(64, 64, 64, 0.6)',
                     fill: false
                 });
             }
@@ -89,7 +109,7 @@ export default class TrendChart extends React.Component {
 
         this.state = {
             lineData: {
-                labels: this.props.data.x[0],
+                labels: dateLabels[0],
                 datasets: traces
             }
         };
@@ -99,7 +119,13 @@ export default class TrendChart extends React.Component {
                 <Line
                     data={this.state.lineData}
                     options={{
-                        maintainAspectRatio: false,
+                        tooltips: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            borderColor: 'rgba(0, 0, 0, 0.9)',
+                            borderWidth: '1',
+                            titleFontColor: '#000',
+                            bodyFontColor: '#000'
+                        },
                         scales: {
                             xAxes: [{
                                 type: 'time',
