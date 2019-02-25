@@ -27,7 +27,7 @@ def get_oldest_acceptable_date(days_old):
 
 def log_err(err):
     if err != '':
-        log_file.write(err)
+        log_file.write("***LOG_ERROR INVOKED WITH: " + err)
         return True
     return False
 
@@ -92,6 +92,7 @@ def get_title(soup):
     title = soup.find(name='h3', attrs={"class": "icl-u-xs-mb--xs icl-u-xs-mt--none jobsearch-JobInfoHeader-title"})
     if title is None:
         err = "TITLE_NOT_FOUND"
+        return '', err
     return title.get_text(), err
 
 
