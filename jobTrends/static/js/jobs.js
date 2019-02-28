@@ -7,6 +7,8 @@ import TrendChart from './trend_chart.js'
 import axios from 'axios'
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import DropDown from './DropDown.js';
+import Grid from '@material-ui/core/Grid';
 
 class GraphForm extends React.Component {
     constructor(props) {
@@ -121,12 +123,34 @@ class GraphForm extends React.Component {
     getDataComponent() {
         switch (this.state.data_component) {
             case 'trend_chart':
-                return (<TrendChart data={this.state.graph_data}/>);
+                return (<BlockCard 
+                    payload={<TrendChart data={this.state.graph_data}/>}
+                    actions={this.createDropDowns()}/>
+                );
             case 'bar_graph':
                 return (<HorizontalBarGraph data={this.state.graph_data}/>);
             case 'list':
                 return (<BlockCard payload={<RankedList keys={this.state.keywords}/>}/>)
         }
+    }
+
+    createDropDowns() {
+        return (
+            <Grid container spacing={16}>
+                <Grid item xs>
+                    <DropDown/>
+                </Grid>
+                <Grid item xs>
+                    <DropDown/>
+                </Grid>
+                <Grid item xs>
+                    <DropDown/>
+                </Grid>
+                <Grid item xs>
+                    <DropDown/>
+                </Grid>
+            </Grid>
+        );
     }
 
     render() {
