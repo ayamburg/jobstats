@@ -1,6 +1,6 @@
 from django_elasticsearch_dsl import DocType, Index, fields
 from .models import JobListing
-from elasticsearch_dsl import analyzer, tokenizer
+from elasticsearch_dsl import analyzer, tokenizer, token_filter
 
 # Name of the Elasticsearch index
 job_listing = Index('joblistings')
@@ -26,9 +26,15 @@ keyword_analyzer = analyzer("default", type="custom", tokenizer=custom_tokenizer
 job_listing.analyzer(keyword_analyzer)
 
 
+filter_shingle = token_filter(name_or_instance="filter_shingle", type="shingle", max_shingle_size=2, min_shingle_size=2, output_unigrams="false")
+shingle_analyzer = analyzer("shingle", tokenizer=custom_tokenizer, type="custom", filter=["lowercase", filter_shingle])
+job_listing.analyzer(shingle_analyzer)
+
+
 @job_listing.doc_type
 class JobListingDocument(DocType):
     keywords = fields.TextField(attr="description", fielddata=True)
+    shingles = fields.TextField(attr="description", analyzer="shingle", fielddata=True)
 
     class Meta:
         model = JobListing  # The model associated with this DocType

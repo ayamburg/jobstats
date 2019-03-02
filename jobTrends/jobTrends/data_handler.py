@@ -97,14 +97,40 @@ class DataHandler:
         return {'y': all_y, 'keywords': all_keywords, 'raw': raw, 'filters': filters}
 
     def get_top_skills(self, count, filters):
+        # exclude = open("word_lists/exclude.txt", "r")
+        # exclude = exclude.readlines()
+        # print(exclude)
+
         queries = Q()
+
+        for f in filters:
+            queries = queries & Q("match_phrase", description=f)
+
+        queries = queries & Q("range", posted_date={'gte': self.start})
+        search = JobListingDocument.search().params(request_timeout=30).query(queries)
+        search.aggs.bucket('word_count', 'terms', field='keywords', size=1000)
+        search.aggs.bucket('shingle_word_count', 'terms', field='shingles', size=1000)
+        search = search.execute()
+        skills = search.aggregations.word_count.to_dict()['buckets']
+        shingle_skills = search.aggregations.shingle_word_count.to_dict()['buckets']
+        skills = skills + shingle_skills
+        skills = sorted(skills, key=lambda k: k['doc_count'], reverse=True)
+
+        return {'skills': skills}
+
+    def get_significant_terms(self, count, filters):
+        queries = Q()
+
+        for f in filters:
+            queries = queries & Q("match_phrase", description=f)
+
         queries = queries & Q("range", posted_date={'gte': self.start})
         search = JobListingDocument.search().query(queries)
-        search.aggs.bucket('word_count', 'terms', field='keywords')
+        search.aggs.bucket('word_count', 'significant_terms', field='keywords')
         search = search.execute()
         aggs = search.aggregations.word_count
         print(aggs)
-        return {'aggs': aggs}
+        return aggs.to_dict()
 
     # calculate the total number of postings for each day with the applied filters
     def calculate_trend_totals(self, queries, period):

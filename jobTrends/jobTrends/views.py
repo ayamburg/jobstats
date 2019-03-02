@@ -68,6 +68,7 @@ class TopSkills(View):
         request_data = parse_data_request(request)
         filters = request_data['filters']
         start = request_data['start']
-        page_data = DataHandler(start).get_top_skills(start, filters)
+        count = request_data['count']
+        page_data = DataHandler(start).get_top_skills(count, filters)
 
         return JsonResponse(page_data)

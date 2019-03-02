@@ -5,6 +5,7 @@ def parse_data_request(request):
     get_start = request.GET.get('start')
     mode = request.GET.get('mode')
     raw = request.GET.get('raw')
+    count = request.GET.get('count')
 
     if raw != '1':
         raw = '0'
@@ -30,4 +31,15 @@ def parse_data_request(request):
     else:
         filters = []
 
-    return {'filters': filters, 'keywords': keywords, 'raw': raw, 'period': period, 'start': start, 'mode': mode}
+    if count:
+        count = int(count)
+    else:
+        count = None
+
+    return {'filters': filters,
+            'keywords': keywords,
+            'raw': raw,
+            'period': period,
+            'start': start,
+            'mode': mode,
+            'count': count}
