@@ -32,12 +32,13 @@ def log_err(err):
     return False
 
 def extract_job_links(soup):
-    #No fail safes yet, might need them
-    jobLinks = [link.get('href') for link in result.find_all('a')]
-    jobLinks = [link for link in jobLinks if '/rc/' in str(link)]
+    jobLinks = [link.get('href') for link in result.find_all('a') if link is not None]
+    jobLinks = [link for link in jobLinks if '/rc/' in str(link) and link is not None]
     done_links = []
 
     for link in jobLinks:
+        if link is None:
+            continue
         start = link.find('jk') + 3
         stop = link.find('&fccid=')
         # done_links.append(job_URL + link[start:stop])
@@ -159,8 +160,14 @@ class Command(BaseCommand):
                 log_file.write('\n')
                 print('page---------')
                 results = requests.get(current_URL)
+                if results is None:
+                    log_file.write("results is None\n")
+                    continue
                 soup = BeautifulSoup(results.text, "html.parser")
                 result = soup.find(id='resultsCol')
+                if result is None:
+                    log_file.write("result is None\n")
+                    continue
 
                 counter = 0
                 for j in extract_job_links(result):
