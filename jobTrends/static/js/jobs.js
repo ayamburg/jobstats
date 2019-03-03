@@ -7,7 +7,6 @@ import TrendChart from './trend_chart.js'
 import axios from 'axios'
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import DropDown from './DropDown.js';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -57,7 +56,6 @@ class GraphForm extends React.Component {
         let start = -1;
         let week = 604800;
         let month = 2592000;
-        console.log(state_params.age);
         switch(state_params.age) {
             case 'all_time':
                 start = 0;
@@ -74,11 +72,10 @@ class GraphForm extends React.Component {
         }
         start = Math.floor(start);
         var date = new Date(start*1000);
-        console.log(date);
 
         switch (state_params.data_component) {
             case 'trend_chart':
-                if (state_params.age == "")
+                if (state_params.raw_bool)
                     raw = '1';
                 axios.get('/api/trend_data', {
                     responseType: 'json',
@@ -241,33 +238,6 @@ class GraphForm extends React.Component {
     render() {
         return (
             <div>
-                <Select
-                    value={this.state.data_component}
-                    onChange={this.handleChange}
-                    displayEmpty
-                    name="data_component"
-                >
-                    <MenuItem value={'trend_chart'}>Trend Chart</MenuItem>
-                    <MenuItem value={'bar_graph'}>Bar Graph</MenuItem>
-                    <MenuItem value={'list'}>List</MenuItem>
-                </Select>
-                <br/>
-                <Select
-                    value={this.state.period}
-                    onChange={this.handleChange}
-                    displayEmpty
-                    name="period"
-                >
-                    <MenuItem value={'week'}>Week</MenuItem>
-                    <MenuItem value={'month'}>Month</MenuItem>
-                    <MenuItem value={'day'}>Day</MenuItem>
-                </Select>
-                <br/>
-                <label>
-                    Raw:
-                    <input name="raw_bool" type="checkbox" checked={this.state.raw_bool}
-                           onChange={this.handleChange}/>
-                </label>
                 {this.getDataComponent()}
             </div>
         );
