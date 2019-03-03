@@ -18,7 +18,7 @@ def parse_data_request(request):
         period = 'week'
 
     if get_start:
-        start = int(get_start) * 1000
+        start = int(get_start)
     else:
         start = None
 
