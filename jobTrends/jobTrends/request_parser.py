@@ -6,6 +6,7 @@ def parse_data_request(request):
     mode = request.GET.get('mode')
     raw = request.GET.get('raw')
     count = request.GET.get('count')
+    include = request.GET.get('include')
 
     if raw != '1':
         raw = '0'
@@ -42,4 +43,5 @@ def parse_data_request(request):
             'period': period,
             'start': start,
             'mode': mode,
-            'count': count}
+            'count': count,
+            'include': include}

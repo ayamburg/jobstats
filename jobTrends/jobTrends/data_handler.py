@@ -100,6 +100,9 @@ class DataHandler:
     def get_top_skills(self, count, filters, include=None):
         queries = Q()
 
+        if not count:
+            count = 10
+
         for f in filters:
             queries = queries & Q("match_phrase", description=f)
 
@@ -113,10 +116,14 @@ class DataHandler:
         shingle_words = search.aggregations.shingle_word_count.to_dict()['buckets']
         triple_shingle_words = search.aggregations.triple_shingle_word_count.to_dict()['buckets']
 
-        words += shingle_words + triple_shingle_words
+        words = words + shingle_words + triple_shingle_words
         skills = []
         if include:
-            open("word_lists/{0}.txt".format(include), "r")
+            include = open("jobTrends/word_lists/{0}.txt".format(include), "r")
+            include = include.read().split('\n')
+            for word in words:
+                if (word['key'] in include) & (word['key'] not in filters):
+                    skills.append(word)
         else:
             exclude = open("jobTrends/word_lists/exclude.txt", "r")
             exclude = exclude.read().split('\n')
@@ -125,15 +132,12 @@ class DataHandler:
             exclude_triple_shingles = open("jobTrends/word_lists/exclude_triple_shingles.txt", "r")
             exclude += exclude_triple_shingles.read().split('\n')
             for word in words:
-                if word['key'] not in exclude:
+                if (word['key'] not in exclude) & (word['key'] not in filters):
                     skills.append(word)
                     exclude.append(word['key'])
         skills = sorted(skills, key=lambda k: k['doc_count'], reverse=True)
 
-        for skill in skills:
-            print(skill['key'])
-
-        return {'skills': skills}
+        return {'skills': skills[:count]}
 
     def get_significant_terms(self, count, filters):
         queries = Q()

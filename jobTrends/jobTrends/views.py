@@ -73,8 +73,9 @@ class TopSkills(View):
         filters = request_data['filters']
         start = request_data['start']
         count = request_data['count']
+        include = request_data['include']
         start_time = time.time()
-        page_data = DataHandler(start).get_top_skills(count, filters)
+        page_data = DataHandler(start).get_top_skills(count, filters, include=include)
         print("--- Run Time: %s seconds ---" % (time.time() - start_time))
 
         return JsonResponse(page_data)
