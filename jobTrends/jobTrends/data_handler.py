@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from datetime import datetime
 from elasticsearchapp.documents import JobListingDocument
 from elasticsearch_dsl import Q
+import os
 
 
 class DataHandler:
@@ -96,25 +97,41 @@ class DataHandler:
             all_keywords.append(keyword)
         return {'y': all_y, 'keywords': all_keywords, 'raw': raw, 'filters': filters}
 
-    def get_top_skills(self, count, filters):
-        # exclude = open("word_lists/exclude.txt", "r")
-        # exclude = exclude.readlines()
-        # print(exclude)
-
+    def get_top_skills(self, count, filters, include=None):
         queries = Q()
 
         for f in filters:
             queries = queries & Q("match_phrase", description=f)
 
         queries = queries & Q("range", posted_date={'gte': self.start})
-        search = JobListingDocument.search().params(request_timeout=30).query(queries)
-        search.aggs.bucket('word_count', 'terms', field='keywords', size=1000)
-        search.aggs.bucket('shingle_word_count', 'terms', field='shingles', size=1000)
+        search = JobListingDocument.search().params(request_timeout=60).query(queries)
+        search.aggs.bucket('word_count', 'terms', field='keywords', size=1500)
+        search.aggs.bucket('shingle_word_count', 'terms', field='shingles', size=1500)
+        search.aggs.bucket('triple_shingle_word_count', 'terms', field='triple_shingles', size=1500)
         search = search.execute()
-        skills = search.aggregations.word_count.to_dict()['buckets']
-        shingle_skills = search.aggregations.shingle_word_count.to_dict()['buckets']
-        skills = skills + shingle_skills
+        words = search.aggregations.word_count.to_dict()['buckets']
+        shingle_words = search.aggregations.shingle_word_count.to_dict()['buckets']
+        triple_shingle_words = search.aggregations.triple_shingle_word_count.to_dict()['buckets']
+
+        words += shingle_words + triple_shingle_words
+        skills = []
+        if include:
+            open("word_lists/{0}.txt".format(include), "r")
+        else:
+            exclude = open("jobTrends/word_lists/exclude.txt", "r")
+            exclude = exclude.read().split('\n')
+            exclude_shingles = open("jobTrends/word_lists/exclude_shingles.txt", "r")
+            exclude += exclude_shingles.read().split('\n')
+            exclude_triple_shingles = open("jobTrends/word_lists/exclude_triple_shingles.txt", "r")
+            exclude += exclude_triple_shingles.read().split('\n')
+            for word in words:
+                if word['key'] not in exclude:
+                    skills.append(word)
+                    exclude.append(word['key'])
         skills = sorted(skills, key=lambda k: k['doc_count'], reverse=True)
+
+        for skill in skills:
+            print(skill['key'])
 
         return {'skills': skills}
 
