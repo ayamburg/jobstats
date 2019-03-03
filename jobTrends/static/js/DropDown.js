@@ -6,7 +6,7 @@ import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state/index
 
 class DropDown extends React.Component {
     constructor(props) {
-        super(props);
+      super(props);
     }
 
     render() {
@@ -15,11 +15,11 @@ class DropDown extends React.Component {
               {popupState => (
                 <React.Fragment>
                   <Button variant="contained" fullWidth={true} {...bindTrigger(popupState)}>
-                    {this.props.value}
+                    {this.props.name}
                   </Button>
                   <Menu {...bindMenu(popupState)}>
                     {this.props.MenuItems}
-                    <MenuItem onClick={this.props.onChange}>Cake</MenuItem>
+                    <MenuItem onClick={popupState.close}>Cake</MenuItem>
                     <MenuItem onClick={popupState.close}>Death</MenuItem>
                   </Menu>
                 </React.Fragment>
