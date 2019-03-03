@@ -9,6 +9,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import DropDown from './DropDown.js';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 class GraphForm extends React.Component {
     constructor(props) {
@@ -135,20 +136,52 @@ class GraphForm extends React.Component {
     }
 
     createDropDowns() {
+        
         return (
-            <Grid container spacing={16}>
+            <Grid 
+                container 
+                spacing={24}
+                alignItems="center"
+                justify="center"
+            >
+                <Grid item xs></Grid>
                 <Grid item xs>
-                    <DropDown/>
+                    <DropDown
+                        value={this.state.data_component}
+                        onChange={this.handleChange}
+                        displayEmpty
+                        name="data_component"
+                        MenuItems={[
+                        <MenuItem key={1} onClick={this.handleChange} value={'trend_chart'}>Trend Chart</MenuItem>,
+                        <MenuItem key={2} onClick={this.handleChange} value={'bar_graph'}>Bar Graph</MenuItem>,
+                        <MenuItem key={3} onClick={this.handleChange} value={'list'}>List</MenuItem>
+                        ]}
+                    />
                 </Grid>
                 <Grid item xs>
-                    <DropDown/>
+                    <DropDown
+                        MenuItems={[
+                        <MenuItem key={1} value={'week'}>Week</MenuItem>,
+                        <MenuItem key={2} value={'month'}>Month</MenuItem>,
+                        <MenuItem key={3} value={'day'}>Day</MenuItem>
+                        ]}
+                    />
                 </Grid>
                 <Grid item xs>
-                    <DropDown/>
+                    <DropDown
+                        MenuItems={[
+                        <MenuItem key={1} value={'trend_chart'}>Trend Chart</MenuItem>,
+                        <MenuItem key={2} value={'bar_graph'}>Bar Graph</MenuItem>,
+                        <MenuItem key={3} value={'list'}>List</MenuItem>
+                        ]}
+                    />
                 </Grid>
                 <Grid item xs>
-                    <DropDown/>
+                    <Button variant="contained" fullWidth={true}>
+                        Raw
+                    </Button>
                 </Grid>
+                <Grid item xs></Grid>
             </Grid>
         );
     }

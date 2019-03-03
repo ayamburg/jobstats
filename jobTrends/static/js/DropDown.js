@@ -11,14 +11,15 @@ class DropDown extends React.Component {
 
     render() {
         return (
-            <PopupState variant="popover" popupId="demo-popup-menu">
+            <PopupState variant="popover" popupId={this.props.name}>
               {popupState => (
                 <React.Fragment>
-                  <Button variant="contained" {...bindTrigger(popupState)}>
-                    Open Menu
+                  <Button variant="contained" fullWidth={true} {...bindTrigger(popupState)}>
+                    {this.props.value}
                   </Button>
                   <Menu {...bindMenu(popupState)}>
-                    <MenuItem onClick={popupState.close}>Cake</MenuItem>
+                    {this.props.MenuItems}
+                    <MenuItem onClick={this.props.onChange}>Cake</MenuItem>
                     <MenuItem onClick={popupState.close}>Death</MenuItem>
                   </Menu>
                 </React.Fragment>

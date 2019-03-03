@@ -64,7 +64,7 @@ class BlockCard extends React.Component {
                                         {bc.props.payload}
                                     </div>
                                 </CardContent>
-                                <CardActions textAlign="center">
+                                <CardActions disableActionSpacing={false}>
                                     {bc.props.actions}
                                 </CardActions>
                             </Card>
