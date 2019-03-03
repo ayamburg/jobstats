@@ -171,7 +171,23 @@ class GraphForm extends React.Component {
     }
 
     createDropDowns() {
-        
+        let periodButton = <div></div>;
+        if(this.state.data_component === 'trend_chart') {
+            periodButton = 
+            <Grid item xs>
+                <Select
+                    value={this.state.period}
+                    onChange={this.handleChange}
+                    displayEmpty
+                    name="period"
+                >
+                    <MenuItem value={'week'}>Weekly</MenuItem>
+                    <MenuItem value={'month'}>Monthly</MenuItem>
+                    <MenuItem value={'day'}>Daily</MenuItem>
+                </Select>
+            </Grid>
+        }
+
         return (
             <Grid 
                 container 
@@ -192,18 +208,7 @@ class GraphForm extends React.Component {
                         <MenuItem value={'list'}>List</MenuItem>
                     </Select>
                 </Grid>
-                <Grid item xs>
-                    <Select
-                        value={this.state.period}
-                        onChange={this.handleChange}
-                        displayEmpty
-                        name="period"
-                    >
-                        <MenuItem value={'week'}>Weekly</MenuItem>
-                        <MenuItem value={'month'}>Monthly</MenuItem>
-                        <MenuItem value={'day'}>Daily</MenuItem>
-                    </Select>
-                </Grid>
+                {periodButton}
                 <Grid item xs>
                     <Select
                         value={this.state.age}
