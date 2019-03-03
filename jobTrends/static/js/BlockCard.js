@@ -57,16 +57,17 @@ class BlockCard extends React.Component {
             <div className={classes.root}>
                 <Grid container spacing={24}>
                     <Grid item xs></Grid>
-                    <Grid item xs={10}>
-                        <Paper className={classes.paper}>
+                    <Grid item xs={7}>
                             <Card className={styles.card} size="50">
                                 <CardContent>
                                     <div className="payload">
                                         {bc.props.payload}
                                     </div>
                                 </CardContent>
+                                <CardActions disableActionSpacing={false}>
+                                    {bc.props.actions}
+                                </CardActions>
                             </Card>
-                        </Paper>
                     </Grid>
                     <Grid item xs></Grid>
                 </Grid>
