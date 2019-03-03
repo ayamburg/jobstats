@@ -171,7 +171,41 @@ class GraphForm extends React.Component {
     }
 
     createDropDowns() {
-        
+        let periodButton = null;
+        let rawButton = null;
+        if(this.state.data_component === 'trend_chart') {
+            periodButton = 
+            <Grid item xs>
+                <Select
+                    value={this.state.period}
+                    onChange={this.handleChange}
+                    displayEmpty
+                    name="period"
+                >
+                    <MenuItem value={'week'}>Weekly</MenuItem>
+                    <MenuItem value={'month'}>Monthly</MenuItem>
+                    <MenuItem value={'day'}>Daily</MenuItem>
+                </Select>
+            </Grid>
+        }
+
+        if(this.state.data_component === 'trend_chart' || this.state.data_component === 'bar_graph') {
+            rawButton =
+            <Grid item xs>
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        name="raw_bool" 
+                        type="checkbox" 
+                        checked={this.state.raw_bool}
+                        onChange={this.handleChange}
+                    />
+                }
+                label="Raw"
+            />
+            </Grid>
+        }
+
         return (
             <Grid 
                 container 
@@ -192,18 +226,7 @@ class GraphForm extends React.Component {
                         <MenuItem value={'list'}>List</MenuItem>
                     </Select>
                 </Grid>
-                <Grid item xs>
-                    <Select
-                        value={this.state.period}
-                        onChange={this.handleChange}
-                        displayEmpty
-                        name="period"
-                    >
-                        <MenuItem value={'week'}>Weekly</MenuItem>
-                        <MenuItem value={'month'}>Monthly</MenuItem>
-                        <MenuItem value={'day'}>Daily</MenuItem>
-                    </Select>
-                </Grid>
+                {periodButton}
                 <Grid item xs>
                     <Select
                         value={this.state.age}
@@ -217,19 +240,7 @@ class GraphForm extends React.Component {
                         <MenuItem value={'past_six_months'}>Past 6 Months</MenuItem>
                     </Select>
                 </Grid>
-                <Grid item xs>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                name="raw_bool" 
-                                type="checkbox" 
-                                checked={this.state.raw_bool}
-                                onChange={this.handleChange}
-                            />
-                        }
-                        label="Raw"
-                    />
-                </Grid>
+                {rawButton}
                 <Grid item xs></Grid>
             </Grid>
         );
