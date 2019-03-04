@@ -1,17 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+// import GraphForm from './jobs.js';
+import Home from './home.js';
 
 const App = () => (
-
     <div>
-        <nav>
-            <a href="/jobs">Jobs</a>
-        </nav>
+        <Home/>
+        {/* <GraphForm data={window.props}/> */}
     </div>
 );
 
 
 ReactDOM.render(
     <App/>,
-    window.react_mount
+    window.react_mount,
 );

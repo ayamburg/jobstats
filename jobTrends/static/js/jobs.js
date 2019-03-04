@@ -16,27 +16,29 @@ class GraphForm extends React.Component {
     constructor(props) {
         super(props);
         let raw_check = false;
-        if (window.props.raw === '1')
-            raw_check = true;
         this.state = {
-            keywords: window.props.keywords,
-            filters: window.props.filters,
-            period: window.props.period,
+            keywords: ["Java", "Python"],
+            filters: "machine learning",
+            period: "week",
             age: "all_time",
             raw_bool: raw_check,
             data_component: 'trend_chart',
             graph_data: {
-                keywords: window.props.keywords,
-                filters: window.props.filters,
-                period: window.props.period,
-                raw: window.props.raw,
-                x: window.props.x,
-                y: window.props.y
+                keywords: "",
+                filters: "",
+                period: "week",
+                raw: false,
+                x: [[]],
+                y: [[]]
             }
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.reloadData = this.reloadData.bind(this);
+    }
+
+    componentDidMount() {
+        this.reloadData(this.state);
     }
 
 
@@ -54,23 +56,24 @@ class GraphForm extends React.Component {
     reloadData(state_params) {
         let raw = '0';
         let start = -1;
-        let week = 604800000;
-        let month = 2592000000;
+        let week = 604800;
+        let month = 2592000;
         switch(state_params.age) {
             case 'all_time':
                 start = 0;
                 break;
             case 'past_week':
-                start = Date.now() - week;
+                start = (Date.now()/1000) - week;
                 break;
             case 'past_month':
-                start = Date.now() - month;
+                start = (Date.now()/1000) - month;
                 break;
             case 'past_six_months':
-                start = Date.now() - (month * 6);
+                start = (Date.now()/1000) - (month * 6);
                 break;
         }
         start = Math.floor(start);
+        var date = new Date(start*1000);
 
         switch (state_params.data_component) {
             case 'trend_chart':
@@ -248,23 +251,28 @@ class GraphForm extends React.Component {
     render() {
         return (
             <div>
+                <nav>
+                    <a href="/">Index</a>
+                </nav>
                 {this.getDataComponent()}
             </div>
         );
     }
 }
 
-const App = () => (
-    <div>
-        <nav>
-            <a href="/">Index</a>
-        </nav>
-        <GraphForm data={window.props}/>
-    </div>
-);
+// const App = () => (
+//     <div>
+//         <nav>
+//             <a href="/">Index</a>
+//         </nav>
+//         <GraphForm data={window.props}/>
+//     </div>
+// );
 
 
-ReactDOM.render(
-    <App/>,
-    window.react_mount
-);
+// ReactDOM.render(
+//     <App/>,
+//     window.react_mount
+// );
+
+export default GraphForm;
