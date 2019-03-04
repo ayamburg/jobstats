@@ -164,10 +164,8 @@ class DataHandler:
         else:
             exclude = open("jobTrends/word_lists/exclude.txt", "r")
             exclude = exclude.read().split('\n')
-            exclude_shingles = open("jobTrends/word_lists/exclude_shingles.txt", "r")
-            exclude += exclude_shingles.read().split('\n')
-            exclude_triple_shingles = open("jobTrends/word_lists/exclude_triple_shingles.txt", "r")
-            exclude += exclude_triple_shingles.read().split('\n')
+            new_exclude = open("jobTrends/word_lists/new_exclude.txt", "r")
+            exclude += new_exclude.read().split('\n')
             for word in words:
                 if (word['key'] not in exclude) & (word['key'] not in filter_terms):
                     skills.append(word)
