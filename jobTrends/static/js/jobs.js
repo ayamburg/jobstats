@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import BlockCard from './BlockCard';
 import RankedList from './RankedList';
 import HorizontalBarGraph from './bar_graph.js'
@@ -8,9 +7,9 @@ import axios from 'axios'
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class GraphForm extends React.Component {
     constructor(props) {
@@ -41,14 +40,12 @@ class GraphForm extends React.Component {
         this.reloadData(this.state);
     }
 
-
     handleChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
         let state_params = this.state;
-        
-        //state_params[age] = Date.now();
+
         state_params[name] = value;
         this.reloadData(state_params);
     }
@@ -56,25 +53,23 @@ class GraphForm extends React.Component {
     reloadData(state_params) {
         let raw = '0';
         let start = -1;
-        let week = 604800;
-        let month = 2592000;
+        let week = 604800000;
+        let month = 2592000000;
         switch(state_params.age) {
             case 'all_time':
                 start = 0;
                 break;
             case 'past_week':
-                start = (Date.now()/1000) - week;
+                start = Date.now() - week;
                 break;
             case 'past_month':
-                start = (Date.now()/1000) - month;
+                start = Date.now() - month;
                 break;
             case 'past_six_months':
-                start = (Date.now()/1000) - (month * 6);
+                start = Date.now() - (month * 6);
                 break;
         }
         start = Math.floor(start);
-        var date = new Date(start*1000);
-
         switch (state_params.data_component) {
             case 'trend_chart':
                 if (state_params.raw_bool)
@@ -252,7 +247,7 @@ class GraphForm extends React.Component {
         return (
             <div>
                 <nav>
-                    <a href="/">Index</a>
+                    <Link to="/">About</Link>
                 </nav>
                 {this.getDataComponent()}
             </div>
