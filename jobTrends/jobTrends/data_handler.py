@@ -125,7 +125,7 @@ class DataHandler:
                 'title': title,
                 'location': location}
 
-    def get_top_skills(self, count, filters, company, title, location, include=None):
+    def get_top_skills(self, count, filters, companies, titles, locations, include=None):
         queries = Q()
 
         if not count:
@@ -134,14 +134,28 @@ class DataHandler:
         for f in filters:
             queries = queries & Q("match_phrase", description=f)
 
-        if title:
-            queries = queries & Q("match_phrase", title=title)
-        if company:
-            queries = queries & Q("match_phrase", company=company)
-        if location:
-            queries = queries & Q("match_phrase", location=location)
+        if titles:
+            title_queries = Q("match_phrase", title=titles[0])
+            titles.pop(0)
+            for title in titles:
+                title_queries = title_queries | Q("match_phrase", title=title)
+            queries = queries & title_queries
 
-        filter_terms = [] + filters + [title] + [company] + [location]
+        if companies:
+            company_queries = Q("match_phrase", company=companies[0])
+            companies.pop(0)
+            for company in companies:
+                company_queries = company_queries | Q("match_phrase", company=company)
+            queries = queries & company_queries
+
+        if locations:
+            location_queries = Q("match_phrase", location=locations[0])
+            locations.pop(0)
+            for location in locations:
+                location_queries = location_queries | Q("match_phrase", location=location)
+            queries = queries & location_queries
+
+        filter_terms = [] + filters + titles + companies + locations
 
         queries = queries & Q("range", posted_date={'gte': self.start})
         search = JobListingDocument.search().params(request_timeout=60).query(queries)

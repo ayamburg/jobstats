@@ -35,6 +35,21 @@ def parse_data_request(request):
     else:
         filters = []
 
+    if company:
+        company = company.split(',')
+    else:
+        company = []
+
+    if title:
+        title = title.split(',')
+    else:
+        title = []
+
+    if location:
+        location = location.split(',')
+    else:
+        location = []
+
     if count:
         count = int(count)
     else:

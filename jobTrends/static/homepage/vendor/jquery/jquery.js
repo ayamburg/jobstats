@@ -177,7 +177,7 @@ jQuery.fn = jQuery.prototype = {
 		// Build a new jQuery matched element set
 		var ret = jQuery.merge( this.constructor(), elems );
 
-		// Add the old object onto the stack (as a reference)
+		// Add the historical object onto the stack (as a reference)
 		ret.prevObject = this;
 
 		// Return the newly-formed element set
@@ -1894,7 +1894,7 @@ Expr = Sizzle.selectors = {
 				return fn( argument );
 			}
 
-			// But maintain support for old signatures
+			// But maintain support for historical signatures
 			if ( fn.length > 1 ) {
 				args = [ pseudo, pseudo, "", argument ];
 				return Expr.setFilters.hasOwnProperty( pseudo.toLowerCase() ) ?
@@ -4489,7 +4489,7 @@ var swap = function( elem, options, callback, args ) {
 	var ret, name,
 		old = {};
 
-	// Remember the old values, and insert the new ones
+	// Remember the historical values, and insert the new ones
 	for ( name in options ) {
 		old[ name ] = elem.style[ name ];
 		elem.style[ name ] = options[ name ];
@@ -4497,7 +4497,7 @@ var swap = function( elem, options, callback, args ) {
 
 	ret = callback.apply( elem, args || [] );
 
-	// Revert the old values
+	// Revert the historical values
 	for ( name in options ) {
 		elem.style[ name ] = old[ name ];
 	}
@@ -4540,7 +4540,7 @@ function adjustCSS( elem, prop, valueParts, tween ) {
 		while ( maxIterations-- ) {
 
 			// Evaluate and update our best guess (doubling guesses that zero out).
-			// Finish if the scale equals or crosses 1 (making the old*new product non-positive).
+			// Finish if the scale equals or crosses 1 (making the historical*new product non-positive).
 			jQuery.style( elem, prop, initialInUnit + unit );
 			if ( ( 1 - scale ) * ( 1 - ( scale = currentValue() / initial || 0.5 ) ) <= 0 ) {
 				maxIterations = 0;
@@ -6929,7 +6929,7 @@ function defaultPrefilter( elem, props, opts ) {
 		// the overflowX value there.
 		opts.overflow = [ style.overflow, style.overflowX, style.overflowY ];
 
-		// Identify a display type, preferring old show/hide data over the CSS cascade
+		// Identify a display type, preferring historical show/hide data over the CSS cascade
 		restoreDisplay = dataShow && dataShow.display;
 		if ( restoreDisplay == null ) {
 			restoreDisplay = dataPriv.get( elem, "display" );
@@ -7385,7 +7385,7 @@ jQuery.fn.extend( {
 				}
 			}
 
-			// Look for any animations in the old queue and finish them
+			// Look for any animations in the historical queue and finish them
 			for ( index = 0; index < length; index++ ) {
 				if ( queue[ index ] && queue[ index ].finish ) {
 					queue[ index ].finish.call( this );
@@ -8477,7 +8477,7 @@ jQuery.param = function( a, traditional ) {
 
 	} else {
 
-		// If traditional, encode the "old" way (the way 1.3.2 or older
+		// If traditional, encode the "historical" way (the way 1.3.2 or older
 		// did it), otherwise encode params recursively.
 		for ( prefix in a ) {
 			buildParams( prefix, a[ prefix ], traditional, add );
@@ -9010,7 +9010,7 @@ jQuery.extend( {
 							jqXHR.always( map[ jqXHR.status ] );
 						} else {
 
-							// Lazy-add the new callbacks in a way that preserves old ones
+							// Lazy-add the new callbacks in a way that preserves historical ones
 							for ( code in map ) {
 								statusCode[ code ] = [ statusCode[ code ], map[ code ] ];
 							}
@@ -9034,7 +9034,7 @@ jQuery.extend( {
 		deferred.promise( jqXHR );
 
 		// Add protocol if not provided (prefilters might expect it)
-		// Handle falsy url in the settings object (#10093: consistency with old signature)
+		// Handle falsy url in the settings object (#10093: consistency with historical signature)
 		// We also use the url parameter if available
 		s.url = ( ( url || s.url || location.href ) + "" )
 			.replace( rprotocol, location.protocol + "//" );

@@ -5,4 +5,4 @@ class Command(BaseCommand):
     help = 'Generates Insights'
 
     def handle(self, *args, **options):
-        print('topskills')
+        print('insights')

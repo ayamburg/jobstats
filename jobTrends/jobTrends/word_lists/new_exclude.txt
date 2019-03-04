@@ -6,3 +6,4 @@ our product
 web development
 value diversity
 with javascript
+browser

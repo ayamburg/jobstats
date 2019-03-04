@@ -3,9 +3,10 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from .data_handler import DataHandler
 from .request_parser import *
-from django.http.response import JsonResponse
+from django.http.response import JsonResponse, HttpResponseForbidden
 from django.views.generic import View
 import time
+import json
 
 SCRAPE_DATA_START = 1541203200000
 
@@ -26,7 +27,7 @@ def jobs(request):
     if not keywords:
         keywords = ['Python', 'Java']
 
-    page_data = DataHandler(SCRAPE_DATA_START).get_trend_data(filters, keywords, raw, period, None, None, None)
+    page_data = DataHandler(SCRAPE_DATA_START).get_trend_data(filters, keywords, raw, period, [], [], [])
     context = {
         'title': 'Jobs',
         'props': page_data,
@@ -93,3 +94,17 @@ class TopSkills(View):
         print("--- Run Time: %s seconds ---" % (time.time() - start_time))
 
         return JsonResponse(page_data)
+
+
+class GetJsonFile(View):
+    def get(self, request, *args, **kwargs):
+        category = request.GET.get('category')
+        name = request.GET.get('name')
+        if category not in ['insights', 'top_skills']:
+            return HttpResponseForbidden()
+        folder_path = "jobTrends/" + category + "/"
+
+        file = open(folder_path + name + ".json")
+        file_data = json.load(file)
+
+        return JsonResponse(file_data)
