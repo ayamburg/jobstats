@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import BlockCard from './BlockCard';
 import RankedList from './RankedList';
 import HorizontalBarGraph from './bar_graph.js'
@@ -8,30 +7,28 @@ import axios from 'axios'
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class GraphForm extends React.Component {
     constructor(props) {
         super(props);
         let raw_check = false;
-        if (window.props.raw === '1')
-            raw_check = true;
         this.state = {
-            keywords: window.props.keywords,
-            filters: window.props.filters,
-            period: window.props.period,
+            keywords: ["Java", "Python"],
+            filters: "machine learning",
+            period: "week",
             age: "all_time",
             raw_bool: raw_check,
             data_component: 'trend_chart',
             graph_data: {
-                keywords: window.props.keywords,
-                filters: window.props.filters,
-                period: window.props.period,
-                raw: window.props.raw,
-                x: window.props.x,
-                y: window.props.y
+                keywords: "",
+                filters: "",
+                period: "week",
+                raw: false,
+                x: [[]],
+                y: [[]]
             }
         };
 
@@ -39,14 +36,16 @@ class GraphForm extends React.Component {
         this.reloadData = this.reloadData.bind(this);
     }
 
+    componentDidMount() {
+        this.reloadData(this.state);
+    }
 
     handleChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
         let state_params = this.state;
-        
-        //state_params[age] = Date.now();
+
         state_params[name] = value;
         this.reloadData(state_params);
     }
@@ -71,7 +70,6 @@ class GraphForm extends React.Component {
                 break;
         }
         start = Math.floor(start);
-
         switch (state_params.data_component) {
             case 'trend_chart':
                 if (state_params.raw_bool)
@@ -248,23 +246,28 @@ class GraphForm extends React.Component {
     render() {
         return (
             <div>
+                <nav>
+                    <Link to="/">Index</Link>
+                </nav>
                 {this.getDataComponent()}
             </div>
         );
     }
 }
 
-const App = () => (
-    <div>
-        <nav>
-            <a href="/">Index</a>
-        </nav>
-        <GraphForm data={window.props}/>
-    </div>
-);
+// const App = () => (
+//     <div>
+//         <nav>
+//             <a href="/">Index</a>
+//         </nav>
+//         <GraphForm data={window.props}/>
+//     </div>
+// );
 
 
-ReactDOM.render(
-    <App/>,
-    window.react_mount
-);
+// ReactDOM.render(
+//     <App/>,
+//     window.react_mount
+// );
+
+export default GraphForm;

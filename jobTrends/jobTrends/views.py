@@ -15,26 +15,6 @@ def home(request):
     return render(request, 'index.html')
 
 
-def jobs(request):
-    request_data = parse_data_request(request)
-    filters = request_data['filters']
-    keywords = request_data['keywords']
-    raw = request_data['raw']
-    period = request_data['period']
-
-    if not filters:
-        filters = ['machine learning']
-    if not keywords:
-        keywords = ['Python', 'Java']
-
-    page_data = DataHandler(SCRAPE_DATA_START).get_trend_data(filters, keywords, raw, period, [], [], [])
-    context = {
-        'title': 'Jobs',
-        'props': page_data,
-    }
-    return render(request, 'jobs.html', context)
-
-
 class TrendData(View):
     def get(self, request, *args, **kwargs):
         request_data = parse_data_request(request)

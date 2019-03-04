@@ -7,7 +7,6 @@ module.exports = {
 
   entry: {
     index: './jobTrends/static/js/index.js',
-    jobs: './jobTrends/static/js/jobs.js'
   },
 
   output: {
