@@ -7,6 +7,9 @@ def parse_data_request(request):
     raw = request.GET.get('raw')
     count = request.GET.get('count')
     include = request.GET.get('include')
+    company = request.GET.get('company')
+    title = request.GET.get('title')
+    location = request.GET.get('location')
 
     if raw != '1':
         raw = '0'
@@ -44,4 +47,7 @@ def parse_data_request(request):
             'start': start,
             'mode': mode,
             'count': count,
-            'include': include}
+            'include': include,
+            'company': company,
+            'title': title,
+            'location': location}
