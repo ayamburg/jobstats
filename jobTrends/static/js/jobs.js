@@ -247,7 +247,7 @@ class GraphForm extends React.Component {
         return (
             <div>
                 <nav>
-                    <Link to="/">About</Link>
+                    <Link to="/">Index</Link>
                 </nav>
                 {this.getDataComponent()}
             </div>
