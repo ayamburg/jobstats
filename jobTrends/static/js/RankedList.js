@@ -33,7 +33,6 @@ class RankedList extends React.Component {
                     />
                     <Divider/>
                 </div>;
-
             list.push(listItem);
         }
 

@@ -12,6 +12,14 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import SvgIcon from '@material-ui/core/SvgIcon';
+import FourKIcon from '@material-ui/icons/FourK';
+import TrendingUp from '@material-ui/icons/TrendingUp';
+import TrendingDown from '@material-ui/icons/TrendingDown';
+import TrendingFlat from '@material-ui/icons/TrendingFlat';
+import FiberNew from '@material-ui/icons/FiberNew';
+import FindReplace from '@material-ui/icons/FindReplace';
+import { Typography } from '@material-ui/core';
 
 class GraphForm extends React.Component {
     constructor(props) {
@@ -238,16 +246,74 @@ class GraphForm extends React.Component {
         );
     }
 
+    createInsightCards(insightsValue) {
+
+        let genCards = [];
+        for (let i = 0; i < insightsValue.length; i++) {
+            console.log(insightsValue[i].type)
+            let iconType 
+                switch (insightsValue[i].type){
+                    case 'Up':
+                        iconType = <TrendingUp fontSize = "large" nativeColor= "#00e676" />
+                        break
+                    case 'Down':
+                        iconType = <TrendingDown fontSize = "large" nativeColor = "#f44336" />
+                        break
+                    case 'Flat':
+                        iconType = <TrendingFlat fontSize = "large" nativeColor = "#607d8b"/>
+                        break
+                    case 'New':
+                        iconType = <FiberNew fontSize = "large" nativeColor = "#2196f3"/>
+                        break
+                    case 'Replace':
+                        iconType = <FindReplace fontSize = "large" nativeColor = "#ffea00"/>
+                        break
+                }
+
+            let insightCard =
+                    <Grid key={i} item xs={4}>
+                        <BlockCard 
+                            payload={<Typography align="center" >{insightsValue[i].text} </Typography>}
+                            actionsTop={iconType}
+                        />
+                    </Grid>
+
+            genCards.push(insightCard);
+        }
+
+        let insightGrid = 
+            <Grid 
+                container 
+                spacing={24}
+                alignItems="center"
+                justify="center"
+            >
+            {genCards}
+            </Grid>
+        return insightGrid;
+    }
+
     render() {
+        let testInsights =
+            [
+                {text: "Dylan IS SUPER react Hooks and all this stuff", type: "Up"},
+                {text: "Andrey IS SUPER Backend CONNect Stuff!", type: "Down"},
+                {text: "Chandler IS MAKING INSIGHTS > PY MATLAB GRAPHS", type: "New"},
+                {text: "Faisal IS MAKE DESIGN ALL OVER THE PLACE SMASH BROS MARIO", type: "Replace"},
+                {text: "Thomas IS NOT EVEN HERE", type: "Flat"},
+            ]
         return (
             <div>
-                <Select
+                <div align="center">
+                    <Typography align = "center" variant = "h4">NOW A NIBBA LIKE THIS</Typography>
+                </div>
+                {/* <Select
                     value={this.state.data_component}
                     onChange={this.handleChange}
                     displayEmpty
                     name="data_component"
                 >
-                    <MenuItem value={'trend_chart'}>Trend Chart</MenuItem>
+                    <MenuItem value={'trend_chart'}>Trendz Chart</MenuItem>
                     <MenuItem value={'bar_graph'}>Bar Graph</MenuItem>
                     <MenuItem value={'list'}>List</MenuItem>
                 </Select>
@@ -267,8 +333,45 @@ class GraphForm extends React.Component {
                     Raw:
                     <input name="raw_bool" type="checkbox" checked={this.state.raw_bool}
                            onChange={this.handleChange}/>
-                </label>
+                </label> */}
                 {this.getDataComponent()}
+
+                {this.createInsightCards(testInsights)}
+
+                {/* <Grid 
+                container 
+                spacing={24}
+                alignItems="center"
+                justify="center"
+            >
+                <Grid item xs></Grid>
+                <Grid item xs={4}>
+                    <BlockCard 
+                        payload={"Hello Dylan"}
+                    />
+                </Grid>
+                <Grid item xs={4}>
+                    <BlockCard 
+                        payload={"Hello Andrey"}
+                    />
+                </Grid>
+                <Grid item xs={4}>
+                    <BlockCard 
+                        payload={"Hello Chandler"}
+                    />
+                </Grid>
+                <Grid item xs={4}>
+                    <BlockCard 
+                        payload={"Hello Faisal"}
+                    />
+                </Grid>
+                <Grid item xs={4}>
+                <BlockCard
+                    payload={<ArrowUpward />}
+                />    
+                </Grid>
+                <Grid item xs></Grid>
+            </Grid> */}
             </div>
         );
     }
