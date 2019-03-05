@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import GraphForm from './jobs.js';
+import FrontendGraphForm from './frontend.js';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class Home extends React.Component {
@@ -15,9 +15,9 @@ class Home extends React.Component {
             <Router>
                 <div>
                     <nav>
-                        <Link to="/jobs">Jobs</Link>
+                        <Link to="/frontend">Jobs</Link>
                     </nav>
-                    <Route path="/jobs" component={GraphForm}/>
+                    <Route path="/frontend" component={FrontendGraphForm}/>
                 </div>
             </Router>
         );

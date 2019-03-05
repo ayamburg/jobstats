@@ -7,3 +7,6 @@ web development
 value diversity
 with javascript
 browser
+css3
+a front
+a front end

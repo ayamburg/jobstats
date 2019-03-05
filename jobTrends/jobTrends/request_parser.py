@@ -7,9 +7,9 @@ def parse_data_request(request):
     raw = request.GET.get('raw')
     count = request.GET.get('count')
     include = request.GET.get('include')
-    company = request.GET.get('company')
-    title = request.GET.get('title')
-    location = request.GET.get('location')
+    companies = request.GET.get('companies')
+    titles = request.GET.get('titles')
+    locations = request.GET.get('locations')
 
     if raw != '1':
         raw = '0'
@@ -35,20 +35,20 @@ def parse_data_request(request):
     else:
         filters = []
 
-    if company:
-        company = company.split(',')
+    if companies:
+        companies = companies.split(',')
     else:
-        company = []
+        companies = []
 
-    if title:
-        title = title.split(',')
+    if titles:
+        titles = titles.split(',')
     else:
-        title = []
+        titles = []
 
-    if location:
-        location = location.split(',')
+    if locations:
+        locations = locations.split(',')
     else:
-        location = []
+        locations = []
 
     if count:
         count = int(count)
@@ -63,6 +63,6 @@ def parse_data_request(request):
             'mode': mode,
             'count': count,
             'include': include,
-            'company': company,
-            'title': title,
-            'location': location}
+            'companies': companies,
+            'titles': titles,
+            'locations': locations}

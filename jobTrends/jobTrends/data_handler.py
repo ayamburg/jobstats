@@ -15,7 +15,7 @@ class DataHandler:
     # keywords: keywords displayed on data
     # raw: determines if raw values are given: 1 for raw values, 0 for percent values
     # period: Determines granularity of data, eg: 'week', 'day'
-    def get_trend_data(self, filters, keywords, raw, period, company, title, location):
+    def get_trend_data(self, filters, keywords, raw, period, companies, titles, locations):
         all_x = []
         all_y = []
         all_keywords = []
@@ -29,18 +29,35 @@ class DataHandler:
         for f in filters:
             queries = queries & Q("match_phrase", description=f)
 
-        if title:
-            queries = queries & Q("match_phrase", title=title)
-        if company:
-            queries = queries & Q("match_phrase", company=company)
-        if location:
-            queries = queries & Q("match_phrase", location=location)
+        if titles:
+            title_queries = Q("match_phrase", title=titles[0])
+            titles.pop(0)
+            for title in titles:
+                title_queries = title_queries | Q("match_phrase", title=title)
+            queries = queries & title_queries
+
+        if companies:
+            company_queries = Q("match_phrase", company=companies[0])
+            companies.pop(0)
+            for company in companies:
+                company_queries = company_queries | Q("match_phrase", company=company)
+            queries = queries & company_queries
+
+        if locations:
+            location_queries = Q("match_phrase", location=locations[0])
+            locations.pop(0)
+            for location in locations:
+                location_queries = location_queries | Q("match_phrase", location=location)
+            queries = queries & location_queries
 
         # calculate totals in order to display percentages
         if raw != '1':
             total_y = self.calculate_trend_totals(queries, period)
 
         # Get array of data for each keyword
+
+        max_length = 0
+        max_dates = []
         for keyword in keywords:
             query = queries & Q("match_phrase", description=keyword)
             listings_search = JobListingDocument.search().query(query)
@@ -62,7 +79,13 @@ class DataHandler:
                     else:
                         y.append(bucket.doc_count)
                     idx += 1
-            all_x.append(x)
+            # make sure all arrays have values for all dates
+            if len(x) > max_length:
+                max_length = len(x)
+                max_dates = x
+            while len(y) < max_length:
+                y.append(0)
+            all_x.append(max_dates)
             all_y.append(y)
             all_keywords.append(keyword)
         return {'x': all_x,
@@ -71,16 +94,17 @@ class DataHandler:
                 'raw': raw,
                 'filters': filters,
                 'period': period,
-                'company': company,
-                'title': title,
-                'location': location}
+                'companies': companies,
+                'titles': titles,
+                'locations': locations}
 
     # Returns data for given filters and keywords
     # filters: filters applied on data
     # keywords: keywords displayed on data
     # raw: determines if raw values are given: 1 for raw values, 0 for percent values
     # period: Determines granularity of data, eg: 'week', 'day'
-    def get_bar_data(self, filters, keywords, raw, company, title, location):
+    def get_bar_data(self, filters, keywords, raw, companies, titles, locations):
+        print(titles)
         all_y = []
         all_keywords = []
         total_y = 0
@@ -94,12 +118,26 @@ class DataHandler:
         for f in filters:
             queries = queries & Q("match_phrase", description=f)
 
-        if title:
-            queries = queries & Q("match_phrase", title=title)
-        if company:
-            queries = queries & Q("match_phrase", company=company)
-        if location:
-            queries = queries & Q("match_phrase", location=location)
+        if titles:
+            title_queries = Q("match_phrase", title=titles[0])
+            titles.pop(0)
+            for title in titles:
+                title_queries = title_queries | Q("match_phrase", title=title)
+            queries = queries & title_queries
+
+        if companies:
+            company_queries = Q("match_phrase", company=companies[0])
+            companies.pop(0)
+            for company in companies:
+                company_queries = company_queries | Q("match_phrase", company=company)
+            queries = queries & company_queries
+
+        if locations:
+            location_queries = Q("match_phrase", location=locations[0])
+            locations.pop(0)
+            for location in locations:
+                location_queries = location_queries | Q("match_phrase", location=location)
+            queries = queries & location_queries
 
         # calculate totals in order to display percentages
         if raw != '1':
@@ -121,9 +159,9 @@ class DataHandler:
                 'keywords': all_keywords,
                 'raw': raw,
                 'filters': filters,
-                'company': company,
-                'title': title,
-                'location': location}
+                'companies': companies,
+                'titles': titles,
+                'locations': locations}
 
     def get_top_skills(self, count, filters, companies, titles, locations, include=None):
         queries = Q()

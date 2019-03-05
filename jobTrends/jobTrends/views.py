@@ -23,14 +23,14 @@ class TrendData(View):
         raw = request_data['raw']
         period = request_data['period']
         start = request_data['start']
-        company = request_data['company']
-        title = request_data['title']
-        location = request_data['location']
+        companies = request_data['companies']
+        titles = request_data['titles']
+        locations = request_data['locations']
 
         if not start:
             start = SCRAPE_DATA_START
         start_time = time.time()
-        page_data = DataHandler(start).get_trend_data(filters, keywords, raw, period, company, title, location)
+        page_data = DataHandler(start).get_trend_data(filters, keywords, raw, period, companies, titles, locations)
         print("--- Run Time: %s seconds ---" % (time.time() - start_time))
 
         return JsonResponse(page_data)
@@ -43,14 +43,14 @@ class BarData(View):
         keywords = request_data['keywords']
         raw = request_data['raw']
         start = request_data['start']
-        company = request_data['company']
-        title = request_data['title']
-        location = request_data['location']
+        companies = request_data['companies']
+        titles = request_data['titles']
+        locations = request_data['locations']
 
         if not start:
             start = SCRAPE_DATA_START
         start_time = time.time()
-        page_data = DataHandler(start).get_bar_data(filters, keywords, raw, company, title, location)
+        page_data = DataHandler(start).get_bar_data(filters, keywords, raw, companies, titles, locations)
         print("--- Run Time: %s seconds ---" % (time.time() - start_time))
 
         return JsonResponse(page_data)
@@ -63,14 +63,14 @@ class TopSkills(View):
         start = request_data['start']
         count = request_data['count']
         include = request_data['include']
-        company = request_data['company']
-        title = request_data['title']
-        location = request_data['location']
+        companies = request_data['companies']
+        titles = request_data['titles']
+        locations = request_data['locations']
 
         if not start:
             start = SCRAPE_DATA_START
         start_time = time.time()
-        page_data = DataHandler(start).get_top_skills(count, filters, company, title, location, include=include)
+        page_data = DataHandler(start).get_top_skills(count, filters, companies, titles, locations, include=include)
         print("--- Run Time: %s seconds ---" % (time.time() - start_time))
 
         return JsonResponse(page_data)

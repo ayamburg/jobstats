@@ -12,7 +12,6 @@ class Command(BaseCommand):
         parser.add_argument('start', nargs='+', type=int)
 
     def handle(self, *args, **options):
-        print(int(options['start'][0]))
         data_handler = DataHandler(int(options['start'][0]))
         folder_path = "jobTrends/top_skills/"
         timestamp = str(datetime.datetime.now())

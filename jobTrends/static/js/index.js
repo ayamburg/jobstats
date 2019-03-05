@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-// import GraphForm from './jobs.js';
+// import GraphForm from './frontend.js';
 import Home from './home.js';
 
 const App = () => (

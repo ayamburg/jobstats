@@ -26,7 +26,7 @@ export default class TrendChart extends React.Component {
     render() {
         let traces = [];
         var percentData = [],
-            cols = 3;
+            cols = this.props.data.keywords.length + 1;
 
         var dateLabels = [];
         //init the grid matrix
