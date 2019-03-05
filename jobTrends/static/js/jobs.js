@@ -296,16 +296,16 @@ class GraphForm extends React.Component {
     render() {
         let testInsights =
             [
-                {text: "Dylan IS SUPER react Hooks and all this stuff", type: "Up"},
-                {text: "Andrey IS SUPER Backend CONNect Stuff!", type: "Down"},
-                {text: "Chandler IS MAKING INSIGHTS > PY MATLAB GRAPHS", type: "New"},
-                {text: "Faisal IS MAKE DESIGN ALL OVER THE PLACE SMASH BROS MARIO", type: "Replace"},
-                {text: "Thomas IS NOT EVEN HERE", type: "Flat"},
+                {text: "React is going up!", type: "Up"},
+                {text: "Angular is going down!", type: "Down"},
+                {text: "Flutter has entered the top ten!", type: "New"},
+                {text: "React has replaced Angular in the top ten list!", type: "Replace"},
+                {text: "Python has seen no significant change, however it has remained very popular!", type: "Flat"},
             ]
         return (
             <div>
                 <div align="center">
-                    <Typography align = "center" variant = "h4">NOW A NIBBA LIKE THIS</Typography>
+                    <Typography align = "center" variant = "h4">Skeleton Page Title</Typography>
                 </div>
                 {/* <Select
                     value={this.state.data_component}
