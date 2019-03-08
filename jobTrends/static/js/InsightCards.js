@@ -11,7 +11,7 @@ import { Typography } from '@material-ui/core';
 
 class InsightCards extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.createInsightCard.bind(this)
         this.createInsightCards.bind(this)
 
@@ -69,7 +69,9 @@ class InsightCards extends React.Component {
 
     render() {
         return (
-            this.createInsightCards()
+            <div>
+                {this.createInsightCards()}
+            </div>
         );
     }
 }
