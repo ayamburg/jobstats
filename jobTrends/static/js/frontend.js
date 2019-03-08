@@ -9,6 +9,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { Typography } from '@material-ui/core';
+import InsightCards from './InsightCards.js';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
 class FrontendGraphForm extends React.Component {
@@ -272,30 +274,33 @@ class FrontendGraphForm extends React.Component {
     }
 
     render() {
+        let testInsights =
+            [
+                {text: "Dylan IS SUPER react Hooks and all this stuff", type: "Up"},
+                {text: "Andrey IS SUPER Backend CONNect Stuff!", type: "Down"},
+                {text: "Chandler IS MAKING INSIGHTS > PY MATLAB GRAPHS", type: "New"},
+                {text: "Faisal IS MAKE DESIGN ALL OVER THE PLACE SMASH BROS MARIO", type: "Replace"},
+                {text: "Thomas IS NOT EVEN HERE", type: "Flat"},
+                {text: "React is going up!", type: "Up"},
+                {text: "Angular is going down!", type: "Down"},
+                {text: "Flutter has entered the top ten!", type: "New"},
+                {text: "React has replaced Angular in the top ten list!", type: "Replace"},
+                {text: "Python has seen no significant change, however it has remained very popular!", type: "Flat"},
+            ];
         return (
             <div>
                 <nav>
                     <Link to="/">Index</Link>
                 </nav>
+                <div align="center">
+                    <Typography align = "center" variant = "h4">Skeleton Page Title</Typography>
+                </div>
                 {this.getDataComponent()}
+
+                <InsightCards InsightsValues={testInsights}/>
             </div>
         );
     }
 }
-
-// const App = () => (
-//     <div>
-//         <nav>
-//             <a href="/">Index</a>
-//         </nav>
-//         <GraphForm data={window.props}/>
-//     </div>
-// );
-
-
-// ReactDOM.render(
-//     <App/>,
-//     window.react_mount
-// );
 
 export default FrontendGraphForm;
