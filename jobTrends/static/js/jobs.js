@@ -301,7 +301,7 @@ class GraphForm extends React.Component {
                 {text: "Chandler IS MAKING INSIGHTS > PY MATLAB GRAPHS", type: "New"},
                 {text: "Faisal IS MAKE DESIGN ALL OVER THE PLACE SMASH BROS MARIO", type: "Replace"},
                 {text: "Thomas IS NOT EVEN HERE", type: "Flat"},
-            ]
+            ];
         return (
             <div>
                 <div align="center">
