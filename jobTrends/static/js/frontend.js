@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import BlockCard from './BlockCard';
 import RankedList from './RankedList';
 import HorizontalBarGraph from './bar_graph.js'
@@ -7,56 +6,60 @@ import TrendChart from './trend_chart.js'
 import axios from 'axios'
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import DropDown from './DropDown.js';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import SvgIcon from '@material-ui/core/SvgIcon';
-import FourKIcon from '@material-ui/icons/FourK';
-import TrendingUp from '@material-ui/icons/TrendingUp';
-import TrendingDown from '@material-ui/icons/TrendingDown';
-import TrendingFlat from '@material-ui/icons/TrendingFlat';
-import FiberNew from '@material-ui/icons/FiberNew';
-import FindReplace from '@material-ui/icons/FindReplace';
 import { Typography } from '@material-ui/core';
 import InsightCards from './InsightCards.js';
+import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
-class GraphForm extends React.Component {
+class FrontendGraphForm extends React.Component {
     constructor(props) {
         super(props);
         let raw_check = false;
-        if (window.props.raw === '1')
-            raw_check = true;
         this.state = {
-            keywords: window.props.keywords,
-            filters: window.props.filters,
-            period: window.props.period,
+            keywords: [],
+            filters: [],
+            period: "week",
             age: "all_time",
             raw_bool: raw_check,
+            locations: "",
+            companies: "",
+            titles: ["frontend", "front end"],
             data_component: 'trend_chart',
             graph_data: {
-                keywords: window.props.keywords,
-                filters: window.props.filters,
-                period: window.props.period,
-                raw: window.props.raw,
-                x: window.props.x,
-                y: window.props.y
+                keywords: [],
+                filters: [],
+                period: "week",
+                raw: false,
+                x: [[]],
+                y: [[]]
             }
         };
-
         this.handleChange = this.handleChange.bind(this);
         this.reloadData = this.reloadData.bind(this);
     }
 
+    componentDidMount() {
+        axios.get('/api/get_json_file', {
+            responseType: 'json',
+            params: {
+                category: "top_skills",
+                name: "frontend",
+            }
+        }).then(response => {
+            let state_params = this.state;
+            state_params['keywords'] = response.data.skills.map(skill => skill.key);
+            this.reloadData(state_params);
+        });
+    }
 
     handleChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
         let state_params = this.state;
-        
-        //state_params[age] = Date.now();
+
         state_params[name] = value;
         this.reloadData(state_params);
     }
@@ -64,30 +67,26 @@ class GraphForm extends React.Component {
     reloadData(state_params) {
         let raw = '0';
         let start = -1;
-        let week = 604800;
-        let month = 2592000;
-        console.log(state_params.age);
-        switch(state_params.age) {
+        let week = 604800000;
+        let month = 2592000000;
+        switch (state_params.age) {
             case 'all_time':
                 start = 0;
                 break;
             case 'past_week':
-                start = (Date.now()/1000) - week;
+                start = Date.now() - week;
                 break;
             case 'past_month':
-                start = (Date.now()/1000) - month;
+                start = Date.now() - month;
                 break;
             case 'past_six_months':
-                start = (Date.now()/1000) - (month * 6);
+                start = Date.now() - (month * 6);
                 break;
         }
         start = Math.floor(start);
-        var date = new Date(start*1000);
-        console.log(date);
-
         switch (state_params.data_component) {
             case 'trend_chart':
-                if (state_params.age == "")
+                if (state_params.raw_bool)
                     raw = '1';
                 axios.get('/api/trend_data', {
                     responseType: 'json',
@@ -95,21 +94,26 @@ class GraphForm extends React.Component {
                         keywords: state_params.keywords.toString(),
                         filters: state_params.filters.toString(),
                         period: state_params.period,
+                        locations: state_params.locations.toString(),
+                        companies: state_params.companies.toString(),
+                        titles: state_params.titles.toString(),
                         start: start,
                         raw: raw,
                     }
-                })
-                    .then(response => {
-                        this.setState({
-                            keywords: state_params.keywords,
-                            filters: state_params.filters,
-                            period: state_params.period,
-                            age: state_params.age,
-                            raw_bool: state_params.raw_bool,
-                            data_component: state_params.data_component,
-                            graph_data: response.data
-                        });
+                }).then(response => {
+                    this.setState({
+                        keywords: state_params.keywords,
+                        filters: state_params.filters,
+                        period: state_params.period,
+                        age: state_params.age,
+                        raw_bool: state_params.raw_bool,
+                        locations: state_params.locations,
+                        companies: state_params.companies,
+                        titles: state_params.titles,
+                        data_component: state_params.data_component,
+                        graph_data: response.data
                     });
+                });
                 break;
             case 'bar_graph':
                 if (state_params.raw_bool)
@@ -119,21 +123,26 @@ class GraphForm extends React.Component {
                     params: {
                         keywords: state_params.keywords.toString(),
                         filters: state_params.filters.toString(),
+                        locations: state_params.locations.toString(),
+                        companies: state_params.companies.toString(),
+                        titles: state_params.titles.toString(),
                         start: start,
                         raw: raw,
                     }
-                })
-                    .then(response => {
-                        this.setState({
-                            keywords: state_params.keywords,
-                            filters: state_params.filters,
-                            period: state_params.period,
-                            age: state_params.age,
-                            raw_bool: state_params.raw_bool,
-                            data_component: state_params.data_component,
-                            graph_data: response.data
-                        });
+                }).then(response => {
+                    this.setState({
+                        keywords: state_params.keywords,
+                        filters: state_params.filters,
+                        period: state_params.period,
+                        age: state_params.age,
+                        raw_bool: state_params.raw_bool,
+                        locations: state_params.locations,
+                        companies: state_params.companies,
+                        titles: state_params.titles,
+                        data_component: state_params.data_component,
+                        graph_data: response.data
                     });
+                });
                 break;
             case 'list':
                 if (state_params.raw_bool)
@@ -143,50 +152,90 @@ class GraphForm extends React.Component {
                     params: {
                         keywords: state_params.keywords.toString(),
                         filters: state_params.filters.toString(),
+                        locations: state_params.locations.toString(),
+                        companies: state_params.companies.toString(),
+                        titles: state_params.titles.toString(),
                         start: start,
                         raw: raw,
                     }
-                })
-                    .then(response => {
-                        this.setState({
-                            keywords: state_params.keywords,
-                            filters: state_params.filters,
-                            period: state_params.period,
-                            age: state_params.age,
-                            raw_bool: state_params.raw_bool,
-                            data_component: state_params.data_component,
-                            graph_data: response.data
-                        });
+                }).then(response => {
+                    this.setState({
+                        keywords: state_params.keywords,
+                        filters: state_params.filters,
+                        period: state_params.period,
+                        age: state_params.age,
+                        raw_bool: state_params.raw_bool,
+                        locations: state_params.locations,
+                        companies: state_params.companies,
+                        titles: state_params.titles,
+                        data_component: state_params.data_component,
+                        graph_data: response.data
                     });
+                });
                 break;
         }
     }
 
     getDataComponent() {
+        // array empty or does not exist
         switch (this.state.data_component) {
             case 'trend_chart':
-                return (<BlockCard 
-                    payload={<TrendChart data={this.state.graph_data}/>}
-                    actions={this.createDropDowns()}/>
+                return (<BlockCard
+                        payload={<TrendChart data={this.state.graph_data}/>}
+                        actions={this.createDropDowns()}/>
                 );
             case 'bar_graph':
-            return (<BlockCard 
-                payload={<HorizontalBarGraph data={this.state.graph_data}/>}
-                actions={this.createDropDowns()}/>
-            );
+                return (<BlockCard
+                        payload={<HorizontalBarGraph data={this.state.graph_data}/>}
+                        actions={this.createDropDowns()}/>
+                );
             case 'list':
-                return (<BlockCard 
-                    payload={<RankedList keys={this.state.keywords}/>}
-                    actions={this.createDropDowns()}/>
+                return (<BlockCard
+                        payload={<RankedList keys={this.state.keywords}/>}
+                        actions={this.createDropDowns()}/>
                 );
         }
     }
 
     createDropDowns() {
-        
+        let periodButton = null;
+        let rawButton = null;
+        if (this.state.data_component === 'trend_chart') {
+            periodButton =
+                <Grid item xs>
+                    <Select
+                        value={this.state.period}
+                        onChange={this.handleChange}
+                        displayEmpty
+                        name="period"
+                    >
+                        <MenuItem value={'week'}>Weekly</MenuItem>
+                        <MenuItem value={'month'}>Monthly</MenuItem>
+                        <MenuItem value={'day'}>Daily</MenuItem>
+                    </Select>
+                </Grid>
+        }
+
+        if (this.state.data_component === 'trend_chart' || this.state.data_component === 'bar_graph') {
+            rawButton =
+                <Grid item xs>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name="raw_bool"
+                                type="checkbox"
+                                checked={this.state.raw_bool}
+                                onChange={this.handleChange}
+                            />
+                        }
+                        label="Raw"
+                    />
+                </Grid>
+        }
+
         return (
-            <Grid 
-                container 
+            <Grid
+                container
                 spacing={24}
                 alignItems="center"
                 justify="center"
@@ -204,18 +253,7 @@ class GraphForm extends React.Component {
                         <MenuItem value={'list'}>List</MenuItem>
                     </Select>
                 </Grid>
-                <Grid item xs>
-                    <Select
-                        value={this.state.period}
-                        onChange={this.handleChange}
-                        displayEmpty
-                        name="period"
-                    >
-                        <MenuItem value={'week'}>Weekly</MenuItem>
-                        <MenuItem value={'month'}>Monthly</MenuItem>
-                        <MenuItem value={'day'}>Daily</MenuItem>
-                    </Select>
-                </Grid>
+                {periodButton}
                 <Grid item xs>
                     <Select
                         value={this.state.age}
@@ -229,19 +267,7 @@ class GraphForm extends React.Component {
                         <MenuItem value={'past_six_months'}>Past 6 Months</MenuItem>
                     </Select>
                 </Grid>
-                <Grid item xs>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                name="raw_bool" 
-                                type="checkbox" 
-                                checked={this.state.raw_bool}
-                                onChange={this.handleChange}
-                            />
-                        }
-                        label="Raw"
-                    />
-                </Grid>
+                {rawButton}
                 <Grid item xs></Grid>
             </Grid>
         );
@@ -274,17 +300,4 @@ class GraphForm extends React.Component {
     }
 }
 
-const App = () => (
-    <div>
-        <nav>
-            <a href="/">Index</a>
-        </nav>
-        <GraphForm data={window.props}/>
-    </div>
-);
-
-
-ReactDOM.render(
-    <App/>,
-    window.react_mount
-);
+export default FrontendGraphForm;

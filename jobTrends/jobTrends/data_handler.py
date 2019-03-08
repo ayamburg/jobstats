@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from datetime import datetime
 from elasticsearchapp.documents import JobListingDocument
 from elasticsearch_dsl import Q
+import os
 
 
 class DataHandler:
@@ -14,7 +15,7 @@ class DataHandler:
     # keywords: keywords displayed on data
     # raw: determines if raw values are given: 1 for raw values, 0 for percent values
     # period: Determines granularity of data, eg: 'week', 'day'
-    def get_trend_data(self, filters, keywords, raw, period):
+    def get_trend_data(self, filters, keywords, raw, period, companies, titles, locations):
         all_x = []
         all_y = []
         all_keywords = []
@@ -28,11 +29,35 @@ class DataHandler:
         for f in filters:
             queries = queries & Q("match_phrase", description=f)
 
+        if titles:
+            title_queries = Q("match_phrase", title=titles[0])
+            titles.pop(0)
+            for title in titles:
+                title_queries = title_queries | Q("match_phrase", title=title)
+            queries = queries & title_queries
+
+        if companies:
+            company_queries = Q("match_phrase", company=companies[0])
+            companies.pop(0)
+            for company in companies:
+                company_queries = company_queries | Q("match_phrase", company=company)
+            queries = queries & company_queries
+
+        if locations:
+            location_queries = Q("match_phrase", location=locations[0])
+            locations.pop(0)
+            for location in locations:
+                location_queries = location_queries | Q("match_phrase", location=location)
+            queries = queries & location_queries
+
         # calculate totals in order to display percentages
         if raw != '1':
             total_y = self.calculate_trend_totals(queries, period)
 
         # Get array of data for each keyword
+
+        max_length = 0
+        max_dates = []
         for keyword in keywords:
             query = queries & Q("match_phrase", description=keyword)
             listings_search = JobListingDocument.search().query(query)
@@ -54,17 +79,31 @@ class DataHandler:
                     else:
                         y.append(bucket.doc_count)
                     idx += 1
-            all_x.append(x)
+            # make sure all arrays have values for all dates
+            if len(x) > max_length:
+                max_length = len(x)
+                max_dates = x
+            while len(y) < max_length:
+                y.append(0)
+            all_x.append(max_dates)
             all_y.append(y)
             all_keywords.append(keyword)
-        return {'x': all_x, 'y': all_y, 'keywords': all_keywords, 'raw': raw, 'filters': filters, 'period': period}
+        return {'x': all_x,
+                'y': all_y,
+                'keywords': all_keywords,
+                'raw': raw,
+                'filters': filters,
+                'period': period,
+                'companies': companies,
+                'titles': titles,
+                'locations': locations}
 
     # Returns data for given filters and keywords
     # filters: filters applied on data
     # keywords: keywords displayed on data
     # raw: determines if raw values are given: 1 for raw values, 0 for percent values
     # period: Determines granularity of data, eg: 'week', 'day'
-    def get_bar_data(self, filters, keywords, raw):
+    def get_bar_data(self, filters, keywords, raw, companies, titles, locations):
         all_y = []
         all_keywords = []
         total_y = 0
@@ -77,6 +116,27 @@ class DataHandler:
         # apply filters
         for f in filters:
             queries = queries & Q("match_phrase", description=f)
+
+        if titles:
+            title_queries = Q("match_phrase", title=titles[0])
+            titles.pop(0)
+            for title in titles:
+                title_queries = title_queries | Q("match_phrase", title=title)
+            queries = queries & title_queries
+
+        if companies:
+            company_queries = Q("match_phrase", company=companies[0])
+            companies.pop(0)
+            for company in companies:
+                company_queries = company_queries | Q("match_phrase", company=company)
+            queries = queries & company_queries
+
+        if locations:
+            location_queries = Q("match_phrase", location=locations[0])
+            locations.pop(0)
+            for location in locations:
+                location_queries = location_queries | Q("match_phrase", location=location)
+            queries = queries & location_queries
 
         # calculate totals in order to display percentages
         if raw != '1':
@@ -91,20 +151,93 @@ class DataHandler:
                 try:
                     y = y / total_y
                 except ZeroDivisionError:
-                    y.append(0)
+                    y = 0
             all_y.append(y)
             all_keywords.append(keyword)
-        return {'y': all_y, 'keywords': all_keywords, 'raw': raw, 'filters': filters}
+        return {'y': all_y,
+                'keywords': all_keywords,
+                'raw': raw,
+                'filters': filters,
+                'companies': companies,
+                'titles': titles,
+                'locations': locations}
 
-    def get_top_skills(self, count, filters):
+    def get_top_skills(self, count, filters, companies, titles, locations, include=None):
         queries = Q()
+
+        if not count:
+            count = 10
+
+        for f in filters:
+            queries = queries & Q("match_phrase", description=f)
+
+        if titles:
+            title_queries = Q("match_phrase", title=titles[0])
+            titles.pop(0)
+            for title in titles:
+                title_queries = title_queries | Q("match_phrase", title=title)
+            queries = queries & title_queries
+
+        if companies:
+            company_queries = Q("match_phrase", company=companies[0])
+            companies.pop(0)
+            for company in companies:
+                company_queries = company_queries | Q("match_phrase", company=company)
+            queries = queries & company_queries
+
+        if locations:
+            location_queries = Q("match_phrase", location=locations[0])
+            locations.pop(0)
+            for location in locations:
+                location_queries = location_queries | Q("match_phrase", location=location)
+            queries = queries & location_queries
+
+        filter_terms = [] + filters + titles + companies + locations
+
+        queries = queries & Q("range", posted_date={'gte': self.start})
+        search = JobListingDocument.search().params(request_timeout=60).query(queries)
+        search.aggs.bucket('word_count', 'terms', field='keywords', size=1500)
+        search.aggs.bucket('shingle_word_count', 'terms', field='shingles', size=1500)
+        search.aggs.bucket('triple_shingle_word_count', 'terms', field='triple_shingles', size=1500)
+        search = search.execute()
+        words = search.aggregations.word_count.to_dict()['buckets']
+        shingle_words = search.aggregations.shingle_word_count.to_dict()['buckets']
+        triple_shingle_words = search.aggregations.triple_shingle_word_count.to_dict()['buckets']
+
+        words = words + shingle_words + triple_shingle_words
+        skills = []
+        if include:
+            include = open("jobTrends/word_lists/{0}.txt".format(include), "r")
+            include = include.read().split('\n')
+            for word in words:
+                if (word['key'] in include) & (word['key'] not in filters):
+                    skills.append(word)
+        else:
+            exclude = open("jobTrends/word_lists/exclude.txt", "r")
+            exclude = exclude.read().split('\n')
+            new_exclude = open("jobTrends/word_lists/new_exclude.txt", "r")
+            exclude += new_exclude.read().split('\n')
+            for word in words:
+                if (word['key'] not in exclude) & (word['key'] not in filter_terms):
+                    skills.append(word)
+                    exclude.append(word['key'])
+        skills = sorted(skills, key=lambda k: k['doc_count'], reverse=True)
+
+        return {'skills': skills[:count]}
+
+    def get_significant_terms(self, count, filters):
+        queries = Q()
+
+        for f in filters:
+            queries = queries & Q("match_phrase", description=f)
+
         queries = queries & Q("range", posted_date={'gte': self.start})
         search = JobListingDocument.search().query(queries)
-        search.aggs.bucket('word_count', 'terms', field='keywords')
+        search.aggs.bucket('word_count', 'significant_terms', field='keywords')
         search = search.execute()
         aggs = search.aggregations.word_count
         print(aggs)
-        return {'aggs': aggs}
+        return aggs.to_dict()
 
     # calculate the total number of postings for each day with the applied filters
     def calculate_trend_totals(self, queries, period):

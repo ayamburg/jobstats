@@ -19,9 +19,9 @@ from . import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.home),
-    url(r'jobs/', views.jobs),
     url(r'api/trend_data', views.TrendData.as_view()),
     url(r'api/bar_data', views.BarData.as_view()),
     url(r'api/top_skills', views.TopSkills.as_view()),
+    url(r'api/get_json_file', views.GetJsonFile.as_view()),
+    url(r'^.*', views.home),
 ]
