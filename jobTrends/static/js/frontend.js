@@ -38,7 +38,7 @@ class FrontendGraphForm extends React.Component {
         this.reloadData = this.reloadData.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         axios.get('/api/get_json_file', {
             responseType: 'json',
             params: {
