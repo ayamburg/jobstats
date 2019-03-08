@@ -15,7 +15,7 @@ class Home extends React.Component {
             <Router>
                 <div>
                     <nav>
-                        <Link to="/frontend">Jobs</Link>
+                        <Link to="/frontend">Top Frontend Skills</Link>
                     </nav>
                     <Route path="/frontend" component={FrontendGraphForm}/>
                 </div>

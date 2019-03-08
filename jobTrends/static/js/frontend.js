@@ -289,6 +289,9 @@ class FrontendGraphForm extends React.Component {
             ];
         return (
             <div>
+                <nav>
+                    <Link to="/">Index</Link>
+                </nav>
                 <div align="center">
                     <Typography align = "center" variant = "h4">Skeleton Page Title</Typography>
                 </div>
