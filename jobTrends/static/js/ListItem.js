@@ -48,7 +48,7 @@ class TopTenItem extends React.Component {
               }
             />
             <ListItemAvatar>
-              <Avatar alt={li.props.alt} src={li.props.src} className={styles.bigAvatar} />
+              <Avatar alt={li.props.alt} src={li.props.src} className={styles.bigAvatar} onError={(e) => e.target.src="/static/images/default-icon.svg"} />
             </ListItemAvatar>
         </ListItem>
         )

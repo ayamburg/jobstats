@@ -21,14 +21,14 @@ class RankedList extends React.Component {
 
     createList() {
         const rc = this;
-
         let list = [];
         for (let i = 0; i < rc.props.keys.length; i++) {
+            let file_path = "/static/images/" + rc.props.keys[i] + "-icon.png";
             let listItem =
                 <div key={i}>
                     <TopTenItem
                         alt={(i + 1).toString()}
-                        src={"/static/images/" + rc.props.keys[i] + "-icon.png"}
+                        src={file_path}
                         primary={rc.props.keys[i]}
                     />
                     <Divider/>
