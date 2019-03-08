@@ -20,6 +20,7 @@ import TrendingFlat from '@material-ui/icons/TrendingFlat';
 import FiberNew from '@material-ui/icons/FiberNew';
 import FindReplace from '@material-ui/icons/FindReplace';
 import { Typography } from '@material-ui/core';
+import InsightCards from './InsightCards.js';
 
 class GraphForm extends React.Component {
     constructor(props) {
@@ -246,53 +247,6 @@ class GraphForm extends React.Component {
         );
     }
 
-    createInsightCards(insightsValue) {
-
-        let genCards = [];
-        for (let i = 0; i < insightsValue.length; i++) {
-            console.log(insightsValue[i].type)
-            let iconType 
-                switch (insightsValue[i].type){
-                    case 'Up':
-                        iconType = <TrendingUp fontSize = "large" nativeColor= "#00e676" />
-                        break
-                    case 'Down':
-                        iconType = <TrendingDown fontSize = "large" nativeColor = "#f44336" />
-                        break
-                    case 'Flat':
-                        iconType = <TrendingFlat fontSize = "large" nativeColor = "#607d8b"/>
-                        break
-                    case 'New':
-                        iconType = <FiberNew fontSize = "large" nativeColor = "#2196f3"/>
-                        break
-                    case 'Replace':
-                        iconType = <FindReplace fontSize = "large" nativeColor = "#ffea00"/>
-                        break
-                }
-
-            let insightCard =
-                    <Grid key={i} item xs={4}>
-                        <BlockCard 
-                            payload={<Typography align="center" >{insightsValue[i].text} </Typography>}
-                            actionsTop={iconType}
-                        />
-                    </Grid>
-
-            genCards.push(insightCard);
-        }
-
-        let insightGrid = 
-            <Grid 
-                container 
-                spacing={24}
-                alignItems="center"
-                justify="center"
-            >
-            {genCards}
-            </Grid>
-        return insightGrid;
-    }
-
     render() {
         let testInsights =
             [
@@ -336,7 +290,7 @@ class GraphForm extends React.Component {
                 </label> */}
                 {this.getDataComponent()}
 
-                {this.createInsightCards(testInsights)}
+                <InsightCards InsightsValues={testInsights}/>
 
                 {/* <Grid 
                 container 
