@@ -20,6 +20,7 @@ import TrendingFlat from '@material-ui/icons/TrendingFlat';
 import FiberNew from '@material-ui/icons/FiberNew';
 import FindReplace from '@material-ui/icons/FindReplace';
 import { Typography } from '@material-ui/core';
+import InsightCards from './InsightCards.js';
 
 class GraphForm extends React.Component {
     constructor(props) {
@@ -246,53 +247,6 @@ class GraphForm extends React.Component {
         );
     }
 
-    createInsightCards(insightsValue) {
-
-        let genCards = [];
-        for (let i = 0; i < insightsValue.length; i++) {
-            console.log(insightsValue[i].type)
-            let iconType 
-                switch (insightsValue[i].type){
-                    case 'Up':
-                        iconType = <TrendingUp fontSize = "large" nativeColor= "#00e676" />
-                        break
-                    case 'Down':
-                        iconType = <TrendingDown fontSize = "large" nativeColor = "#f44336" />
-                        break
-                    case 'Flat':
-                        iconType = <TrendingFlat fontSize = "large" nativeColor = "#607d8b"/>
-                        break
-                    case 'New':
-                        iconType = <FiberNew fontSize = "large" nativeColor = "#2196f3"/>
-                        break
-                    case 'Replace':
-                        iconType = <FindReplace fontSize = "large" nativeColor = "#ffea00"/>
-                        break
-                }
-
-            let insightCard =
-                    <Grid key={i} item xs={4}>
-                        <BlockCard 
-                            payload={<Typography align="center" >{insightsValue[i].text} </Typography>}
-                            actionsTop={iconType}
-                        />
-                    </Grid>
-
-            genCards.push(insightCard);
-        }
-
-        let insightGrid = 
-            <Grid 
-                container 
-                spacing={24}
-                alignItems="center"
-                justify="center"
-            >
-            {genCards}
-            </Grid>
-        return insightGrid;
-    }
-
     render() {
         let testInsights =
             [
@@ -301,77 +255,20 @@ class GraphForm extends React.Component {
                 {text: "Chandler IS MAKING INSIGHTS > PY MATLAB GRAPHS", type: "New"},
                 {text: "Faisal IS MAKE DESIGN ALL OVER THE PLACE SMASH BROS MARIO", type: "Replace"},
                 {text: "Thomas IS NOT EVEN HERE", type: "Flat"},
+                {text: "React is going up!", type: "Up"},
+                {text: "Angular is going down!", type: "Down"},
+                {text: "Flutter has entered the top ten!", type: "New"},
+                {text: "React has replaced Angular in the top ten list!", type: "Replace"},
+                {text: "Python has seen no significant change, however it has remained very popular!", type: "Flat"},
             ];
         return (
             <div>
                 <div align="center">
-                    <Typography align = "center" variant = "h4">NOW A NIBBA LIKE THIS</Typography>
+                    <Typography align = "center" variant = "h4">Skeleton Page Title</Typography>
                 </div>
-                {/* <Select
-                    value={this.state.data_component}
-                    onChange={this.handleChange}
-                    displayEmpty
-                    name="data_component"
-                >
-                    <MenuItem value={'trend_chart'}>Trendz Chart</MenuItem>
-                    <MenuItem value={'bar_graph'}>Bar Graph</MenuItem>
-                    <MenuItem value={'list'}>List</MenuItem>
-                </Select>
-                <br/>
-                <Select
-                    value={this.state.period}
-                    onChange={this.handleChange}
-                    displayEmpty
-                    name="period"
-                >
-                    <MenuItem value={'week'}>Week</MenuItem>
-                    <MenuItem value={'month'}>Month</MenuItem>
-                    <MenuItem value={'day'}>Day</MenuItem>
-                </Select>
-                <br/>
-                <label>
-                    Raw:
-                    <input name="raw_bool" type="checkbox" checked={this.state.raw_bool}
-                           onChange={this.handleChange}/>
-                </label> */}
                 {this.getDataComponent()}
 
-                {this.createInsightCards(testInsights)}
-
-                {/* <Grid 
-                container 
-                spacing={24}
-                alignItems="center"
-                justify="center"
-            >
-                <Grid item xs></Grid>
-                <Grid item xs={4}>
-                    <BlockCard 
-                        payload={"Hello Dylan"}
-                    />
-                </Grid>
-                <Grid item xs={4}>
-                    <BlockCard 
-                        payload={"Hello Andrey"}
-                    />
-                </Grid>
-                <Grid item xs={4}>
-                    <BlockCard 
-                        payload={"Hello Chandler"}
-                    />
-                </Grid>
-                <Grid item xs={4}>
-                    <BlockCard 
-                        payload={"Hello Faisal"}
-                    />
-                </Grid>
-                <Grid item xs={4}>
-                <BlockCard
-                    payload={<ArrowUpward />}
-                />    
-                </Grid>
-                <Grid item xs></Grid>
-            </Grid> */}
+                <InsightCards InsightsValues={testInsights}/>
             </div>
         );
     }
