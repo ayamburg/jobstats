@@ -13,20 +13,19 @@ import { Typography } from '@material-ui/core';
 import InsightCards from './InsightCards.js';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
-class FrontendGraphForm extends React.Component {
+class GraphForm extends React.Component {
     constructor(props) {
         super(props);
-        let raw_check = false;
         this.state = {
-            keywords: [],
-            filters: [],
-            period: "week",
-            age: "all_time",
-            raw_bool: raw_check,
-            locations: "",
-            companies: "",
-            titles: ["frontend", "front end"],
-            data_component: 'trend_chart',
+            keywords: this.props.keywords,
+            filters: this.props.filters,
+            period: this.props.period,
+            age: this.props.age,
+            raw_bool: this.props.raw_bool,
+            locations: this.props.locations,
+            companies: this.props.companies,
+            titles: this.props.titles,
+            data_component: this.props.data_component,
             graph_data: {
                 keywords: [],
                 filters: [],
@@ -45,7 +44,7 @@ class FrontendGraphForm extends React.Component {
             responseType: 'json',
             params: {
                 category: "top_skills",
-                name: "frontend",
+                name: this.props.name,
             }
         }).then(response => {
             let state_params = this.state;
@@ -303,4 +302,4 @@ class FrontendGraphForm extends React.Component {
     }
 }
 
-export default FrontendGraphForm;
+export default GraphForm;

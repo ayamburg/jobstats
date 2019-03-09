@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import FrontendGraphForm from './frontend.js';
+import GraphForm from './frontend.js';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class Home extends React.Component {
@@ -17,7 +17,25 @@ class Home extends React.Component {
                     <nav>
                         <Link to="/frontend">Top Frontend Skills</Link>
                     </nav>
-                    <Route path="/frontend" component={FrontendGraphForm}/>
+                    <Route
+                        path="/frontend"
+                        render={
+                            (props) =>
+                                <GraphForm
+                                    {...props}
+                                    keywords={[]}
+                                    filters={[]}
+                                    period={"week"}
+                                    age={"all_time"}
+                                    raw_bool={false}
+                                    locations={""}
+                                    companies={""}
+                                    titles={["frontend", "front end"]}
+                                    data_component={"trend_chart"}
+                                    name={"frontend"}
+                                />
+                        }
+                    />
                 </div>
             </Router>
         );
