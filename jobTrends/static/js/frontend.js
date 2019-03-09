@@ -292,7 +292,7 @@ class GraphForm extends React.Component {
                     <Link to="/">Index</Link>
                 </nav>
                 <div align="center">
-                    <Typography align = "center" variant = "h4">Skeleton Page Title</Typography>
+                    <Typography align = "center" variant = "h4">{this.props.title}</Typography>
                 </div>
                 {this.getDataComponent()}
 

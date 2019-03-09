@@ -33,6 +33,7 @@ class Home extends React.Component {
                                     titles={["frontend", "front end"]}
                                     data_component={"trend_chart"}
                                     name={"frontend"}
+                                    title={"Top Frontend Skills"}
                                 />
                         }
                     />
