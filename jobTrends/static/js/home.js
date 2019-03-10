@@ -24,7 +24,6 @@ class Home extends React.Component {
                             (props) =>
                                 <GraphForm
                                     {...props}
-                                    keywords={[]}
                                     filters={[]}
                                     period={"week"}
                                     age={"all_time"}
@@ -32,7 +31,7 @@ class Home extends React.Component {
                                     locations={""}
                                     companies={""}
                                     titles={["frontend", "front end"]}
-                                    data_component={"trend_chart"}
+                                    data_component={"bar_graph"}
                                     name={"frontend"}
                                     title={"Top Frontend Skills"}
                                 />

@@ -1,0 +1,5 @@
+1. Add and call method in generateinsights.py
+2. Add code block in gettopskills.py
+3. Add route in home.js
+4. Add tile
+5. Double check that gettopskills.py/generateinsights.py/home.js all use the same parameters for the tile

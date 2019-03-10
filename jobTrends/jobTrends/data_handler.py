@@ -78,15 +78,20 @@ class DataHandler:
                     else:
                         y.append(bucket.doc_count)
                     idx += 1
-            # make sure all arrays have values for all dates
+            all_x.append(x)
+            all_y.append(y)
+            all_keywords.append(keyword)
             if len(x) > max_length:
                 max_length = len(x)
                 max_dates = x
-            while len(y) < max_length:
-                y.append(0)
-            all_x.append(max_dates)
-            all_y.append(y)
-            all_keywords.append(keyword)
+
+        # make sure all arrays have values for all dates
+        idx = 0
+        for keyword in keywords:
+            while len(all_y[idx]) < max_length:
+                all_y[idx].append(0)
+            all_x[idx] = max_dates
+            idx += 1
         return {'x': all_x,
                 'y': all_y,
                 'keywords': all_keywords,
