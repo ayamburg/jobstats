@@ -31,7 +31,7 @@ class TrendData(View):
             start = SCRAPE_DATA_START
         start_time = time.time()
         page_data = DataHandler(start).get_trend_data(filters, keywords, raw, period, companies, titles, locations)
-        print("--- Run Time: %s seconds ---" % (time.time() - start_time))
+        print("--- get_trend_data Run Time: %s seconds ---" % (time.time() - start_time))
 
         return JsonResponse(page_data)
 
@@ -51,7 +51,7 @@ class BarData(View):
             start = SCRAPE_DATA_START
         start_time = time.time()
         page_data = DataHandler(start).get_bar_data(filters, keywords, raw, companies, titles, locations)
-        print("--- Run Time: %s seconds ---" % (time.time() - start_time))
+        print("--- get_bar_data Run Time: %s seconds ---" % (time.time() - start_time))
 
         return JsonResponse(page_data)
 
@@ -71,7 +71,7 @@ class TopSkills(View):
             start = SCRAPE_DATA_START
         start_time = time.time()
         page_data = DataHandler(start).get_top_skills(count, filters, companies, titles, locations, include=include)
-        print("--- Run Time: %s seconds ---" % (time.time() - start_time))
+        print("--- get_top_skills Run Time: %s seconds ---" % (time.time() - start_time))
 
         return JsonResponse(page_data)
 

@@ -11,19 +11,20 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import socket
 from configparser import RawConfigParser
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+3hkeg)zc*4kw7*n&d5dvsrkg(x-jd834u^xas!-9v=(8*qc$+'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+try:
+    key_f = open('production_key', 'r')
+    key = key_f.read().strip()
+    SECRET_KEY = key
+    DEBUG = False
+except FileNotFoundError:
+    SECRET_KEY = '+3hkeg)zc*4kw7*n&d5dvsrkg(x-jd834u^xas!-9v=(8*qc$+'
+    DEBUG = True
 
 ALLOWED_HOSTS = ['50.116.4.79', '23.92.27.61', '127.0.0.1', 'jobtrendz.org', 'jobstats.net', '0.0.0.0', 'localhost']
 
@@ -154,3 +155,6 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
 
 STATIC_URL = '/static/'
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True

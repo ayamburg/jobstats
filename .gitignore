@@ -51,6 +51,7 @@ venv/
 # Settings #
 #####################
 settings.ini
+production_key
 
 # npm  #
 ###################

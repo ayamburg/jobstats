@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 from datetime import datetime
 from elasticsearchapp.documents import JobListingDocument
 from elasticsearch_dsl import Q
-import os
 
 
 class DataHandler:
@@ -31,22 +30,22 @@ class DataHandler:
 
         if titles:
             title_queries = Q("match_phrase", title=titles[0])
-            titles.pop(0)
-            for title in titles:
+            remaining_titles = titles[1:]
+            for title in remaining_titles:
                 title_queries = title_queries | Q("match_phrase", title=title)
             queries = queries & title_queries
 
         if companies:
             company_queries = Q("match_phrase", company=companies[0])
-            companies.pop(0)
-            for company in companies:
+            remaining_companies = companies[1:]
+            for company in remaining_companies:
                 company_queries = company_queries | Q("match_phrase", company=company)
             queries = queries & company_queries
 
         if locations:
             location_queries = Q("match_phrase", location=locations[0])
-            locations.pop(0)
-            for location in locations:
+            remaining_locations = locations[1:]
+            for location in remaining_locations:
                 location_queries = location_queries | Q("match_phrase", location=location)
             queries = queries & location_queries
 
@@ -79,15 +78,20 @@ class DataHandler:
                     else:
                         y.append(bucket.doc_count)
                     idx += 1
-            # make sure all arrays have values for all dates
+            all_x.append(x)
+            all_y.append(y)
+            all_keywords.append(keyword)
             if len(x) > max_length:
                 max_length = len(x)
                 max_dates = x
-            while len(y) < max_length:
-                y.append(0)
-            all_x.append(max_dates)
-            all_y.append(y)
-            all_keywords.append(keyword)
+
+        # make sure all arrays have values for all dates
+        idx = 0
+        for keyword in keywords:
+            while len(all_y[idx]) < max_length:
+                all_y[idx].append(0)
+            all_x[idx] = max_dates
+            idx += 1
         return {'x': all_x,
                 'y': all_y,
                 'keywords': all_keywords,
@@ -119,22 +123,22 @@ class DataHandler:
 
         if titles:
             title_queries = Q("match_phrase", title=titles[0])
-            titles.pop(0)
-            for title in titles:
+            remaining_titles = titles[1:]
+            for title in remaining_titles:
                 title_queries = title_queries | Q("match_phrase", title=title)
             queries = queries & title_queries
 
         if companies:
             company_queries = Q("match_phrase", company=companies[0])
-            companies.pop(0)
-            for company in companies:
+            remaining_companies = companies[1:]
+            for company in remaining_companies:
                 company_queries = company_queries | Q("match_phrase", company=company)
             queries = queries & company_queries
 
         if locations:
             location_queries = Q("match_phrase", location=locations[0])
-            locations.pop(0)
-            for location in locations:
+            remaining_locations = locations[1:]
+            for location in remaining_locations:
                 location_queries = location_queries | Q("match_phrase", location=location)
             queries = queries & location_queries
 
@@ -173,22 +177,22 @@ class DataHandler:
 
         if titles:
             title_queries = Q("match_phrase", title=titles[0])
-            titles.pop(0)
-            for title in titles:
+            remaining_titles = titles[1:]
+            for title in remaining_titles:
                 title_queries = title_queries | Q("match_phrase", title=title)
             queries = queries & title_queries
 
         if companies:
             company_queries = Q("match_phrase", company=companies[0])
-            companies.pop(0)
-            for company in companies:
+            remaining_companies = companies[1:]
+            for company in remaining_companies:
                 company_queries = company_queries | Q("match_phrase", company=company)
             queries = queries & company_queries
 
         if locations:
             location_queries = Q("match_phrase", location=locations[0])
-            locations.pop(0)
-            for location in locations:
+            remaining_locations = locations[1:]
+            for location in remaining_locations:
                 location_queries = location_queries | Q("match_phrase", location=location)
             queries = queries & location_queries
 
