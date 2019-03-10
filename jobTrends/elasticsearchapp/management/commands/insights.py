@@ -90,7 +90,7 @@ def get_skill_location(city_datasets,non_city_dataset):
     #create dictionary with city names and their associated dataset
     city_df_dict = {}
     for city_dataset in city_datasets:
-        city_df_dict[city_dataset['location']] = create_df(city_dataset).sum()
+        city_df_dict[city_dataset['locations'][0]] = create_df(city_dataset).sum()
     main_dataset = create_df(non_city_dataset).sum()
     #for each skill in all dataframes, sum the number of jobs posted over
     #entire scraping period
