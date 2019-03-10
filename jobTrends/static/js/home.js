@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import GraphForm from './frontend.js';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import GraphForm from './GraphForm.js';
+import ManualGraphForm from './ManualGraphForm.js';
+import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
 class Home extends React.Component {
     //state = {};
@@ -36,6 +37,10 @@ class Home extends React.Component {
                                     title={"Top Frontend Skills"}
                                 />
                         }
+                    />
+                    <Route
+                        path="/manual"
+                        component={ManualGraphForm}
                     />
                 </div>
             </Router>
