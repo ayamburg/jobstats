@@ -305,8 +305,11 @@ class GraphForm extends React.Component {
         return (
             <div>
                 <div align="center">
-                    <Typography align = "center" variant = "h4">Skeleton Page Title</Typography>
+                    <Typography align = "center" variant = "h3">
+                        Skeleton Web Page
+                    </Typography>                    
                 </div>
+                <br></br>
                 {/* <Select
                     value={this.state.data_component}
                     onChange={this.handleChange}
