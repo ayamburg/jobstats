@@ -6,6 +6,9 @@ import TrendingDown from '@material-ui/icons/TrendingDown';
 import TrendingFlat from '@material-ui/icons/TrendingFlat';
 import FiberNew from '@material-ui/icons/FiberNew';
 import FindReplace from '@material-ui/icons/FindReplace';
+import CallMerge from '@material-ui/icons/CallMerge';
+import LocationOn from '@material-ui/icons/LocationOn';
+import Grade from '@material-ui/icons/Grade';
 import { Typography } from '@material-ui/core';
 
 
@@ -34,7 +37,16 @@ class InsightCards extends React.Component {
                 break;
             case 'Replace':
                 iconType = <FindReplace fontSize = "large" nativeColor = "#ffea00"/>;
-                break
+                break;
+            case 'Location Insight':
+                iconType = <LocationOn fontSize = "large" nativeColor = "#000000"/>;
+                break;
+            case 'Correlation':
+                iconType = <CallMerge fontSize = "large" nativeColor = "#000000"/>;
+                break;
+            case 'Dominant Skill':
+                iconType = <Grade fontSize = "large" nativeColor = "#ffea00"/>;
+                break;
         }
 
         let insightCard =
