@@ -1,5 +1,6 @@
-1. Add and call method in generateinsights.py
-2. Add code block in gettopskills.py
+1. Add generate_insights call in generateinsights.py
+2. Add generate_top_skills call in gettopskills.py
 3. Add route in home.js
-4. Add tile
+4. Add tile in UI
 5. Double check that gettopskills.py/generateinsights.py/home.js all use the same parameters for the tile
+6. python3 manage.py dailyupdate --noscrape
