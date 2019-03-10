@@ -9,6 +9,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { ButtonBase } from '@material-ui/core';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 
 var styles = {
@@ -38,13 +39,20 @@ function TileCard(props) {
   const bull = <span className={classes.bullet}>•</span>;
 
   return ( 
-    <CardActionArea className={classes.card}>
-    <Card className={classes.card} style={props.backColor}>
-      <CardContent align="center">
-          <Typography align="center" variant="display1">{props.cardTitle}</Typography>
-      </CardContent>
-    </Card>
-    </CardActionArea>    
+    <Link style={{ textDecoration: 'none' }} to={props.path}>
+      <CardActionArea className={classes.card}>
+        <Card className={classes.card} style={props.backColor}>
+          <CardContent align="center">
+              <Typography align="center" variant="display1">{props.cardTitle}</Typography>
+              <CardMedia
+                style={{height: 60, width: 120, paddingTop: '60.25%'}}
+                image={props.image}
+              >
+              </CardMedia>
+          </CardContent>
+        </Card>
+      </CardActionArea> 
+    </Link>   
   );
 }
 
