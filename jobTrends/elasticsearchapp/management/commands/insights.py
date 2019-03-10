@@ -50,6 +50,8 @@ def get_trending_up(dataset):
     sort.reverse()
     insight_hash['skill'] = slopes[sort[0]]
     insight_hash['value'] = sort[0]
+    insight_string = "%s is trending up" %slopes[sort[0]]
+    insight_hash['insight'] = insight_string
     return insight_hash
 
 def get_trending_down(dataset):
@@ -69,6 +71,8 @@ def get_trending_down(dataset):
     sort = sorted(slopes)
     insight_hash['skill'] = slopes[sort[0]]
     insight_hash['value'] = sort[0]
+    insight_string = "%s is trending down" %slopes[sort[0]]
+    insight_hash['insight'] = insight_string
     return insight_hash
 
 def get_skill_location(city_datasets,non_city_dataset):
@@ -114,10 +118,11 @@ def get_skill_location(city_datasets,non_city_dataset):
             dominant_city = series.tail(1).index[0]
             as_pct_of_all_jobs = (series.tail(1)[0] / main_dataset[series.name]) * 100
 
+    insight_string = "%s has been dominant in %s, with %dx more jobs than the next closest city." %(skill_name,dominant_city,greatest_ratio)
+    insight_hash['insight'] = insight_string
     insight_hash['skill'] = skill_name
     insight_hash['city'] = dominant_city
     insight_hash['ratio'] = greatest_ratio
-
     # print(skill_name, "has been very dominant in", dominant_city, "with %dx more jobs than the next closest city\n" %greatest_ratio, "This represents %d%% of the total market for this skill" %as_pct_of_all_jobs)
     # print(main_dataset)
     return insight_hash
@@ -135,6 +140,9 @@ def get_dominant_skill(dataset):
     mean_series = df.mean().sort_values(axis=0,ascending=False)
     insight_hash['skill'] = mean_series.index[0]
     insight_hash['value'] = mean_series.iloc[0]
+    scraping_period =df.index[(len(df.index)-1)] - df.index[0]
+    insight_string = "Over the past " + str(scraping_period.days) + " days, %s has averaged the highest demand, required in %d%% of jobs." %(mean_series.index[0],mean_series.iloc[0])
+    insight_hash['insight'] = insight_string
     return insight_hash
 
 def get_correlation(dataset):
@@ -142,15 +150,22 @@ def get_correlation(dataset):
     exists.
 
     Arguments: A single dataset in dict format
-    Constraints:
+    Constraints: Data must be percent format. Any frequency can be used, but
+    daily is preferred.
     """
     insight_hash={}
     insight_hash['type'] = 'Correlation'
     df = create_df(dataset).corr().replace(to_replace=1,value=0)
-    max=df.values.max()
-    print(df.max().max(), "\n", df.max().max().index)
+    max=df.max().max()
+    print(df.max().max(), "\n", df.max().idxmax())
+    print(df.loc[df[df.max().idxmax()] == df.max().max()].index[0])
+    insight_hash['skill_one'] = df.max().idxmax()
+    insight_hash['skill_two'] = df.loc[df[df.max().idxmax()] == df.max().max()].index[0]
+    insight_hash['correlation'] = max
+    insight_string = "Demand for %s and %s is tightly linked, with a correlation of %f" %(insight_hash['skill_one'],insight_hash['skill_two'],max)
+    insight_hash['insight'] = insight_string
 
-
+    return insight_hash
 
 # trendline(city_data['boston'][0][['python']])
 # print(city_data['boston'][0][['javascript']].rolling(7,center=True).mean().dropna(axis=0).resample('M').mean())
