@@ -118,7 +118,7 @@ def get_skill_location(city_datasets,non_city_dataset):
             dominant_city = series.tail(1).index[0]
             as_pct_of_all_jobs = (series.tail(1)[0] / main_dataset[series.name]) * 100
 
-    insight_string = "%s has been dominant in %s, with %dx more jobs than the next closest city." %(skill_name,dominant_city,greatest_ratio)
+    insight_string = "%s has been dominant in %s, with %s%% more jobs than the next closest city." %(skill_name,dominant_city,format(((greatest_ratio-1)*100),'.0f'))
     insight_hash['insight'] = insight_string
     insight_hash['skill'] = skill_name
     insight_hash['city'] = dominant_city
