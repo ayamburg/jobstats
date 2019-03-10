@@ -11,39 +11,39 @@ import { Typography } from '@material-ui/core';
 
 class InsightCards extends React.Component {
     constructor(props) {
-        super(props)
-        this.createInsightCard.bind(this)
+        super(props);
+        this.createInsightCard.bind(this);
         this.createInsightCards.bind(this)
 
     }
 
     createInsightCard(i) {
-        var iconType
+        var iconType;
         switch (this.props.InsightsValues[i].type){
-            case 'Up':
-                iconType = <TrendingUp fontSize = "large" nativeColor= "#00e676" />
-                break
-            case 'Down':
-                iconType = <TrendingDown fontSize = "large" nativeColor = "#f44336" />
-                break
+            case 'Trending Up':
+                iconType = <TrendingUp fontSize = "large" nativeColor= "#00e676" />;
+                break;
+            case 'Trending Down':
+                iconType = <TrendingDown fontSize = "large" nativeColor = "#f44336" />;
+                break;
             case 'Flat':
-                iconType = <TrendingFlat fontSize = "large" nativeColor = "#607d8b"/>
-                break
+                iconType = <TrendingFlat fontSize = "large" nativeColor = "#607d8b"/>;
+                break;
             case 'New':
-                iconType = <FiberNew fontSize = "large" nativeColor = "#2196f3"/>
-                break
+                iconType = <FiberNew fontSize = "large" nativeColor = "#2196f3"/>;
+                break;
             case 'Replace':
-                iconType = <FindReplace fontSize = "large" nativeColor = "#ffea00"/>
+                iconType = <FindReplace fontSize = "large" nativeColor = "#ffea00"/>;
                 break
         }
 
         let insightCard =
             <Grid key={i} item xs={4}>
                 <BlockCard 
-                    payload={<Typography align="center" >{this.props.InsightsValues[i].text} </Typography>}
+                    payload={<Typography align="center" >{this.props.InsightsValues[i].insight} </Typography>}
                     actionsTop={iconType}
                 />
-            </Grid>
+            </Grid>;
         return insightCard
     }
 
@@ -51,7 +51,7 @@ class InsightCards extends React.Component {
 
         let genCards = [];
         for (let i = 0; i < this.props.InsightsValues.length; i++) {
-            let insightCard = this.createInsightCard(i)
+            let insightCard = this.createInsightCard(i);
             genCards.push(insightCard);
         }
 
@@ -63,7 +63,7 @@ class InsightCards extends React.Component {
                 justify="center"
             >
             {genCards}
-            </Grid>
+            </Grid>;
         return insightGrid;
     }
 

@@ -17,7 +17,7 @@ class GraphForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            keywords: this.props.keywords,
+            keywords: [],
             filters: this.props.filters,
             period: this.props.period,
             age: this.props.age,
@@ -26,6 +26,7 @@ class GraphForm extends React.Component {
             companies: this.props.companies,
             titles: this.props.titles,
             data_component: this.props.data_component,
+            insights: [],
             graph_data: {
                 keywords: [],
                 filters: [],
@@ -50,6 +51,15 @@ class GraphForm extends React.Component {
             let state_params = this.state;
             state_params['keywords'] = response.data.skills.map(skill => skill.key);
             this.reloadData(state_params);
+        });
+        axios.get('/api/get_json_file', {
+            responseType: 'json',
+            params: {
+                category: "insights",
+                name: this.props.name,
+            }
+        }).then(response => {
+            this.setState({insights: response.data.insights});
         });
     }
 
@@ -273,19 +283,6 @@ class GraphForm extends React.Component {
     }
 
     render() {
-        let testInsights =
-            [
-                {text: "Dylan IS SUPER react Hooks and all this stuff", type: "Up"},
-                {text: "Andrey IS SUPER Backend CONNect Stuff!", type: "Down"},
-                {text: "Chandler IS MAKING INSIGHTS > PY MATLAB GRAPHS", type: "New"},
-                {text: "Faisal IS MAKE DESIGN ALL OVER THE PLACE SMASH BROS MARIO", type: "Replace"},
-                {text: "Thomas IS NOT EVEN HERE", type: "Flat"},
-                {text: "React is going up!", type: "Up"},
-                {text: "Angular is going down!", type: "Down"},
-                {text: "Flutter has entered the top ten!", type: "New"},
-                {text: "React has replaced Angular in the top ten list!", type: "Replace"},
-                {text: "Python has seen no significant change, however it has remained very popular!", type: "Flat"},
-            ];
         return (
             <div>
                 <nav>
@@ -296,7 +293,7 @@ class GraphForm extends React.Component {
                 </div>
                 {this.getDataComponent()}
 
-                <InsightCards InsightsValues={testInsights}/>
+                <InsightCards InsightsValues={this.state.insights}/>
             </div>
         );
     }
