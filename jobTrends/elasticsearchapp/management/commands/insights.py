@@ -48,9 +48,10 @@ def get_trending_up(dataset):
         slopes[trendline(df[[col]])[0]] = col
     sort = sorted(slopes)
     sort.reverse()
+    scraping_period =df.index[(len(df.index)-1)] - df.index[0]
     insight_hash['skill'] = slopes[sort[0]]
     insight_hash['value'] = sort[0]
-    insight_string = "%s is trending up" %slopes[sort[0]]
+    insight_string = "Over the past "+str(scraping_period.days)+" days, %s has been trending up" %slopes[sort[0]]
     insight_hash['insight'] = insight_string
     return insight_hash
 
@@ -69,9 +70,10 @@ def get_trending_down(dataset):
     for col in df:
         slopes[trendline(df[[col]])[0]] = col
     sort = sorted(slopes)
+    scraping_period =df.index[(len(df.index)-1)] - df.index[0]
     insight_hash['skill'] = slopes[sort[0]]
     insight_hash['value'] = sort[0]
-    insight_string = "%s is trending down" %slopes[sort[0]]
+    insight_string = "Over the past "+str(scraping_period.days)+" days, %s has been trending down" %slopes[sort[0]]
     insight_hash['insight'] = insight_string
     return insight_hash
 
