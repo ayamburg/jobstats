@@ -5,12 +5,21 @@ from django.core.management import BaseCommand, CommandError, call_command
 class Command(BaseCommand):
     help = 'Scrapes, gets top skills, generates insights'
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--noscrape',
+            action='store_true',
+            dest='noscrape',
+            help='Skip the scraping part of the script',
+        )
+
     def handle(self, *args, **options):
         print('Running Daily Update')
-        print('Scraping...')
         start_time = time.time()
-        call_command('scrapebydate', 1)
-        print("<<< Scraper Run Time: %s seconds >>>" % (time.time() - start_time))
+        if not options['noscrape']:
+            print('Scraping...')
+            call_command('scrapebydate', 1)
+            print("<<< Scraper Run Time: %s seconds >>>" % (time.time() - start_time))
         week = 604800000
         month = 2592000000
         start = int(time.time() * 1000 - month * 6)
