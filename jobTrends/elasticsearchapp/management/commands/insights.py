@@ -34,6 +34,13 @@ def trendline(df_col):
 
 def get_trending_up(dataset):
     """Returns the skill with highest upward trend, its slope, and confidence score.
+    Insight hash keys have the following meaning:
+    type: type of insight (Trending Up)
+    skill: skill with greatest downward trend
+    value: slope of line representing that skill's percentage of all CS jobs over time.
+    insight: written presentation of insight, meant for display in insight card.
+    score: numerical estimation of confidence of the insight. Values below 3 should be
+    discarded.
 
     Arguments: Takes in 1 dict
     Constraints: The data should be daily and in percent format.
@@ -53,10 +60,31 @@ def get_trending_up(dataset):
     insight_hash['value'] = sort[0]
     insight_string = "Over the past "+str(scraping_period.days)+" days, %s has been trending up" %slopes[sort[0]]
     insight_hash['insight'] = insight_string
+
+    score = 0
+    if insight_hash['value'] < .1:
+        score = 1
+    elif insight_hash['value'] < .2:
+        score = 2
+    elif insight_hash['value'] < .35:
+        score = 3
+    elif insight_hash['value'] < .50:
+        score = 4
+    else:
+        score = 5
+    insight_hash['score'] = score
+
     return insight_hash
 
 def get_trending_down(dataset):
     """Returns the skill with lowest downward trend, its slope, and confidence score.
+    Insight hash keys have the following meaning:
+    type: type of insight (Trending Down)
+    skill: skill with greatest downward trend
+    value: slope of line representing that skill's percentage of all CS jobs over time.
+    insight: written presentation of insight, meant for display in insight card.
+    score: numerical estimation of confidence of the insight. Values below 3 should be
+    discarded.
 
     Arguments: Takes in a single dataset in the form of a dict
     Constraints: The data should be daily and in percent format.
@@ -75,11 +103,32 @@ def get_trending_down(dataset):
     insight_hash['value'] = sort[0]
     insight_string = "Over the past "+str(scraping_period.days)+" days, %s has been trending down" %slopes[sort[0]]
     insight_hash['insight'] = insight_string
+
+    score = 0
+    if insight_hash['value'] > -0.1:
+        score = 1
+    elif insight_hash['value'] > -0.2:
+        score = 2
+    elif insight_hash['value'] > -0.35:
+        score = 3
+    elif insight_hash['value'] > -0.5:
+        score = 4
+    else:
+        score = 5
+    insight_hash['score'] = score
+
     return insight_hash
 
 def get_skill_location(city_datasets,non_city_dataset):
     """Finds the most dominant skill and city pair and its ratio of jobs added
-    over the next closest city. Returns skill, city, and ratio.
+    over the next closest city.
+    Insight hash keys have the following meaning:
+    type: type of insight (Location Insight)
+    skill: skill for which the greatest ratio exists between the # of jobs added for
+        this skill between the top and runner-up city.
+    value: ratio of jobs added for this city over the next closest city
+    score: numerical estimation of confidence of the insight. Values below 3 should be
+        discarded.
 
     Arguments: List of dicts representing datasets filtered by a city, and
     a single dataset with same keywords, but without location filtering
@@ -125,13 +174,32 @@ def get_skill_location(city_datasets,non_city_dataset):
     insight_hash['skill'] = skill_name
     insight_hash['city'] = dominant_city
     insight_hash['ratio'] = greatest_ratio
+    score = 0
+    if greatest_ratio < 1.25:
+        score = 1
+    elif greatest_ratio < 1.50:
+        score = 2
+    elif greatest_ratio < 1.75:
+        score = 3
+    elif greatest_ratio < 2:
+        score = 4
+    else:
+        score = 5
+    insight_hash['score'] = score
     # print(skill_name, "has been very dominant in", dominant_city, "with %dx more jobs than the next closest city\n" %greatest_ratio, "This represents %d%% of the total market for this skill" %as_pct_of_all_jobs)
     # print(main_dataset)
     return insight_hash
 
 def get_dominant_skill(dataset):
-    """Returns a skill, if any, that has averaged at least 25% appearance in job
-    listings since the start date of scraping.
+    """Returns most dominant skill since the start of scraping.
+    Insight hash keys have the following meaning:
+    type: type of insight (Dominant Skill)
+    skill: skill with the greatest average percent appearance in job listings since the
+        beginning of scraping.
+    value: average percentage appearance for this skill since scraping began.
+    insight: written presentation of insight, meant for display in insight card.
+    score: numerical estimation of confidence of the insight. Values below 3 should be
+    discarded.
 
     Arguments: Takes in a single dataset in the form of a dict
     Constraints: The dataset should be in percent format, with weekly frequency
@@ -145,11 +213,34 @@ def get_dominant_skill(dataset):
     scraping_period =df.index[(len(df.index)-1)] - df.index[0]
     insight_string = "Over the past " + str(scraping_period.days) + " days, %s has averaged the highest demand, required in %d%% of jobs." %(mean_series.index[0],mean_series.iloc[0])
     insight_hash['insight'] = insight_string
+    score = 0
+    if insight_hash['value'] < 10:
+        score = 1
+    elif insight_hash['value'] < 20:
+        score = 2
+    elif insight_hash['value'] < 30:
+        score = 3
+    elif insight_hash['value'] < 40:
+        score =4
+    else:
+        score = 5
+    insight_hash['score'] = score
+
     return insight_hash
 
 def get_correlation(dataset):
     """Returns the pair of skills for which the greatest pairwise correlation
     exists.
+    Insight hash keys have the following meaning:
+    type: type of insight (Correlation)
+    skill_one: one of skills with top correlation
+    skill_two: the other skill, whose correlation with skill_one is greater than any
+        other two skills
+    correlation: value from 0-1 representing correlation coefficient after performing
+            Pearson correlation calculation.
+    insight: written presentation of insight, meant for display in insight card.
+    score: numerical estimation of confidence of the insight. Values below 3 should be
+    discarded.
 
     Arguments: A single dataset in dict format
     Constraints: Data must be percent format. Any frequency can be used, but
@@ -166,6 +257,18 @@ def get_correlation(dataset):
     insight_hash['correlation'] = max
     insight_string = "Demand for %s and %s is tightly linked, with a correlation of %f" %(insight_hash['skill_one'],insight_hash['skill_two'],max)
     insight_hash['insight'] = insight_string
+    score = 0
+    if max < .50:
+        score = 1
+    elif max < .65:
+        score = 2
+    elif max < .80:
+        score =3
+    elif max < .95:
+        score = 4
+    else:
+        score = 5
+    insight_hash['score'] = score
 
     return insight_hash
 
