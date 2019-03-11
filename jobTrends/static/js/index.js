@@ -17,13 +17,9 @@ import TileCardGrid from './TileCardGrid.js';
 // }
 
 const App = () => (
-    <div>
-        <div>
-            <Home/>
-        </div>
-    </div>
 
-    
+    <Home/>
+
 );
 
 
