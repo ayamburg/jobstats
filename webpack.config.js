@@ -12,7 +12,7 @@ module.exports = {
   output: {
       path: path.resolve('./jobTrends/static/bundles/'),
       filename: '[name].js',
-      publicPath: '/',
+      publicPath: './jobTrends/static/bundles/',
   },
 
   plugins: [
