@@ -51,7 +51,7 @@ class Home extends React.Component {
                             </Link>
                     </Toolbar>
                 </AppBar>
-                <Typography paragraph="true"></Typography>
+                <Typography paragraph></Typography>
             </div>
         );
     }

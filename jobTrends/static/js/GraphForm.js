@@ -308,8 +308,8 @@ class GraphForm extends React.Component {
         return (
             <div>
                 <div align="center">
-                    <Typography paragraph = "true"></Typography>
-                    <Typography paragraph = "true" align = "center" variant = "h4">{this.props.title}</Typography>
+                    <Typography paragraph></Typography>
+                    <Typography paragraph align = "center" variant = "h4">{this.props.title}</Typography>
                 </div>
                 {this.getDataComponent()}
 
