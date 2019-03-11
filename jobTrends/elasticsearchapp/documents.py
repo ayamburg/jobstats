@@ -13,7 +13,7 @@ job_listing.settings(
 custom_tokenizer = tokenizer(
     "pattern",
     "pattern",
-    pattern="\s|-|\n|/|,|\.\s"
+    pattern="\s|-|\n|/|,|\.\s|'"
 )
 
 keyword_analyzer = analyzer("default", type="custom", tokenizer=custom_tokenizer, filter=["lowercase"])
