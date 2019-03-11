@@ -159,7 +159,7 @@ class Home extends React.Component {
                                         titles={["frontend", "front end"]}
                                         data_component={"bar_graph"}
                                         name={"frontend"}
-                                        title={"Top Frontend Skills"}
+                                        title={"Top Front End Skills"}
                                     />
                             }
                         />
@@ -179,7 +179,7 @@ class Home extends React.Component {
                                         titles={["backend", "back end"]}
                                         data_component={"bar_graph"}
                                         name={"backend"}
-                                        title={"Top Backend Skills"}
+                                        title={"Top Back End Skills"}
                                     />
                             }
                         />
@@ -199,7 +199,7 @@ class Home extends React.Component {
                                         titles={["fullstack", "full stack"]}
                                         data_component={"bar_graph"}
                                         name={"fullstack"}
-                                        title={"Top Fullstack Skills"}
+                                        title={"Top Full Stack Skills"}
                                     />
                             }
                         />

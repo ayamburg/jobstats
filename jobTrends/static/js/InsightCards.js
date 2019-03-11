@@ -42,7 +42,7 @@ class InsightCards extends React.Component {
                 iconType = <LocationOn fontSize = "large" nativeColor = "#000000"/>;
                 break;
             case 'Correlation':
-                iconType = <CallMerge fontSize = "large" nativeColor = "#000000"/>;
+                iconType = <CallMerge fontSize = "large" nativeColor = "#008080"/>;
                 break;
             case 'Dominant Skill':
                 iconType = <Grade fontSize = "large" nativeColor = "#ffea00"/>;

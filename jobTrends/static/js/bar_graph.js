@@ -11,7 +11,11 @@ export default class HorizontalBarGraph extends React.Component {
                 return value
             }
         };
-
+        let scaleLabel = {};
+        scaleLabel = {
+            display: true,
+            labelString: "Number of Listings"
+        }
         if (this.props.data.raw !== '1') {
             for (let i = 0; i < this.props.data.y.length; i++) {
                 displayData[i] = (this.props.data.y[i] * 100).toFixed(2);
@@ -22,6 +26,10 @@ export default class HorizontalBarGraph extends React.Component {
                 callback: function (value) {
                     return value + "%"
                 }
+            }
+            scaleLabel = {
+                display: true,
+                labelString: "Percent of Listings"
             }
         }
 
@@ -72,10 +80,8 @@ export default class HorizontalBarGraph extends React.Component {
                         scales: {
                             xAxes: [{
                                 ticks: ticks,
-                                scaleLabel: {
-                                    display: true
-                                }
-                            }]
+                                scaleLabel: scaleLabel
+                            }],
                         }
                     }}
                 />
