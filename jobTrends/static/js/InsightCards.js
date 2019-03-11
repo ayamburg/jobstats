@@ -68,7 +68,7 @@ class InsightCards extends React.Component {
         }
 
         let insightGrid = 
-            <Grid 
+            <Grid
                 container 
                 spacing={24}
                 alignItems="center"
