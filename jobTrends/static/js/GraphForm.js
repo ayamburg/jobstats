@@ -139,8 +139,19 @@ class GraphForm extends React.Component {
                         raw: raw,
                     }
                 }).then(response => {
+                    function compare_keywords(a,b) {
+                        let a_index = response.data.keywords.indexOf(a);
+                        let b_index = response.data.keywords.indexOf(b);
+                        if (response.data.y[a_index] < response.data.y[b_index])
+                            return -1;
+                        if (response.data.y[b_index] < response.data.y[a_index])
+                            return 1;
+                        return 0;
+                    }
+                    response.data.keywords.sort(compare_keywords).reverse();
+                    response.data.y.sort().reverse();
                     this.setState({
-                        keywords: state_params.keywords,
+                        keywords: response.data.keywords,
                         filters: state_params.filters,
                         period: state_params.period,
                         age: state_params.age,
@@ -168,8 +179,19 @@ class GraphForm extends React.Component {
                         raw: raw,
                     }
                 }).then(response => {
+                    function compare_keywords(a,b) {
+                        let a_index = response.data.keywords.indexOf(a);
+                        let b_index = response.data.keywords.indexOf(b);
+                        if (response.data.y[a_index] < response.data.y[b_index])
+                            return -1;
+                        if (response.data.y[b_index] < response.data.y[a_index])
+                            return 1;
+                        return 0;
+                    }
+                    response.data.keywords.sort(compare_keywords).reverse();
+                    response.data.y.sort().reverse();
                     this.setState({
-                        keywords: state_params.keywords,
+                        keywords: response.data.keywords,
                         filters: state_params.filters,
                         period: state_params.period,
                         age: state_params.age,
