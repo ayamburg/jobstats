@@ -307,11 +307,9 @@ class GraphForm extends React.Component {
     render() {
         return (
             <div>
-                <nav>
-                    <Link to="/">Index</Link>
-                </nav>
                 <div align="center">
-                    <Typography align = "center" variant = "h4">{this.props.title}</Typography>
+                    <Typography paragraph = "true"></Typography>
+                    <Typography paragraph = "true" align = "center" variant = "h4">{this.props.title}</Typography>
                 </div>
                 {this.getDataComponent()}
 
