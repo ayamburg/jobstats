@@ -18,6 +18,7 @@ const styles = {
     root: {
       flexGrow: 1,
       top: 0,
+      background: 'linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)',
     },
     grow: {
       flexGrow: 1,
@@ -62,6 +63,87 @@ class Home extends React.Component {
                     {this.createAppBar()}
                     <Switch>
                         <Route exact path="/" component={TileCardGrid}/>
+
+                        <Route
+                            path="/amazon" 
+                            render={
+                                (props) =>
+                                    <GraphForm
+                                        {...props}
+                                        filters={[]}
+                                        period={"week"}
+                                        age={"all_time"}
+                                        raw_bool={false}
+                                        locations={""}
+                                        companies={"amazon.com"}
+                                        titles={""}
+                                        data_component={"bar_graph"}
+                                        name={"amazon"}
+                                        title={"Top Skills for Amazon"}
+                                    />
+                            }
+                        />
+
+                        <Route
+                            path="/apple" 
+                            render={
+                                (props) =>
+                                    <GraphForm
+                                        {...props}
+                                        filters={[]}
+                                        period={"week"}
+                                        age={"all_time"}
+                                        raw_bool={false}
+                                        locations={""}
+                                        companies={"apple"}
+                                        titles={""}
+                                        data_component={"bar_graph"}
+                                        name={"apple"}
+                                        title={"Top Skills for Apple"}
+                                    />
+                            }
+                        />
+
+                        <Route
+                            path="/google" 
+                            render={
+                                (props) =>
+                                    <GraphForm
+                                        {...props}
+                                        filters={[]}
+                                        period={"week"}
+                                        age={"all_time"}
+                                        raw_bool={false}
+                                        locations={""}
+                                        companies={"google"}
+                                        titles={""}
+                                        data_component={"bar_graph"}
+                                        name={"google"}
+                                        title={"Top Skills for Google"}
+                                    />
+                            }
+                        />
+
+                        <Route
+                            path="/microsoft" 
+                            render={
+                                (props) =>
+                                    <GraphForm
+                                        {...props}
+                                        filters={[]}
+                                        period={"week"}
+                                        age={"all_time"}
+                                        raw_bool={false}
+                                        locations={""}
+                                        companies={"microsoft"}
+                                        titles={""}
+                                        data_component={"bar_graph"}
+                                        name={"microsoft"}
+                                        title={"Top Skills for Microsoft"}
+                                    />
+                            }
+                        />
+
                         <Route
                             path="/frontend" 
                             render={
@@ -81,6 +163,67 @@ class Home extends React.Component {
                                     />
                             }
                         />
+
+                        <Route
+                            path="/backend" 
+                            render={
+                                (props) =>
+                                    <GraphForm
+                                        {...props}
+                                        filters={[]}
+                                        period={"week"}
+                                        age={"all_time"}
+                                        raw_bool={false}
+                                        locations={""}
+                                        companies={""}
+                                        titles={["backend", "back end"]}
+                                        data_component={"bar_graph"}
+                                        name={"backend"}
+                                        title={"Top Backend Skills"}
+                                    />
+                            }
+                        />
+
+                        <Route
+                            path="/fullstack" 
+                            render={
+                                (props) =>
+                                    <GraphForm
+                                        {...props}
+                                        filters={[]}
+                                        period={"week"}
+                                        age={"all_time"}
+                                        raw_bool={false}
+                                        locations={""}
+                                        companies={""}
+                                        titles={["fullstack", "full stack"]}
+                                        data_component={"bar_graph"}
+                                        name={"fullstack"}
+                                        title={"Top Fullstack Skills"}
+                                    />
+                            }
+                        />
+
+                        <Route
+                            path="/cybersecurity" 
+                            render={
+                                (props) =>
+                                    <GraphForm
+                                        {...props}
+                                        filters={[]}
+                                        period={"week"}
+                                        age={"all_time"}
+                                        raw_bool={false}
+                                        locations={""}
+                                        companies={""}
+                                        titles={['cyber security', 'malware', 'infosec', 'security', 'penetration', 'pen tester']}
+                                        data_component={"bar_graph"}
+                                        name={"cybersecurity"}
+                                        title={"Top Cyber Security Skills"}
+                                    />
+                            }
+                        />
+
                         <Route
                             path="/manual"
                             component={ManualGraphForm}

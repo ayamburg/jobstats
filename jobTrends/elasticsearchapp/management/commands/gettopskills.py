@@ -28,5 +28,12 @@ class Command(BaseCommand):
         global data_handler
         data_handler = DataHandler(int(options['start'][0]))
 
+        generate_top_skills('amazon', 10, [], ['amazon.com'], [], [])
+        generate_top_skills('apple', 10, [], ['apple'], [], [])
+        generate_top_skills('google', 10, [], ['google'], [], [])
+        generate_top_skills('microsoft', 10, [], ['microsoft'], [], [])
         generate_top_skills('frontend', 10, [], [], ['front end', 'frontend'], [])
+        generate_top_skills('backend', 10, [], [], ['back end', 'backend'], [])
+        generate_top_skills('fullstack', 10, [], [], ['full stack', 'fullstack'], [])
+        generate_top_skills('cybersecurity', 10, [], [], ['cyber security', 'malware', 'infosec', 'security', 'penetration', 'pen tester'], [])
 

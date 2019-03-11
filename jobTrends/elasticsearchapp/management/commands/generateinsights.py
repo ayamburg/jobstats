@@ -86,4 +86,12 @@ class Command(BaseCommand):
     help = 'Generates Insights'
 
     def handle(self, *args, **options):
+        generate_insights('amazon', [], ['amazon.com'], [])
+        generate_insights('apple', [], ['apple'], [])
+        generate_insights('google', [], ['google'], [])
+        generate_insights('microsoft', [], ['microsoft'], [])
         generate_insights('frontend', [], [], ['front end', 'frontend'])
+        generate_insights('backend', [], [], ['back end', 'backend'])
+        generate_insights('fullstack', [], [], ['full stack', 'fullstack'])
+        generate_insights('cybersecurity', [], [], ['cyber security','malware', 'infosec', 'security', 'penetration', 'pen tester'])
+        
