@@ -163,7 +163,7 @@ def get_skill_location(city_datasets,non_city_dataset):
         pct_change = series.pct_change()
         # print(pct_change)
         # print(pct_change.tail(1).index[0])
-        if pct_change.tail(1)[0] > greatest_ratio:
+        if pct_change.tail(1)[0] != float("inf") and pct_change.tail(1)[0]> greatest_ratio:
             greatest_ratio = pct_change.tail(1)[0]
             skill_name = series.name
             dominant_city = series.tail(1).index[0]
@@ -271,6 +271,8 @@ def get_correlation(dataset):
     insight_hash['score'] = score
 
     return insight_hash
+
+
 
 # trendline(city_data['boston'][0][['python']])
 # print(city_data['boston'][0][['javascript']].rolling(7,center=True).mean().dropna(axis=0).resample('M').mean())
