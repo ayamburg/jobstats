@@ -78,6 +78,7 @@ def generate_insights(name, filters, companies, titles):
     for idx, insight in enumerate(insights):
         if insight['score'] < 3:
             insights.pop(idx)
+            idx -= 1
 
     # write to file
     timestamp = str(datetime.datetime.now())
