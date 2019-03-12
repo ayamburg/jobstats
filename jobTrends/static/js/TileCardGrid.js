@@ -39,22 +39,22 @@ class TileCardGrid extends React.Component {
                     </TileCard>
                 </Grid>
                 <Grid item xs={"auto"}>
-                    <TileCard path="/frontend" cardTitle="Top Front End Skills">
+                    <TileCard path="/frontend" cardTitle="Top Front End Skills" backColor={{background: 'linear-gradient(45deg, #ff5050 17%, #ff0066 90%)'}}>
                         
                     </TileCard>  
                 </Grid>
                 <Grid item xs={"auto"}>
-                    <TileCard path="/backend" cardTitle="Top Back End Skills">
+                    <TileCard path="/backend" cardTitle="Top Back End Skills" backColor={{background: 'linear-gradient(45deg, #3366ff 17%, #99ccff 90%)'}}>
                         
                     </TileCard>  
                 </Grid>
                 <Grid item xs={"auto"}>
-                    <TileCard path="/fullstack" cardTitle="Top Full Stack Skills">
+                    <TileCard path="/fullstack" cardTitle="Top Full Stack Skills" backColor={{background: 'linear-gradient(45deg, #6600cc 17%, #9966ff 90%)'}}>
                         
                     </TileCard>  
                 </Grid>
                 <Grid item xs={"auto"}>
-                    <TileCard path="/cybersecurity" cardTitle="Top Cyber Security Skills">
+                    <TileCard path="/cybersecurity" cardTitle="Top Cyber Security Skills" backColor={{background: 'linear-gradient(45deg, #cc9900 17%, #ffff00 90%)'}}>
                         
                     </TileCard>  
                 </Grid>

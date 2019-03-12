@@ -256,12 +256,12 @@ class GraphForm extends React.Component {
         return (
             <Grid
                 container
-                spacing={24}
-                alignItems="center"
-                justify="center"
+                spacing={16}
+                alignItems="flex-start"
+                justify="flex-start"
             >
                 <Grid item xs></Grid>
-                <Grid item xs>
+                <Grid item xs={4}>
                     <Select
                         value={this.state.data_component}
                         onChange={this.handleChange}
@@ -274,7 +274,7 @@ class GraphForm extends React.Component {
                     </Select>
                 </Grid>
                 {periodButton}
-                <Grid item xs>
+                <Grid item xs={4}>
                     <Select
                         value={this.state.age}
                         onChange={this.handleChange}
@@ -297,8 +297,8 @@ class GraphForm extends React.Component {
         return (
             <div>
                 <div align="center">
-                    <Typography paragraph = "true"></Typography>
-                    <Typography paragraph = "true" align = "center" variant = "h4">{this.props.title}</Typography>
+                    <Typography paragraph></Typography>
+                    <Typography paragraph align = "center" variant = "h4">{this.props.title}</Typography>
                 </div>
                 {this.getDataComponent()}
 
