@@ -75,10 +75,7 @@ def generate_insights(name, filters, companies, titles):
     insights.append(get_dominant_skill(weekly_trend_data))
     insights.append(get_correlation(daily_trend_data))
 
-    for idx, insight in enumerate(insights):
-        if insight['score'] < 3:
-            insights.pop(idx)
-            idx -= 1
+    insights = [insight for insight in insights if insight['score'] > 2]
 
     # write to file
     timestamp = str(datetime.datetime.now())
