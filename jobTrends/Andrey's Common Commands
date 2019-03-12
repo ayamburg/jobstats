@@ -10,6 +10,9 @@ python3 manage.py migrate
 #elasticsearch reindex
 python3 manage.py search_index --rebuild
 
+#generate top skills/insights
+python3 manage.py dailyupdate --noscrape
+
 #run server
   #local
 python3 manage.py runserver
