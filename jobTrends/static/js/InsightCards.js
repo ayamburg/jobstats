@@ -1,3 +1,6 @@
+// InsightCards dynamiclly generates the apropriate insight cards
+// given an array of insight types and text
+
 import React from 'react'
 import BlockCard from './BlockCard';
 import Grid from '@material-ui/core/Grid';
@@ -20,6 +23,7 @@ class InsightCards extends React.Component {
 
     }
 
+    // create insight card icons, colors, and text, insert them into a grid
     createInsightCard(i) {
         var iconType;
         switch (this.props.InsightsValues[i].type){

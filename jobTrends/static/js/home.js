@@ -1,3 +1,5 @@
+// adds the navbar and react router routing
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import GraphForm from './GraphForm.js';

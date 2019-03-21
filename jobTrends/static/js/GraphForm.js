@@ -1,3 +1,7 @@
+// GraphForm generates the graphs and insights corresponding to a given data set
+// It dynamicly changes the displayed graphic based on the values of the Select components
+// It updates the displayed data via api calls made in reloadData()
+
 import React from 'react'
 import BlockCard from './BlockCard';
 import RankedList from './RankedList';
@@ -39,7 +43,7 @@ class GraphForm extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.reloadData = this.reloadData.bind(this);
     }
-
+    
     componentDidMount() {
         axios.get('/api/get_json_file', {
             responseType: 'json',
@@ -63,6 +67,7 @@ class GraphForm extends React.Component {
         });
     }
 
+    // reload data on selector change
     handleChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -195,7 +200,8 @@ class GraphForm extends React.Component {
                 break;
         }
     }
-
+    
+    // display jsx for apropriate graphic type
     getDataComponent() {
         // array empty or does not exist
         switch (this.state.data_component) {
@@ -217,6 +223,7 @@ class GraphForm extends React.Component {
         }
     }
 
+    // render the ui
     createDropDowns() {
         let periodButton = null;
         let rawButton = null;

@@ -1,3 +1,6 @@
+// generates a trend chart for display in graphform
+// takes x and y arrays of data as props
+
 import React from 'react';
 import {Line} from 'react-chartjs-2';
 import {Tooltip} from '@material-ui/core';

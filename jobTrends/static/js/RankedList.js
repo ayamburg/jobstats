@@ -1,3 +1,6 @@
+// dynamicly generates a tp ten list of TopTenItems given
+// an array of top ten skills
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';

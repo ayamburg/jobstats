@@ -1,3 +1,6 @@
+// returns a single tile to be used in the tile view menu
+// routing, color, and title can be set via the path, backcolor, and cardTtile props
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';

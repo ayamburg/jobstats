@@ -1,3 +1,6 @@
+// colors and generates a bar graph for the graphform view
+// given arrays of x and y data as props
+
 import React from 'react';
 import {HorizontalBar, Bar} from 'react-chartjs-2';
 
