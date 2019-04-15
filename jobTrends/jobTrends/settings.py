@@ -60,7 +60,7 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_PROVIDERS = {
     'linkedin_oauth2': {
         'SCOPE': [
-            'r_basicprofile',
+            'r_liteprofile',
             'r_emailaddress'
         ],
         'PROFILE_FIELDS': [
