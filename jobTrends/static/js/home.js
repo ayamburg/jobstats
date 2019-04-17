@@ -51,6 +51,9 @@ class Home extends React.Component {
                                 <HomeIcon style={{color: '#424242'}}/>
                                 </IconButton>
                             </Link>
+                            <a href="/accounts/linkedin_oauth2/login/?process=login">
+                                <img src="/static/images/signin-button.png"/>
+                            </a>
                     </Toolbar>
                 </AppBar>
                 <Typography paragraph></Typography>

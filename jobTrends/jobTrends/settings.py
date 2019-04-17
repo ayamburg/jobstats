@@ -56,7 +56,8 @@ INSTALLED_APPS = [
 ]
 
 LOGIN_REDIRECT_URL = '/'
-SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
+
 SOCIALACCOUNT_PROVIDERS = {
     'linkedin_oauth2': {
         'SCOPE': [
@@ -65,11 +66,9 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
         'PROFILE_FIELDS': [
             'id',
-            'first-name',
-            'last-name',
-            'email-address',
-            'picture-url',
-            'public-profile-url',
+            'firstName',
+            'lastName',
+            'profilePicture'
         ]
     }
 }
