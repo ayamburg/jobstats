@@ -15,6 +15,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
+import axios from 'axios';
+import MapContainer from './MapContainer.js';
 
 const styles = {
     root: {
@@ -37,6 +39,15 @@ class Home extends React.Component {
         super(props);
         this.state = {};
         this.createAppBar.bind(this);
+        axios.get('/api/get_json_file', {
+            responseType: 'json',
+            params: {
+                category: "location_data",
+                name: 'col',
+            }
+        }).then(response => {
+            console.log(response)
+        });
     }
 
     createAppBar() {
@@ -65,6 +76,8 @@ class Home extends React.Component {
                     {this.createAppBar()}
                     <Switch>
                         <Route exact path="/" component={TileCardGrid}/>
+
+                        <Route exact path="/map" component={MapContainer}/>
 
                         <Route
                             path="/amazon" 

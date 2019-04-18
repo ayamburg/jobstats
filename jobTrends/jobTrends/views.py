@@ -80,7 +80,7 @@ class GetJsonFile(View):
     def get(self, request, *args, **kwargs):
         category = request.GET.get('category')
         name = request.GET.get('name')
-        if category not in ['insights', 'top_skills']:
+        if category not in ['insights', 'top_skills', 'location_data']:
             return HttpResponseForbidden()
         folder_path = "jobTrends/" + category + "/"
 
