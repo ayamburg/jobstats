@@ -1,3 +1,6 @@
+// Blockcard takes an actions topaction and payload prop
+// it uses these props to generate a card containing the payload prop
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';

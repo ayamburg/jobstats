@@ -202,11 +202,11 @@ class Command(BaseCommand):
                             log_file.write(str(len(description)))
                             listing = JobListing.objects.update_or_create(
                                 indeed_id=j,
-                                defaults={'title': get_title(job_soup),
+                                defaults={'title': title,
                                           'posted_date': date,
-                                          'location': get_location(job_soup),
-                                          'company': get_company(job_soup),
-                                          'description': get_description(job_soup)})
+                                          'location': location,
+                                          'company': company,
+                                          'description': description})
                             listing[0].save()
                             job_count += 1
                             if listing[1]:

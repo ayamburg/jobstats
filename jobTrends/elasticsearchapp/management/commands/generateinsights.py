@@ -70,9 +70,12 @@ def generate_insights(name, filters, companies, titles):
     insights = []
     insights.append(get_trending_up(percent_trend_data))
     insights.append(get_trending_down(percent_trend_data))
-    insights.append(get_skill_location(city_datasets, raw_trend_data))
+    if name != 'amazon':
+        insights.append(get_skill_location(city_datasets, raw_trend_data))
     insights.append(get_dominant_skill(weekly_trend_data))
     insights.append(get_correlation(daily_trend_data))
+
+    insights = [insight for insight in insights if insight['score'] > 2]
 
     # write to file
     timestamp = str(datetime.datetime.now())

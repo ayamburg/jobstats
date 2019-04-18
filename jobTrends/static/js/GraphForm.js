@@ -1,3 +1,7 @@
+// GraphForm generates the graphs and insights corresponding to a given data set
+// It dynamicly changes the displayed graphic based on the values of the Select components
+// It updates the displayed data via api calls made in reloadData()
+
 import React from 'react'
 import BlockCard from './BlockCard';
 import RankedList from './RankedList';
@@ -51,7 +55,7 @@ class GraphForm extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.reloadData = this.reloadData.bind(this);
     }
-
+    
     componentDidMount() {
         axios.get('/api/get_json_file', {
             responseType: 'json',
@@ -75,6 +79,7 @@ class GraphForm extends React.Component {
         });
     }
 
+    // reload data on selector change
     handleChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -151,19 +156,8 @@ class GraphForm extends React.Component {
                         raw: raw,
                     }
                 }).then(response => {
-                    function compare_keywords(a,b) {
-                        let a_index = response.data.keywords.indexOf(a);
-                        let b_index = response.data.keywords.indexOf(b);
-                        if (response.data.y[a_index] < response.data.y[b_index])
-                            return -1;
-                        if (response.data.y[b_index] < response.data.y[a_index])
-                            return 1;
-                        return 0;
-                    }
-                    response.data.keywords.sort(compare_keywords).reverse();
-                    response.data.y.sort().reverse();
                     this.setState({
-                        keywords: response.data.keywords,
+                        keywords: state_params.keywords,
                         filters: state_params.filters,
                         period: state_params.period,
                         age: state_params.age,
@@ -203,7 +197,7 @@ class GraphForm extends React.Component {
                     response.data.keywords.sort(compare_keywords).reverse();
                     response.data.y.sort().reverse();
                     this.setState({
-                        keywords: response.data.keywords,
+                        keywords: state_params.keywords,
                         filters: state_params.filters,
                         period: state_params.period,
                         age: state_params.age,
@@ -218,7 +212,8 @@ class GraphForm extends React.Component {
                 break;
         }
     }
-
+    
+    // display jsx for apropriate graphic type
     getDataComponent() {
         // array empty or does not exist
         switch (this.state.data_component) {
@@ -234,12 +229,13 @@ class GraphForm extends React.Component {
                 );
             case 'list':
                 return (<BlockCard
-                        payload={<RankedList keys={this.state.keywords}/>}
+                        payload={<RankedList keys={this.state.graph_data.keywords}/>}
                         actions={this.createDropDowns()}/>
                 );
         }
     }
 
+    // render the ui
     createDropDowns() {
         let periodButton = null;
         let rawButton = null;

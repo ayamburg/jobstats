@@ -28,8 +28,15 @@ except FileNotFoundError:
 
 ALLOWED_HOSTS = ['50.116.4.79', '23.92.27.61', '127.0.0.1', 'jobtrendz.org', 'jobstats.net', '0.0.0.0', 'localhost']
 
-# Application definition
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
 
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,11 +44,34 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'elasticsearchapp',
     'django_elasticsearch_dsl',
     'webpack_loader',
-    'rest_framework'
+    'rest_framework',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.linkedin_oauth2',
 ]
+
+LOGIN_REDIRECT_URL = '/'
+SOCIALACCOUNT_AUTO_SIGNUP = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'linkedin_oauth2': {
+        'SCOPE': [
+            'r_liteprofile',
+            'r_emailaddress'
+        ],
+        'PROFILE_FIELDS': [
+            'id',
+            'firstName',
+            'lastName',
+            'profilePicture'
+        ]
+    }
+}
 
 WEBPACK_LOADER = {
     'DEFAULT': {
@@ -133,6 +163,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SITE_ID = 1
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -156,5 +188,5 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
 
 STATIC_URL = '/static/'
 
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_BROWSER_XSS_FILTER = True
+# SECURE_CONTENT_TYPE_NOSNIFF = True
+# SECURE_BROWSER_XSS_FILTER = True
