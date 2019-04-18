@@ -9,14 +9,26 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Typography } from '@material-ui/core';
+import { Typography, SnackbarContent } from '@material-ui/core';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import InsightCards from './InsightCards.js';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
+import SimpleSnackbar from './Snackbar.js';
+import {
+    BrowserView,
+    MobileView,
+    isBrowser,
+    isMobile,
+    isMobileOnly
+  } from "react-device-detect";
 
 class GraphForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            snack_bar_open: true,
             keywords: [],
             filters: this.props.filters,
             period: this.props.period,
@@ -233,7 +245,7 @@ class GraphForm extends React.Component {
         let rawButton = null;
         if (this.state.data_component === 'trend_chart') {
             periodButton =
-                <Grid item xs>
+                <Grid item xs={1}>
                     <Select
                         value={this.state.period}
                         onChange={this.handleChange}
@@ -249,7 +261,7 @@ class GraphForm extends React.Component {
 
         if (this.state.data_component === 'trend_chart' || this.state.data_component === 'bar_graph') {
             rawButton =
-                <Grid item xs>
+                <Grid item xs={1}>
                     <FormControlLabel
                         control={
                             <Checkbox
@@ -267,12 +279,11 @@ class GraphForm extends React.Component {
         return (
             <Grid
                 container
-                spacing={16}
-                alignItems="flex-start"
-                justify="flex-start"
+                alignItems="center"
+                justify="space-evenly"
             >
-                <Grid item xs></Grid>
-                <Grid item xs={4}>
+                
+                <Grid item xs={1}>
                     <Select
                         value={this.state.data_component}
                         onChange={this.handleChange}
@@ -285,7 +296,7 @@ class GraphForm extends React.Component {
                     </Select>
                 </Grid>
                 {periodButton}
-                <Grid item xs={4}>
+                <Grid item xs={1}>
                     <Select
                         value={this.state.age}
                         onChange={this.handleChange}
@@ -299,9 +310,23 @@ class GraphForm extends React.Component {
                     </Select>
                 </Grid>
                 {rawButton}
-                <Grid item xs></Grid>
             </Grid>
         );
+    } 
+
+    detectDeviceOrientation(){
+        if (isMobileOnly){
+            let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+            let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+            if (w > h){
+                return <p>This is Landscape Mode</p>
+            }
+            else if (w < h){
+                return (
+                    <SimpleSnackbar/>
+                )
+            }
+        }    
     }
 
     render() {
@@ -314,6 +339,7 @@ class GraphForm extends React.Component {
                 {this.getDataComponent()}
 
                 <InsightCards InsightsValues={this.state.insights}/>
+                {this.detectDeviceOrientation()}
             </div>
         );
     }

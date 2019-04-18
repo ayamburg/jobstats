@@ -10,6 +10,13 @@ import CallMerge from '@material-ui/icons/CallMerge';
 import LocationOn from '@material-ui/icons/LocationOn';
 import Grade from '@material-ui/icons/Grade';
 import { Typography } from '@material-ui/core';
+import {
+    BrowserView,
+    MobileView,
+    isBrowser,
+    isMobile,
+    isMobileOnly
+  } from "react-device-detect";
 
 
 class InsightCards extends React.Component {
@@ -48,8 +55,18 @@ class InsightCards extends React.Component {
                 iconType = <Grade fontSize = "large" nativeColor = "#ffea00"/>;
                 break;
         }
-
-        let insightCard =
+        if (isMobileOnly) {
+            let insightCard =
+            <Grid key={i} item xs={12}>
+                <BlockCard 
+                    payload={<Typography align="center" >{this.props.InsightsValues[i].insight} </Typography>}
+                    actionsTop={iconType}
+                />
+            </Grid>;
+        return insightCard
+        }
+        else {
+            let insightCard =
             <Grid key={i} item xs={4}>
                 <BlockCard 
                     payload={<Typography align="center" >{this.props.InsightsValues[i].insight} </Typography>}
@@ -57,6 +74,7 @@ class InsightCards extends React.Component {
                 />
             </Grid>;
         return insightCard
+        }
     }
 
     createInsightCards() {
