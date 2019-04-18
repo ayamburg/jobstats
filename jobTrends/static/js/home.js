@@ -16,6 +16,13 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
+import {
+    BrowserView,
+    MobileView,
+    isBrowser,
+    isMobile,
+    isMobileOnly
+  } from "react-device-detect";
 
 
 const styles = {
@@ -94,6 +101,10 @@ class Home extends React.Component {
     }
 
     render() {
+        let initial_data_component = "bar_graph"
+        if (isMobileOnly) {
+            initial_data_component = "list"
+        }
         return (
             <Router>
                 <div>
@@ -114,7 +125,7 @@ class Home extends React.Component {
                                         locations={""}
                                         companies={"amazon.com"}
                                         titles={""}
-                                        data_component={"bar_graph"}
+                                        data_component={initial_data_component}
                                         name={"amazon"}
                                         title={"Top Skills for Amazon"}
                                     />
@@ -134,7 +145,7 @@ class Home extends React.Component {
                                         locations={""}
                                         companies={"apple"}
                                         titles={""}
-                                        data_component={"bar_graph"}
+                                        data_component={initial_data_component}
                                         name={"apple"}
                                         title={"Top Skills for Apple"}
                                     />
@@ -154,7 +165,7 @@ class Home extends React.Component {
                                         locations={""}
                                         companies={"google"}
                                         titles={""}
-                                        data_component={"bar_graph"}
+                                        data_component={initial_data_component}
                                         name={"google"}
                                         title={"Top Skills for Google"}
                                     />
@@ -174,7 +185,7 @@ class Home extends React.Component {
                                         locations={""}
                                         companies={"microsoft"}
                                         titles={""}
-                                        data_component={"bar_graph"}
+                                        data_component={initial_data_component}
                                         name={"microsoft"}
                                         title={"Top Skills for Microsoft"}
                                     />
@@ -194,7 +205,7 @@ class Home extends React.Component {
                                         locations={""}
                                         companies={""}
                                         titles={["frontend", "front end"]}
-                                        data_component={"bar_graph"}
+                                        data_component={initial_data_component}
                                         name={"frontend"}
                                         title={"Top Front End Skills"}
                                     />
@@ -214,7 +225,7 @@ class Home extends React.Component {
                                         locations={""}
                                         companies={""}
                                         titles={["backend", "back end"]}
-                                        data_component={"bar_graph"}
+                                        data_component={initial_data_component}
                                         name={"backend"}
                                         title={"Top Back End Skills"}
                                     />
@@ -234,7 +245,7 @@ class Home extends React.Component {
                                         locations={""}
                                         companies={""}
                                         titles={["fullstack", "full stack"]}
-                                        data_component={"bar_graph"}
+                                        data_component={initial_data_component}
                                         name={"fullstack"}
                                         title={"Top Full Stack Skills"}
                                     />
@@ -254,7 +265,7 @@ class Home extends React.Component {
                                         locations={""}
                                         companies={""}
                                         titles={['cyber security', 'malware', 'infosec', 'security', 'penetration', 'pen tester']}
-                                        data_component={"bar_graph"}
+                                        data_component={initial_data_component}
                                         name={"cybersecurity"}
                                         title={"Top Cyber Security Skills"}
                                     />
