@@ -6,7 +6,7 @@ from .request_parser import *
 from django.http.response import JsonResponse, HttpResponseForbidden
 from django.views.generic import View
 from django.dispatch import receiver
-from allauth.account.signals import user_signed_up
+from allauth.account.signals import user_signed_up, user_logged_in
 import time
 import json
 
@@ -92,6 +92,14 @@ class GetJsonFile(View):
         return JsonResponse(file_data)
 
 
+class UserInfo(View):
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return JsonResponse({'first': request.user.first_name, 'last': request.user.last_name, 'signed_in': True})
+        else:
+            return JsonResponse({'signed_in': False})
+
+
 @receiver(user_signed_up)
 def populate_profile(sociallogin, user, **kwargs):
     if sociallogin.account.provider == 'linkedin_oauth2':
@@ -100,6 +108,7 @@ def populate_profile(sociallogin, user, **kwargs):
         first_name = user_data['firstName']['localized']['en_US']
         last_name = user_data['lastName']['localized']['en_US']
         user_id = user_data['id']
+        print(user_data)
 
         user.avatar_url = picture_url
         user.first_name = first_name
