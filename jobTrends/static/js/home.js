@@ -39,15 +39,6 @@ class Home extends React.Component {
         super(props);
         this.state = {};
         this.createAppBar.bind(this);
-        axios.get('/api/get_json_file', {
-            responseType: 'json',
-            params: {
-                category: "location_data",
-                name: 'col',
-            }
-        }).then(response => {
-            console.log(response)
-        });
     }
 
     createAppBar() {
