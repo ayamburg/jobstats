@@ -16,7 +16,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
 import axios from 'axios';
-import MapContainer from './MapContainer.js';
+import GoogleMapsContainer from './MapContainer.js';
 
 const styles = {
     root: {
@@ -68,7 +68,7 @@ class Home extends React.Component {
                     <Switch>
                         <Route exact path="/" component={TileCardGrid}/>
 
-                        <Route exact path="/map" component={MapContainer}/>
+                        <Route exact path="/map" component={GoogleMapsContainer}/>
 
                         <Route
                             path="/amazon" 

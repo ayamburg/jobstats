@@ -14,25 +14,33 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import axios from 'axios'
 
-const drawerWidth = 240;
+const drawerWidth = '100%';
+const drawerHeight = '100%';
 
-const styles = theme => ({
-  root: {
-    display: 'flex',
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-  },
-  toolbar: theme.mixins.toolbar,
-});
+// const styles = theme => ({
+//   root: {
+//     width: drawerWidth,
+//     height: drawerHeight,
+//     display: 'flex',
+//   },
+//   appBar: {
+//     zIndex: theme.zIndex.drawer + 1,
+//   },
+//   drawer: {
+//     width: drawerWidth,
+//     height: drawerHeight,
+//     flexShrink: 0,
+//   },
+//   drawerPaper: {
+//     width: drawerWidth,
+//     height: drawerHeight,
+//   },
+//   content: {
+//     flexGrow: 1,
+//     padding: theme.spacing.unit * 3,
+//   },
+//   toolbar: theme.mixins.toolbar,
+// });
 
 function createList() {
   const rc = this;
@@ -54,23 +62,6 @@ function createList() {
   return list;
 }
 
-function GenerateButtons(props) {
-    axios.get('/api/get_json_file', {
-      responseType: 'json',
-      params: {
-          category: "location_data",
-          name: 'col',
-      }
-  }).then(response => {
-      console.log(response)
-  });
-
-  for (let i = 0; i < rc.props.keys.length; i++) {
-    
-  }
-
-}
-
 class ClippedDrawer extends React.Component {
   constructor(props) {
     super(props);
@@ -80,38 +71,44 @@ class ClippedDrawer extends React.Component {
     }
   }
 
-  componentDidMount() {
-    axios.get('/api/get_json_file', {
-        responseType: 'json',
-        params: {
-            category: "location_data",
-            name: 'col',
-        }
-    }).then(response => {
-        //console.log(response)
-        //let new_state = this.state;
-        console.log(response.data.dataSet);
-        //new_state.cities = response.data.dataSet;
+  // componentDidMount() {
+  //   axios.get('/api/get_json_file', {
+  //       responseType: 'json',
+  //       params: {
+  //           category: "location_data",
+  //           name: 'col',
+  //       }
+  //   }).then(response => {
+  //       //console.log(response)
+  //       //let new_state = this.state;
+  //       //console.log(response.data);
+  //       //new_state.cities = response.data.dataSet;
 
-        let citynames = [];
-        for(var city in response.data.dataSet) {
-          console.log(city);
-          citynames.push(city.City)
-        }
+  //       let citynames = [];
+  //       for(var city in response.data) {
+  //         //console.log(city);
+  //         citynames.push(city);
+  //       }
+  //       //console.log(citynames);
 
-        this.setState({
-          cities: response.data.dataSet,
-          city_names: citynames,
-        })
-
-    });
-  }
+  //       this.setState({
+  //         cities: response.data,
+  //         city_names: citynames,
+  //       })
+  //   });
+  // }
 
   render() {
     //console.log(this.state.cities);
     //console.log(this.state.city_names);
+    const style = {
+      width: '50vw',
+      height: '75vh',
+      'marginLeft': 'auto',
+      'marginRight': 'auto'
+    }
     const classes = this.props;
-    let city_names = [];
+    //let city_names = [];
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -124,7 +121,7 @@ class ClippedDrawer extends React.Component {
         >
           <div className={classes.toolbar} />
           <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+            {this.props.citynames.map((text, index) => (
               <ListItem button key={text}>
                 <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                 <ListItemText primary={text} />
@@ -132,14 +129,6 @@ class ClippedDrawer extends React.Component {
             ))}
           </List>
           <Divider />
-          <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
@@ -154,4 +143,4 @@ ClippedDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ClippedDrawer);
+export default ClippedDrawer;
