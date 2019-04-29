@@ -29,5 +29,11 @@ class Tile(models.Model):
     title = models.CharField(max_length=200)
     insights = JSONField(null=True, blank=True)
     top_skills = JSONField(null=True, blank=True)
-    custom = models.BooleanField(default=False)
+
+
+class CustomTile(Tile):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+
+
+class StandardTile(Tile):
+    style = JSONField(null=True, blank=True)
