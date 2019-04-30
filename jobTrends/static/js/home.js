@@ -67,11 +67,11 @@ class Home extends React.Component {
     createSignIn() {
         if (this.state.signed_in) {
             return (
-                <Typography paragraph>{this.state.user_name}</Typography>
+                <Typography variant = "h6" style={{color: "#ffffff"}} align= "right">{this.state.user_name}</Typography>
             );
         } else {
             return (
-                <div>
+                <div align = "right">
                     <a href="/accounts/linkedin_oauth2/login/?process=login">
                         <img src="/static/images/signin-button.png"/>
                     </a>
@@ -83,16 +83,16 @@ class Home extends React.Component {
     createAppBar() {
         return (
             <div className={this.props.root}>
-                <AppBar position="static" style={{background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'}}>
+                <AppBar position="static" style={{background: 'linear-gradient(45deg, #696969 30%, #708090 90%)'}}>
                     <Toolbar>
                         <Link to="/" style={{textDecoration: 'none'}}>
                             <IconButton
                                 className={this.props.menuButton}
                             >
-                                <HomeIcon style={{color: '#424242'}}/>
+                                <HomeIcon style={{color: '#fffafa'}}/>
                             </IconButton>
                         </Link>
-                        {this.createSignIn()}
+                        <Typography style={{ flex: 1 }}>{this.createSignIn()}</Typography>
                     </Toolbar>
                 </AppBar>
                 <Typography paragraph></Typography>
