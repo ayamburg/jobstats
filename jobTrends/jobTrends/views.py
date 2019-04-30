@@ -7,6 +7,8 @@ from django.http.response import JsonResponse, HttpResponseForbidden
 from django.views.generic import View
 from django.dispatch import receiver
 from allauth.account.signals import user_signed_up, user_logged_in
+from elasticsearchapp.models import CustomTile
+from django.forms.models import model_to_dict
 import time
 import json
 
@@ -96,6 +98,74 @@ class UserInfo(View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return JsonResponse({'first': request.user.first_name, 'last': request.user.last_name, 'signed_in': True})
+        else:
+            return JsonResponse({'signed_in': False})
+
+
+class CustomTiles(View):
+    # return all custom tiles
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            custom_tiles = CustomTile.objects.filter(user_id=request.user.id)
+            data = []
+            for custom_tile in custom_tiles:
+                data += [model_to_dict(custom_tile)]
+            return JsonResponse({'custom_tiles': data})
+        else:
+            return JsonResponse({'custom_tiles': []})
+
+    # create a custom tile
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            filters = request.POST.get('filters')
+            locations = request.POST.get('locations')
+            companies = request.POST.get('companies')
+            titles = request.POST.get('titles')
+            blacklists = request.POST.get('blacklists')
+            whitelists = request.POST.get('whitelists')
+            title = request.POST.get('title')
+            user_id = request.user.id
+
+            if filters:
+                filters = filters.split(',')
+            else:
+                filters = []
+
+            if locations:
+                locations = locations.split(',')
+            else:
+                locations = []
+
+            if companies:
+                companies = companies.split(',')
+            else:
+                companies = []
+
+            if titles:
+                titles = titles.split(',')
+            else:
+                titles = []
+
+            if blacklists:
+                blacklists = blacklists.split(',')
+            else:
+                blacklists = []
+
+            if whitelists:
+                whitelists = whitelists.split(',')
+            else:
+                whitelists = []
+
+            new_custom_tile = CustomTile.objects.create(
+                filters=filters,
+                locations=locations,
+                companies=companies,
+                titles=titles,
+                blacklists=blacklists,
+                whitelists=whitelists,
+                title=title,
+                user_id=user_id)
+            new_custom_tile.save()
         else:
             return JsonResponse({'signed_in': False})
 

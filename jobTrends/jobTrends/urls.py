@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'api/top_skills', views.TopSkills.as_view()),
     url(r'api/get_json_file', views.GetJsonFile.as_view()),
     url(r'user_info', views.UserInfo.as_view()),
+    url(r'custom_tiles', views.CustomTiles.as_view()),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^.*', views.home),
 ]
