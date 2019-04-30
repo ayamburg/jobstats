@@ -273,6 +273,26 @@ class Home extends React.Component {
                         />
 
                         <Route
+                            path="/custom"
+                            render={
+                                (props) =>
+                                    <GraphForm
+                                        {...props}
+                                        filters={[]}
+                                        period={"week"}
+                                        age={"all_time"}
+                                        raw_bool={false}
+                                        locations={""}
+                                        companies={""}
+                                        titles={""}
+                                        data_component={initial_data_component}
+                                        name={"custom"}
+                                        title={"Custom Tile"}
+                                    />
+                            }
+                        />
+
+                        <Route
                             path="/manual"
                             component={ManualGraphForm}
                         />

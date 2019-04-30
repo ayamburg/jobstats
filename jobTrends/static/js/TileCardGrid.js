@@ -3,6 +3,8 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid';
 import TileCard from './TileCard.js'
+import Icon from '@material-ui/core/Icon';
+import { Typography } from '@material-ui/core';
 
 class TileCardGrid extends React.Component {
     constructor(props) {
@@ -14,13 +16,13 @@ class TileCardGrid extends React.Component {
         return(
             <Grid
                 style={{
-                margin: 0,
                 width: '100%',
                 }}
                 container 
                 spacing={16}
-                alignItems="flex-start"
-                justify="center"
+                alignContent = "flex-end"
+                alignItems = "flex-end"
+                justify = "center"
             >
                 <Grid item xs={"auto"}>
                     <TileCard image = "/static/images/amazonlogo.png" path="/amazon" cardTitle="Top Skills for Amazon" backColor={{background: 'linear-gradient(45deg, #ffffff 17%, ##ffffff 100%)'}}/>
@@ -56,8 +58,13 @@ class TileCardGrid extends React.Component {
                     </TileCard>  
                 </Grid>
                 <Grid item xs={"auto"}>
-                    <TileCard path="/cybersecurity" cardTitle="Top Cyber Security Skills" backColor={{background: 'linear-gradient(45deg, #ffffff 17%, #ffffff 90%)'}}>
+                    <TileCard  path="/cybersecurity" cardTitle="Top Cyber Security Skills" backColor={{background: 'linear-gradient(45deg, #ffffff 17%, #ffffff 90%)'}}>
                         
+                    </TileCard>  
+                </Grid>
+                <Grid item xs={"auto"}>
+                    <TileCard image = "/static/images/baseline-add-24px.svg" path="/custom" cardTitle="Add Custom Tile" backColor={{background: 'linear-gradient(45deg, #ffffff 17%, #ffffff 90%)'}}>
+                    
                     </TileCard>  
                 </Grid>
             </Grid>
