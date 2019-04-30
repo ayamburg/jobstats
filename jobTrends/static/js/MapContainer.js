@@ -62,7 +62,8 @@ class GoogleMapsContainer extends React.Component {
       var marker = <Marker
         onClick = { this.onMarkerClick }
         title = { city }
-        position = {city.location}
+        position_lat = {city.Location.Lat}
+        position_long = {city.Location.Long}
         name = { city }
       />
       markers.push(marker);
