@@ -27,6 +27,16 @@ class GoogleMapsContainer extends React.Component {
       showingInfoWindow: true
     });
   }
+
+  // onClose = props => {
+  //   if (this.state.showingInfoWindow) {
+  //     this.setState({
+  //       showingInfoWindow: false,
+  //       activeMarker: null
+  //     });
+  //   }
+  // };
+
   onMapClick(props) {
     if (this.state.showingInfoWindow) {
       this.setState({
@@ -58,15 +68,29 @@ class GoogleMapsContainer extends React.Component {
   }
   createMarkers() {
     var markers = [];
+    console.log(this.state.cities)
     for(var city in this.state.cities) {
+      console.log("This is city's COL: " + this.state.cities[city].COL)      
       var marker = <Marker
         onClick = { this.onMarkerClick }
         title = { city }
-        position_lat = {city.Location.Lat}
-        position_long = {city.Location.Long}
+        position = {this.state.cities[city].Location}
         name = { city }
-      />
+        COL = {this.state.cities[city].COL}
+        annual_wage = {this.state.cities[city]["Annual mean wage"]}
+        />
+      //   var info = <InfoWindow
+      //   marker={this.state.activeMarker}
+      //   visible={this.state.showingInfoWindow}
+      //   onClose={this.onClose}
+      // >
+      //   <div>
+      //     <h4>{this.state.selectedPlace.name}</h4>
+      //     <h4>{this.state.selectedPlace.title}</h4>
+      //   </div>
+      // </InfoWindow>
       markers.push(marker);
+      // markers.push(info)
     }
     return markers;
   }
@@ -77,6 +101,8 @@ class GoogleMapsContainer extends React.Component {
       'marginLeft': 'auto',
       'marginRight': 'auto'
     }
+    console.log("Requesting gmaps API")
+    var markers = this.createMarkers()
     return (
       <div>
           <ClippedDrawer citynames={this.state.city_names}>
@@ -90,12 +116,12 @@ class GoogleMapsContainer extends React.Component {
               google = { this.props.google }
               onClick = { this.onMapClick }
               zoom = { 14 }
-              initialCenter = {{ lat: 48.648209, lng: 122.711185 }}
+              initialCenter = {{ lat: 36.9741, lng: -122.0308 }}
           >
               <Marker
               onClick = { this.onMarkerClick }
               title = { 'Changing Colors Garage' }
-              position = {{ lat: 39.648209, lng: -75.711185 }}
+              position = {{ lat: 36.9741, lng: -122.0308 }}
               name = { 'Changing Colors Garage' }
               />
 
@@ -106,26 +132,18 @@ class GoogleMapsContainer extends React.Component {
               name = { this.state.city_names["Bellingham, WA"] }
               /> */}
 
-              {this.createMarkers()}
+              {markers}
 
               <InfoWindow
-              marker = { this.state.activeMarker }
-              visible = { this.state.showingInfoWindow }
+                marker={this.state.activeMarker}
+                visible={this.state.showingInfoWindow}
+                onClose={this.onClose}
               >
-              <Paper>
-                  <Typography
-                  variant = 'headline'
-                  component = 'h4'
-                  >
-                  Changing Colors Garage
-                  </Typography>
-                  <Typography
-                  component = 'p'
-                  >
-                  98G Albe Dr Newark, DE 19702 <br />
-                  302-293-8627
-                  </Typography>
-              </Paper>
+                <div>
+                  <h1>{this.state.selectedPlace.name}</h1>
+                  <h2>Cost of Living: {this.state.selectedPlace.COL}</h2>
+                  <h4>Mean Salary for Computing Industry: {this.state.selectedPlace.annual_wage}</h4>
+                </div>
               </InfoWindow>
           </Map>
       </div>
@@ -133,5 +151,5 @@ class GoogleMapsContainer extends React.Component {
   }
 }
 export default GoogleApiWrapper({
-    // api: ('pAIzaSyAyesbQMyKVVbBgKVi2g6VX7mop2z96jBo')
+    apiKey: 'AIzaSyCOOxyAo6ge38mvBmTnNDyKT87yiHap-bY'
 })(GoogleMapsContainer)
