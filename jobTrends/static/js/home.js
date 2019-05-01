@@ -5,6 +5,7 @@ import axios from 'axios'
 import ReactDOM from 'react-dom'
 import GraphForm from './GraphForm.js';
 import ManualGraphForm from './ManualGraphForm.js';
+import CustomGraphForm from './CustomGraphForm.js';
 import {BrowserRouter as Router, Link} from "react-router-dom";
 import {Switch, Route} from 'react-router'
 import TileCardGrid from './TileCardGrid.js';
@@ -55,7 +56,6 @@ class Home extends React.Component {
         axios.get('user_info', {
             responseType: 'json'
         }).then(response => {
-            console.log(response);
             if (response.data.signed_in) {
                 this.setState({signed_in: true, user_name: response.data.first + ' ' + response.data.last});
             } else {
@@ -92,7 +92,7 @@ class Home extends React.Component {
                                 <HomeIcon style={{color: '#fffafa'}}/>
                             </IconButton>
                         </Link>
-                        <Typography style={{ flex: 1 }}>{this.createSignIn()}</Typography>
+                        <div style={{ flex: 1 }}>{this.createSignIn()}</div>
                     </Toolbar>
                 </AppBar>
                 <Typography paragraph></Typography>
@@ -274,22 +274,7 @@ class Home extends React.Component {
 
                         <Route
                             path="/custom"
-                            render={
-                                (props) =>
-                                    <GraphForm
-                                        {...props}
-                                        filters={[]}
-                                        period={"week"}
-                                        age={"all_time"}
-                                        raw_bool={false}
-                                        locations={""}
-                                        companies={""}
-                                        titles={""}
-                                        data_component={initial_data_component}
-                                        name={"custom"}
-                                        title={"Custom Tile"}
-                                    />
-                            }
+                            component={CustomGraphForm}
                         />
 
                         <Route

@@ -166,6 +166,7 @@ class CustomTiles(View):
                 title=title,
                 user_id=user_id)
             new_custom_tile.save()
+            return JsonResponse(model_to_dict(new_custom_tile))
         else:
             return JsonResponse({'signed_in': False})
 
