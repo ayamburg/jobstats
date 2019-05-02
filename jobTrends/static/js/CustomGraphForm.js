@@ -15,6 +15,12 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+axios.defaults.headers.common = {
+  "Content-Type": "application/json"
+};
+
 class CustomGraphForm extends React.Component {
     constructor(props) {
         super(props);
@@ -25,13 +31,21 @@ class CustomGraphForm extends React.Component {
             titles: [],
             blacklists: [],
             whitelists: [],
-            title: ''
+            title: ""
         };
+        this.handleArrayChange = this.handleArrayChange.bind(this);
         this.handleTextChange = this.handleTextChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleTextChange(event) {
+        const target = event.target;
+        const name = target.name;
+        const value = target.value;
+        this.setState({[name]: value});
+    }
+
+    handleArrayChange(event) {
         const target = event.target;
         const name = target.name;
         const value = target.value.split(',');
@@ -46,10 +60,15 @@ class CustomGraphForm extends React.Component {
             titles: this.state.titles,
             blacklists: this.state.blacklists,
             whitelists: this.state.whitelists,
-            title: this.state.title,
+            title: this.state.title
+        }, {
+            responseType: 'json'
         }).then(response => {
             console.log(response);
-            this.props.history.push('/')
+            if(response.data.success)
+                this.props.history.push('/');
+            else
+                console.log(response);
         });
     }
 
@@ -63,7 +82,7 @@ class CustomGraphForm extends React.Component {
                     <TextField
                         label="Filters"
                         value={this.state.filters}
-                        onChange={this.handleTextChange}
+                        onChange={this.handleArrayChange}
                         margin="normal"
                         variant="outlined"
                         name="filters"
@@ -71,7 +90,7 @@ class CustomGraphForm extends React.Component {
                     <TextField
                         label="Locations"
                         value={this.state.locations}
-                        onChange={this.handleTextChange}
+                        onChange={this.handleArrayChange}
                         margin="normal"
                         variant="outlined"
                         name="locations"
@@ -79,7 +98,7 @@ class CustomGraphForm extends React.Component {
                     <TextField
                         label="Companies"
                         value={this.state.companies}
-                        onChange={this.handleTextChange}
+                        onChange={this.handleArrayChange}
                         margin="normal"
                         variant="outlined"
                         name="companies"
@@ -87,7 +106,7 @@ class CustomGraphForm extends React.Component {
                     <TextField
                         label="Titles"
                         value={this.state.titles}
-                        onChange={this.handleTextChange}
+                        onChange={this.handleArrayChange}
                         margin="normal"
                         variant="outlined"
                         name="titles"
@@ -95,7 +114,7 @@ class CustomGraphForm extends React.Component {
                     <TextField
                         label="Blacklists"
                         value={this.state.blacklists}
-                        onChange={this.handleTextChange}
+                        onChange={this.handleArrayChange}
                         margin="normal"
                         variant="outlined"
                         name="blacklists"
@@ -103,7 +122,7 @@ class CustomGraphForm extends React.Component {
                     <TextField
                         label="Whitelists"
                         value={this.state.whitelists}
-                        onChange={this.handleTextChange}
+                        onChange={this.handleArrayChange}
                         margin="normal"
                         variant="outlined"
                         name="whitelists"
