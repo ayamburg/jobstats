@@ -120,6 +120,7 @@ class CustomTiles(View):
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             request_data = json.loads(request.body)
+            print('---Creating Custom Tile with Params---')
             print(request_data)
             filters = request_data['filters']
             locations = request_data['locations']
@@ -140,6 +141,7 @@ class CustomTiles(View):
                 title=title,
                 user_id=user_id)
             new_custom_tile.save()
+            print('---Success---')
             return JsonResponse({'tile': model_to_dict(new_custom_tile), 'success': True})
         else:
             return JsonResponse({'error': 'Not Signed In', 'success': False}, status=403)
