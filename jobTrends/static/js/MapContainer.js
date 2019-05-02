@@ -151,5 +151,5 @@ class GoogleMapsContainer extends React.Component {
   }
 }
 export default GoogleApiWrapper({
-    apiKey: 'AIzaSyCOOxyAo6ge38mvBmTnNDyKT87yiHap-bY'
-})(GoogleMapsContainer)
+    apiKey: 'AIzaSyDtOudqRRf_cjgHfaM8qQQ4WwheBlGG0og'
+})(GoogleMapsContainer);
