@@ -9,6 +9,8 @@ from django.dispatch import receiver
 from allauth.account.signals import user_signed_up, user_logged_in
 from elasticsearchapp.models import CustomTile
 from django.forms.models import model_to_dict
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 import time
 import json
 
@@ -117,44 +119,16 @@ class CustomTiles(View):
     # create a custom tile
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            filters = request.POST.get('filters')
-            locations = request.POST.get('locations')
-            companies = request.POST.get('companies')
-            titles = request.POST.get('titles')
-            blacklists = request.POST.get('blacklists')
-            whitelists = request.POST.get('whitelists')
-            title = request.POST.get('title')
-            user_id = request.user.id
-
-            if filters:
-                filters = filters.split(',')
-            else:
-                filters = []
-
-            if locations:
-                locations = locations.split(',')
-            else:
-                locations = []
-
-            if companies:
-                companies = companies.split(',')
-            else:
-                companies = []
-
-            if titles:
-                titles = titles.split(',')
-            else:
-                titles = []
-
-            if blacklists:
-                blacklists = blacklists.split(',')
-            else:
-                blacklists = []
-
-            if whitelists:
-                whitelists = whitelists.split(',')
-            else:
-                whitelists = []
+            request_data = json.loads(request.body)
+            print(request_data)
+            filters = request_data['filters']
+            locations = request_data['locations']
+            companies = request_data['companies']
+            titles = request_data['titles']
+            blacklists = request_data['blacklists']
+            whitelists = request_data['whitelists']
+            title = request_data['title']
+            user_id = request.user
 
             new_custom_tile = CustomTile.objects.create(
                 filters=filters,
@@ -166,8 +140,9 @@ class CustomTiles(View):
                 title=title,
                 user_id=user_id)
             new_custom_tile.save()
+            return JsonResponse({'tile': model_to_dict(new_custom_tile), 'success': True})
         else:
-            return JsonResponse({'signed_in': False})
+            return JsonResponse({'error': 'Not Signed In', 'success': False}, status=403)
 
 
 @receiver(user_signed_up)
