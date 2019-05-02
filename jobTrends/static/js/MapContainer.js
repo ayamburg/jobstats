@@ -46,25 +46,8 @@ class GoogleMapsContainer extends React.Component {
     }
   }
   componentDidMount() {
-    axios.get('/api/get_json_file', {
-        responseType: 'json',
-        params: {
-            category: "location_data",
-            name: 'col',
-        }
-    }).then(response => {
-        let citynames = [];
-        for(var city in response.data) {
-          //console.log(city);
-          citynames.push(city);
-        }
-        //console.log(citynames);
-
-        this.setState({
-          cities: response.data,
-          city_names: citynames,
-        })
-    });
+    this.state.cities = this.props.cities;
+    this.state.city_names = this.props.city_names;
   }
   createMarkers() {
     var markers = [];
