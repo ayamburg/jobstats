@@ -64,7 +64,6 @@ class CustomGraphForm extends React.Component {
         }, {
             responseType: 'json'
         }).then(response => {
-            console.log(response);
             if(response.data.success)
                 this.props.history.push('/');
             else
