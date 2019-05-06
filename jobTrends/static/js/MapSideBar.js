@@ -102,38 +102,19 @@ class ClippedDrawer extends React.Component {
     //console.log(this.state.cities);
     //console.log(this.state.city_names);
     const style = {
-      width: '50vw',
-      height: '75vh',
-      'marginLeft': 'auto',
-      'marginRight': 'auto'
+
     }
     const classes = this.props;
     //let city_names = [];
     return (
-      <div className={classes.root}>
-        <CssBaseline />
-        <Drawer
-          className={classes.drawer}
-          variant="permanent"
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          <div className={classes.toolbar} />
-          <List>
-            {this.props.citynames.map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-        </Drawer>
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-        </main>
-      </div>
+      <List width="25%">
+        {this.props.citynames.map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+     </List>
     );
   }
   

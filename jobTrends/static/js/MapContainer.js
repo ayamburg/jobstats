@@ -4,6 +4,14 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ClippedDrawer from './MapSideBar.js';
 import axios from 'axios';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+import { Column, Row } from 'simple-flexbox';
+
 
 
 class GoogleMapsContainer extends React.Component {
@@ -99,53 +107,86 @@ class GoogleMapsContainer extends React.Component {
       width: '50vw',
       height: '75vh',
       'marginLeft': 'auto',
-      'marginRight': 'auto'
+      'marginRight': 'auto',
+      // display: 'flex',
+      // flexDirection: 'row',
+    }
+    const mapStyle = {
+      width: '50vw',
+      height: '75vh',
+      // 'marginLeft': 'auto',
+      // 'marginRight': 'auto',
+      // alignSelf: 'flex-end'
+    }
+    const listStyle = {
+      // height: '75vh',
+      maxHeight: 200,
+      overflow: 'auto'
     }
     console.log("Requesting gmaps API")
     var markers = this.createMarkers()
     return (
-      <div>
-          <ClippedDrawer citynames={this.state.city_names}>
-                  
-          </ClippedDrawer>
+      <div style={ style }>
+        <Column flexGrow={1}>
+          <Row horizontal='center'>
+            test
+          </Row>
+          <Row vertical='center'>
+            <Column flexGrow={1} horizontal='center'>
+              <Paper style={ listStyle }>
+                <List>
+                  {this.state.city_names.map((text, index) => (
+                    <ListItem button key={text}>
+                      <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                      <ListItemText primary={text} />
+                    </ListItem>
+                  ))}
+                </List>
+              </Paper>
+            </Column>
+            <Column flexGrow={1} horizontal='center'>
+                <Map
+                  item
+                  xs = { 12 }
+                  style = { mapStyle }
+                  google = { this.props.google }
+                  onClick = { this.onMapClick }
+                  zoom = { 14 }
+                  initialCenter = {{ lat: 36.9741, lng: -122.0308 }}
+                >
 
-          <Map
-              item
-              xs = { 12 }
-              style = { style }
-              google = { this.props.google }
-              onClick = { this.onMapClick }
-              zoom = { 14 }
-              initialCenter = {{ lat: 36.9741, lng: -122.0308 }}
-          >
-              <Marker
-              onClick = { this.onMarkerClick }
-              title = { 'Changing Colors Garage' }
-              position = {{ lat: 36.9741, lng: -122.0308 }}
-              name = { 'Changing Colors Garage' }
-              />
+                  <Marker
+                  onClick = { this.onMarkerClick }
+                  title = { 'Changing Colors Garage' }
+                  position = {{ lat: 36.9741, lng: -122.0308 }}
+                  name = { 'Changing Colors Garage' }
+                  />
 
-              {/* <Marker
-              onClick = { this.onMarkerClick }
-              title = { this.state.city_names["Bellingham, WA"] }
-              position = {this.state.city_names["Bellingham, WA"].location}
-              name = { this.state.city_names["Bellingham, WA"] }
-              /> */}
+                  {/* <Marker
+                  onClick = { this.onMarkerClick }
+                  title = { this.state.city_names["Bellingham, WA"] }
+                  position = {this.state.city_names["Bellingham, WA"].location}
+                  name = { this.state.city_names["Bellingham, WA"] }
+                  /> */}
 
-              {markers}
+                  {markers}
 
-              <InfoWindow
-                marker={this.state.activeMarker}
-                visible={this.state.showingInfoWindow}
-                onClose={this.onClose}
-              >
-                <div>
-                  <h1>{this.state.selectedPlace.name}</h1>
-                  <h2>Cost of Living: {this.state.selectedPlace.COL}</h2>
-                  <h4>Mean Salary for Computing Industry: {this.state.selectedPlace.annual_wage}</h4>
-                </div>
-              </InfoWindow>
-          </Map>
+                  <InfoWindow
+                    marker={this.state.activeMarker}
+                    visible={this.state.showingInfoWindow}
+                    onClose={this.onClose}
+                  >
+                    <div>
+                      <h1>{this.state.selectedPlace.name}</h1>
+                      <h2>Cost of Living: {this.state.selectedPlace.COL}</h2>
+                      <h4>Mean Salary for Computing Industry: {this.state.selectedPlace.annual_wage}</h4>
+                    </div>
+                  </InfoWindow>
+                </Map>
+            </Column>
+          </Row>
+        </Column>
+
       </div>
     );
   }
