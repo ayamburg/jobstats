@@ -33,6 +33,7 @@ class MapAndSideBar extends React.Component {
  }
 
  componentDidMount() {
+    console.log("doing api request")
     axios.get('/api/get_json_file', {
         responseType: 'json',
         params: {
@@ -94,6 +95,7 @@ class MapAndSideBar extends React.Component {
             <GoogleMapsContainer style = { mapStyle } 
             city_names = {this.state.city_names}
             cities = {this.state.cities}
+            center = {this.state.mapCenter}
             />
         </div>
         

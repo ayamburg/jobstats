@@ -55,9 +55,9 @@ class GoogleMapsContainer extends React.Component {
   }
   createMarkers() {
     var markers = [];
-    console.log(this.props.cities)
+    //console.log(this.props.cities)
     for(var city in this.props.cities) {
-      console.log("This is city's COL: " + this.props.cities[city].COL)      
+      //console.log("This is city's COL: " + this.props.cities[city].COL)      
       var marker = <Marker
         onClick = { this.onMarkerClick }
         title = { city }
@@ -82,6 +82,8 @@ class GoogleMapsContainer extends React.Component {
     return markers;
   }
   render() {
+    console.log("below is props center")
+    console.log(this.props.center)
     const style = {
       width: '50vw',
       height: '75vh',
@@ -114,7 +116,7 @@ class GoogleMapsContainer extends React.Component {
           google = { this.props.google }
           onClick = { this.onMapClick }
           zoom = { 14 }
-          initialCenter = {{ lat: 36.9741, lng: -122.0308 }}
+          initialCenter = {this.props.center}
         >
 
           <Marker
