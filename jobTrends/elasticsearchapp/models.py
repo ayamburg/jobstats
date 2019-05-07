@@ -29,6 +29,7 @@ class Tile(models.Model):
     title = models.CharField(max_length=200)
     insights = JSONField(null=True, blank=True)
     top_skills = JSONField(null=True, blank=True)
+    name = models.CharField(max_length=200)
 
 
 class CustomTile(Tile):

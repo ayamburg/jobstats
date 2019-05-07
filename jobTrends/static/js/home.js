@@ -82,7 +82,7 @@ class Home extends React.Component {
         }
 
         for (let i = 0; i < custom_tiles.length; i++) {
-            let path = "/" + custom_tiles[i].id;
+            let path = "/" + custom_tiles[i].name;
             custom_tile_cards.push(
                 <Route
                     key={i}
@@ -99,7 +99,7 @@ class Home extends React.Component {
                                 companies={custom_tiles[i].companies}
                                 titles={custom_tiles[i].titles}
                                 data_component={initial_data_component}
-                                name={custom_tiles[i].id}
+                                name={custom_tiles[i].name}
                                 title={custom_tiles[i].title}
                             />
                     }

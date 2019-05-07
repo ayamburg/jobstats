@@ -29,7 +29,7 @@ class TileCardGrid extends React.Component {
 
         for (let i = 0; i < custom_tiles.length; i++) {
             let title = custom_tiles[i].title;
-            let path = "/" + custom_tiles[i].id;
+            let path = "/" + custom_tiles[i].name;
             custom_tile_cards.push(
                 <Grid item xs={"auto"} key={i}>
                     <TileCard path={path} cardTitle={title}
