@@ -228,7 +228,7 @@ class DataHandler:
                     exclude.append(word['key'])
         skills = sorted(skills, key=lambda k: k['doc_count'], reverse=True)
 
-        return {'skills': skills[:count]}
+        return skills[:count]
 
     def get_significant_terms(self, count, filters):
         queries = Q()

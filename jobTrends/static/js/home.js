@@ -23,7 +23,8 @@ import {
     isBrowser,
     isMobile,
     isMobileOnly
-  } from "react-device-detect";
+} from "react-device-detect";
+import Grid from "./TileCardGrid";
 
 
 const styles = {
@@ -47,7 +48,8 @@ class Home extends React.Component {
         super(props);
         this.state = {
             signed_in: false,
-            user_name: ''
+            user_name: '',
+            custom_tiles: []
         };
         this.createAppBar.bind(this);
     }
@@ -62,16 +64,59 @@ class Home extends React.Component {
 
             }
         });
+
+        axios.get('custom_tiles', {
+            responseType: 'json'
+        }).then(response => {
+            this.setState({custom_tiles: response.data.custom_tiles});
+        });
+    }
+
+    loadCustomTileRoutes() {
+        let custom_tiles = this.state.custom_tiles;
+        let custom_tile_cards = [];
+
+        let initial_data_component = "bar_graph";
+        if (isMobileOnly) {
+            initial_data_component = "list"
+        }
+
+        for (let i = 0; i < custom_tiles.length; i++) {
+            let path = "/" + custom_tiles[i].name;
+            custom_tile_cards.push(
+                <Route
+                    key={i}
+                    path={path}
+                    render={
+                        (props) =>
+                            <GraphForm
+                                {...props}
+                                filters={[]}
+                                period={"week"}
+                                age={"all_time"}
+                                raw_bool={false}
+                                locations={custom_tiles[i].locations}
+                                companies={custom_tiles[i].companies}
+                                titles={custom_tiles[i].titles}
+                                data_component={initial_data_component}
+                                name={custom_tiles[i].name}
+                                title={custom_tiles[i].title}
+                            />
+                    }
+                />
+            )
+        }
+        return custom_tile_cards;
     }
 
     createSignIn() {
         if (this.state.signed_in) {
             return (
-                <Typography variant = "h6" style={{color: "#ffffff"}} align= "right">{this.state.user_name}</Typography>
+                <Typography variant="h6" style={{color: "#ffffff"}} align="right">{this.state.user_name}</Typography>
             );
         } else {
             return (
-                <div align = "right">
+                <div align="right">
                     <a href="/accounts/linkedin_oauth2/login/?process=login">
                         <img src="/static/images/signin-button.png"/>
                     </a>
@@ -92,7 +137,7 @@ class Home extends React.Component {
                                 <HomeIcon style={{color: '#fffafa'}}/>
                             </IconButton>
                         </Link>
-                        <div style={{ flex: 1 }}>{this.createSignIn()}</div>
+                        <div style={{flex: 1}}>{this.createSignIn()}</div>
                     </Toolbar>
                 </AppBar>
                 <Typography paragraph></Typography>
@@ -101,7 +146,7 @@ class Home extends React.Component {
     }
 
     render() {
-        let initial_data_component = "bar_graph"
+        let initial_data_component = "bar_graph";
         if (isMobileOnly) {
             initial_data_component = "list"
         }
@@ -281,6 +326,8 @@ class Home extends React.Component {
                             path="/manual"
                             component={ManualGraphForm}
                         />
+
+                        {this.loadCustomTileRoutes()}
                     </Switch>
                 </div>
             </Router>
