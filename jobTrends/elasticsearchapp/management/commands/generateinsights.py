@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from .insights import *
 from jobTrends.data_handler import DataHandler
+from elasticsearchapp.models import Tile
 import json
 import os
 import datetime
@@ -20,10 +21,7 @@ cities = ['new york',
           'san francisco']
 
 
-def generate_insights_for_location_page(name, filters, companies, titles, locations):
-    # read top skills
-    file = open(top_skills_path + name + ".json")
-    skills_hash = json.load(file)['skills']
+def generate_insights_for_location_page(name, skills_hash, filters, companies, titles, locations):
     top_skills = []
     for skill in skills_hash:
         top_skills.append(skill['key'])
@@ -40,18 +38,10 @@ def generate_insights_for_location_page(name, filters, companies, titles, locati
     insights.append(get_dominant_skill(weekly_trend_data))
     insights.append(get_correlation(daily_trend_data))
 
-    # write to file
-    timestamp = str(datetime.datetime.now())
-    if os.path.isfile(insights_path + name + ".json"):
-        os.rename(insights_path + name + ".json", insights_path + "historical/{0}{1}.json".format(name, timestamp))
-    write_file = open(insights_path + name + ".json", "w+")
-    json.dump({'insights': insights}, write_file)
+    return insights
 
 
-def generate_insights(name, filters, companies, titles):
-    # read top skills
-    file = open(top_skills_path + name + ".json")
-    skills_hash = json.load(file)['skills']
+def generate_insights(name, skills_hash, filters, companies, titles):
     top_skills = []
     for skill in skills_hash:
         top_skills.append(skill['key'])
@@ -76,25 +66,25 @@ def generate_insights(name, filters, companies, titles):
     insights.append(get_correlation(daily_trend_data))
 
     insights = [insight for insight in insights if insight['score'] > 2]
-
-    # write to file
-    timestamp = str(datetime.datetime.now())
-    if os.path.isfile(insights_path + name + ".json"):
-        os.rename(insights_path + name + ".json", insights_path + "historical/{0}{1}.json".format(name, timestamp))
-    write_file = open(insights_path + name + ".json", "w+")
-    json.dump({'insights': insights}, write_file)
+    return insights
 
 
 class Command(BaseCommand):
     help = 'Generates Insights'
 
     def handle(self, *args, **options):
-        generate_insights('amazon', [], ['amazon.com'], [])
-        generate_insights('apple', [], ['apple'], [])
-        generate_insights('google', [], ['google'], [])
-        generate_insights('microsoft', [], ['microsoft'], [])
-        generate_insights('frontend', [], [], ['front end', 'frontend'])
-        generate_insights('backend', [], [], ['back end', 'backend'])
-        generate_insights('fullstack', [], [], ['full stack', 'fullstack'])
-        generate_insights('cybersecurity', [], [], ['cyber security','malware', 'infosec', 'security', 'penetration', 'pen tester'])
-        
+        tiles = Tile.objects.all()
+        for tile in tiles:
+            if tile.locations:
+                tile.insights = generate_insights_for_location_page(tile.name,
+                                                                    tile.top_skills,
+                                                                    tile.filters,
+                                                                    tile.companies,
+                                                                    tile.titles, tile.locations)
+            else:
+                tile.insights = generate_insights(tile.name,
+                                                  tile.top_skills,
+                                                  tile.filters,
+                                                  tile.companies,
+                                                  tile.titles)
+            tile.save()

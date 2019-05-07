@@ -5,8 +5,16 @@ from .data_handler import DataHandler
 from .request_parser import *
 from django.http.response import JsonResponse, HttpResponseForbidden
 from django.views.generic import View
+from django.dispatch import receiver
+from allauth.account.signals import user_signed_up, user_logged_in
+from elasticsearchapp.models import Tile, CustomTile
+from django.forms.models import model_to_dict
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from random_word import RandomWords
 import time
 import json
+import re
 
 SCRAPE_DATA_START = 1541203200000
 
@@ -73,7 +81,7 @@ class TopSkills(View):
         page_data = DataHandler(start).get_top_skills(count, filters, companies, titles, locations, include=include)
         print("--- get_top_skills Run Time: %s seconds ---" % (time.time() - start_time))
 
-        return JsonResponse(page_data)
+        return JsonResponse({'top_skills': page_data})
 
 
 class GetJsonFile(View):
@@ -88,3 +96,88 @@ class GetJsonFile(View):
         file_data = json.load(file)
 
         return JsonResponse(file_data)
+
+
+class UserInfo(View):
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return JsonResponse({'first': request.user.first_name, 'last': request.user.last_name, 'signed_in': True})
+        else:
+            return JsonResponse({'signed_in': False})
+
+
+class Tiles(View):
+    def get(self, request, *args, **kwargs):
+        if request.GET.get('name'):
+            tile = Tile.objects.filter(name=request.GET.get('name'))[0]
+            if isinstance(tile, CustomTile):
+                if not request.user.is_authenticated | request.user.id != tile.user_id:
+                    return JsonResponse({'error': 'Tile Does not Exist', 'success': False}, status=403)
+            data = model_to_dict(tile)
+            return JsonResponse({'tile': data})
+
+
+class CustomTiles(View):
+    # return all custom tiles
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            custom_tiles = CustomTile.objects.filter(user_id=request.user.id)
+            data = []
+            for custom_tile in custom_tiles:
+                data += [model_to_dict(custom_tile)]
+            return JsonResponse({'custom_tiles': data})
+        else:
+            return JsonResponse({'custom_tiles': []})
+
+    # create a custom tile
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            request_data = json.loads(request.body)
+            print('---Creating Custom Tile with Params---')
+            print(request_data)
+            filters = request_data['filters']
+            locations = request_data['locations']
+            companies = request_data['companies']
+            titles = request_data['titles']
+            blacklists = request_data['blacklists']
+            whitelists = request_data['whitelists']
+            title = request_data['title']
+            user_id = request.user
+
+            r = RandomWords()
+            words = r.get_random_words()[:3]
+            regex = re.compile('[^a-zA-Z]')
+            name = ""
+            for word in words:
+                name += regex.sub('', word).capitalize()
+            new_custom_tile = CustomTile.objects.create(
+                filters=filters,
+                locations=locations,
+                companies=companies,
+                titles=titles,
+                blacklists=blacklists,
+                whitelists=whitelists,
+                title=title,
+                user_id=user_id,
+                name=name)
+            new_custom_tile.save()
+            print('---Success---')
+            return JsonResponse({'tile': model_to_dict(new_custom_tile), 'success': True})
+        else:
+            return JsonResponse({'error': 'Not Signed In', 'success': False}, status=403)
+
+
+@receiver(user_signed_up)
+def populate_profile(sociallogin, user, **kwargs):
+    if sociallogin.account.provider == 'linkedin_oauth2':
+        user_data = user.socialaccount_set.filter(provider='linkedin_oauth2')[0].extra_data
+        picture_url = user_data['profilePicture']['displayImage']
+        first_name = user_data['firstName']['localized']['en_US']
+        last_name = user_data['lastName']['localized']['en_US']
+        user_id = user_data['id']
+        print(user_data)
+
+        user.avatar_url = picture_url
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()

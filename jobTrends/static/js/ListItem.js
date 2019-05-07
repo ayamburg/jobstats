@@ -44,7 +44,7 @@ class TopTenItem extends React.Component {
             </Typography>
             <ListItemText
               primary={
-                <Typography variant="h3" align="center" gutterBottom>
+                <Typography variant="h4" align="center" gutterBottom>
                   {li.props.primary}
                 </Typography>
               }
