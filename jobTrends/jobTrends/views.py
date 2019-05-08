@@ -7,7 +7,7 @@ from django.http.response import JsonResponse, HttpResponseForbidden
 from django.views.generic import View
 from django.dispatch import receiver
 from allauth.account.signals import user_signed_up, user_logged_in
-from elasticsearchapp.models import Tile, CustomTile
+from elasticsearchapp.tile_models import Tile, CustomTile
 from django.forms.models import model_to_dict
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -161,6 +161,8 @@ class CustomTiles(View):
                 user_id=user_id,
                 name=name)
             new_custom_tile.save()
+            new_custom_tile.generate_top_skills()
+            new_custom_tile.generate_insights()
             print('---Success---')
             return JsonResponse({'tile': model_to_dict(new_custom_tile), 'success': True})
         else:
