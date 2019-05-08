@@ -20,12 +20,9 @@ class Command(BaseCommand):
             print('Scraping...')
             call_command('scrapebydate', 1)
             print("<<< Scraper Run Time: %s seconds >>>" % (time.time() - start_time))
-        week = 604800000
-        month = 2592000000
-        start = int(time.time() * 1000 - month * 6)
         print('Calculating Top Skills...')
         top_skills_time = time.time()
-        call_command('gettopskills', start)
+        call_command('gettopskills')
         print("<<< Top Skills Run Time: %s seconds >>>" % (time.time() - top_skills_time))
         print('Generating Insights...')
         insights_time = time.time()
