@@ -104,10 +104,10 @@ class GoogleMapsContainer extends React.Component {
       maxHeight: 200,
       overflow: 'auto'
     }
+    var markers = this.createMarkers()
     console.log("Requesting gmaps API")
     console.log("below is state.cities")
     console.log(this.props.cities)
-    var markers = this.createMarkers()
     return (
         <Map
           item
@@ -116,7 +116,8 @@ class GoogleMapsContainer extends React.Component {
           google = { this.props.google }
           onClick = { this.onMapClick }
           zoom = { 14 }
-          initialCenter = {this.props.center}
+          // initialCenter = {this.props.center}
+          center = {this.props.center}
         >
 
           <Marker
