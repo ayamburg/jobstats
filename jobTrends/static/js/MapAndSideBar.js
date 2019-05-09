@@ -11,6 +11,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 
 class MapAndSideBar extends React.Component {
@@ -85,10 +86,12 @@ class MapAndSideBar extends React.Component {
             <Paper style={ listStyle }>
                 <List>
                 {this.state.city_names.map((text, index) => (
-                    <ListItem button key={text} onClick={() => this.handleSideBarClick(this.state.cities[text].Location)}>
+                    <Link style={{ textDecoration: 'none' }} to={'/google'}>
+                    <ListItem button key={text} onMouseEnter={() => this.handleSideBarClick(this.state.cities[text].Location)}>
                     <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                     <ListItemText primary={text} />
                     </ListItem>
+                    </Link>
                 ))}
                 </List>
             </Paper>
@@ -102,7 +105,5 @@ class MapAndSideBar extends React.Component {
     )
  }
 }
-export default GoogleApiWrapper({
-    apiKey: 'AIzaSyDtOudqRRf_cjgHfaM8qQQ4WwheBlGG0og'
-})(MapAndSideBar);
+export default MapAndSideBar;
 
