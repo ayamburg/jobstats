@@ -12,6 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import LocationOn from '@material-ui/icons/LocationOn';
 
 
 class MapAndSideBar extends React.Component {
@@ -81,14 +82,13 @@ class MapAndSideBar extends React.Component {
         // 'marginRight': 'auto',
     }
     return(
-
         <div style= {style}>
             <Paper style={ listStyle }>
                 <List>
                 {this.state.city_names.map((text, index) => (
-                    <Link style={{ textDecoration: 'none' }} to={'/google'}>
-                    <ListItem button key={text} onMouseEnter={() => this.handleSideBarClick(this.state.cities[text].Location)}>
-                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                    <Link key={text} style={{ textDecoration: 'none' }} to={'/google'}>
+                    <ListItem button onClick={() => this.handleSideBarClick(this.state.cities[text].Location)}>
+                    <LocationOn fontSize = "large" nativeColor = "#add8e6"/>
                     <ListItemText primary={text} />
                     </ListItem>
                     </Link>

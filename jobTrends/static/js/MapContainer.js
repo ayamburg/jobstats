@@ -11,6 +11,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { Column, Row } from 'simple-flexbox';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
 
 
 
@@ -59,6 +63,7 @@ class GoogleMapsContainer extends React.Component {
     for(var city in this.props.cities) {
       //console.log("This is city's COL: " + this.props.cities[city].COL)      
       var marker = <Marker
+        key = { city }
         onClick = { this.onMarkerClick }
         title = { city }
         position = {this.props.cities[city].Location}
@@ -66,16 +71,6 @@ class GoogleMapsContainer extends React.Component {
         COL = {this.props.cities[city].COL}
         annual_wage = {this.props.cities[city]["Annual mean wage"]}
         />
-      //   var info = <InfoWindow
-      //   marker={this.state.activeMarker}
-      //   visible={this.state.showingInfoWindow}
-      //   onClose={this.onClose}
-      // >
-      //   <div>
-      //     <h4>{this.state.selectedPlace.name}</h4>
-      //     <h4>{this.state.selectedPlace.title}</h4>
-      //   </div>
-      // </InfoWindow>
       markers.push(marker);
       // markers.push(info)
     }
@@ -141,13 +136,22 @@ class GoogleMapsContainer extends React.Component {
             visible={this.state.showingInfoWindow}
             onClose={this.onClose}
           >
-            <div>
-              <h1>{this.state.selectedPlace.name}</h1>
-              <h2>Cost of Living Index: {this.state.selectedPlace.COL}</h2>
-              <h4>Mean Salary for Computing Industry: {this.state.selectedPlace.annual_wage}</h4>
-            </div>
+
+                <div>
+                  <h1>{this.state.selectedPlace.name}</h1>
+                  <h2>Cost of Living Index: {this.state.selectedPlace.COL}</h2>
+                  <h4>Mean Salary for Computing Industry: {this.state.selectedPlace.annual_wage}</h4>
+                  <Router>
+                    <Link style={{ textDecoration: 'none' }} to={'/google'}>
+                      <Button variant="outlined">
+                        Click for more info
+                      </Button>
+                    </Link>
+                  </Router>
+                </div>
           </InfoWindow>
         </Map>
+      
     );
   }
 }
