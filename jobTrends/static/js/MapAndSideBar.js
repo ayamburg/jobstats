@@ -66,9 +66,9 @@ class MapAndSideBar extends React.Component {
     const style = {
         display: 'flex',
         flexDirection: 'row',
-        width: '50vw',
-        height: '75vh',
-        float: 'none',
+        width: '90vw',
+        height: '90vh',
+        float: 'left',
         margin: '0 auto',
         // 'marginLeft': 'auto',
         // 'marginRight': 'auto',
@@ -76,8 +76,8 @@ class MapAndSideBar extends React.Component {
     }
     const mapStyle = {
         float: 'left',
-        width: '50vw',
-        height: '75vh',
+        width: '90vw',
+        height: '90vh',
         // 'marginLeft': 'auto',
         // 'marginRight': 'auto',
     }

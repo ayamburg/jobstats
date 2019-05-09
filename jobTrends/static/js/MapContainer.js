@@ -80,24 +80,8 @@ class GoogleMapsContainer extends React.Component {
     console.log("below is props center")
     console.log(this.props.center)
     const style = {
-      width: '50vw',
-      height: '75vh',
-      // 'marginLeft': 'auto',
-      // 'marginRight': 'auto',
-      // display: 'flex',
-      // flexDirection: 'row',
-    }
-    const mapStyle = {
-      width: '50vw',
-      height: '75vh',
-      // 'marginLeft': 'auto',
-      // 'marginRight': 'auto',
-      // // alignSelf: 'flex-end'
-    }
-    const listStyle = {
-      // height: '75vh',
-      maxHeight: 200,
-      overflow: 'auto'
+      width: '90vw',
+      height: '90vh',
     }
     var markers = this.createMarkers()
     console.log("Requesting gmaps API")
