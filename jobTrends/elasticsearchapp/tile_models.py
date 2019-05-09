@@ -8,6 +8,7 @@ from .insights import get_trending_up, get_trending_down, get_dominant_skill, ge
     get_correlation
 import time
 
+
 class Tile(models.Model):
     filters = ArrayField(default=list, base_field=models.CharField(max_length=100, blank=True), blank=True)
     locations = ArrayField(default=list, base_field=models.CharField(max_length=100, blank=True), blank=True)

@@ -6,6 +6,8 @@ import ReactDOM from 'react-dom'
 import GraphForm from './GraphForm.js';
 import ManualGraphForm from './ManualGraphForm.js';
 import CustomGraphForm from './CustomGraphForm.js';
+import CustomGraph from './CustomGraph.js';
+import EditForm from './EditForm.js';
 import {BrowserRouter as Router, Link} from "react-router-dom";
 import {Switch, Route} from 'react-router'
 import TileCardGrid from './TileCardGrid.js';
@@ -86,12 +88,32 @@ class Home extends React.Component {
             custom_tile_cards.push(
                 <Route
                     key={i}
+                    path={path + '/edit'}
+                    render={
+                        (props) =>
+                            <EditForm
+                                {...props}
+                                filters={custom_tiles[i].filters}
+                                locations={custom_tiles[i].locations}
+                                companies={custom_tiles[i].companies}
+                                titles={custom_tiles[i].titles}
+                                whitelists={custom_tiles[i].whitelists}
+                                blacklists={custom_tiles[i].blacklists}
+                                name={custom_tiles[i].name}
+                                title={custom_tiles[i].title}
+                            />
+                    }
+                />
+            );
+            custom_tile_cards.push(
+                <Route
+                    key={i}
                     path={path}
                     render={
                         (props) =>
-                            <GraphForm
+                            <CustomGraph
                                 {...props}
-                                filters={[]}
+                                filters={custom_tiles[i].filters}
                                 period={"week"}
                                 age={"all_time"}
                                 raw_bool={false}

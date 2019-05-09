@@ -168,6 +168,62 @@ class CustomTiles(View):
         else:
             return JsonResponse({'error': 'Not Signed In', 'success': False}, status=403)
 
+        # create a custom tile
+    def put(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            request_data = json.loads(request.body)
+            print('---Updating Custom Tile with Params---')
+            print(request_data)
+            filters = request_data['filters']
+            locations = request_data['locations']
+            companies = request_data['companies']
+            titles = request_data['titles']
+            blacklists = request_data['blacklists']
+            whitelists = request_data['whitelists']
+            title = request_data['title']
+            name = request_data['name']
+
+            custom_tile = CustomTile.objects.filter(name=name)
+            if not request.user.is_authenticated | request.user.id != custom_tile[0].user_id:
+                return JsonResponse({'error': 'Tile Does not Exist', 'success': False}, status=403)
+
+            custom_tile.update(
+                filters=filters,
+                locations=locations,
+                companies=companies,
+                titles=titles,
+                blacklists=blacklists,
+                whitelists=whitelists,
+                title=title)
+            custom_tile[0].save()
+            print(custom_tile)
+            print(custom_tile[0].companies)
+            print(custom_tile[0].top_skills)
+            custom_tile[0].generate_top_skills()
+            print(custom_tile[0].top_skills)
+            custom_tile[0].generate_insights()
+            print('---Success---')
+            return JsonResponse({'tile': model_to_dict(custom_tile[0]), 'success': True})
+        else:
+            return JsonResponse({'error': 'Not Signed In', 'success': False}, status=403)
+
+    def delete(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            request_data = json.loads(request.body)
+            print('---Deleting Custom Tile')
+            print(request_data)
+            name = request_data['name']
+
+            custom_tile = CustomTile.objects.filter(name=name)[0]
+            if not request.user.is_authenticated | request.user.id != custom_tile.user_id:
+                return JsonResponse({'error': 'Tile Does not Exist', 'success': False}, status=403)
+
+            custom_tile.delete()
+            print('---Success---')
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'error': 'Not Signed In', 'success': False}, status=403)
+
 
 @receiver(user_signed_up)
 def populate_profile(sociallogin, user, **kwargs):
