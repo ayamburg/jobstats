@@ -19,7 +19,21 @@ class Tile(models.Model):
     title = models.CharField(max_length=200)
     insights = JSONField(null=True, blank=True)
     top_skills = JSONField(null=True, blank=True)
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.name:
+            self.name = self.id
+
+        # filter out empty strings
+        self.filters = list(filter(None, self.filters))
+        self.companies = list(filter(None, self.companies))
+        self.titles = list(filter(None, self.titles))
+        self.locations = list(filter(None, self.locations))
+        self.blacklists = list(filter(None, self.blacklists))
+        self.whitelists = list(filter(None, self.whitelists))
+
+        super().save(*args, **kwargs)
 
     def generate_insights_for_location_page(self):
         name = self.name
@@ -49,8 +63,8 @@ class Tile(models.Model):
 
         insights = [insight for insight in insights if insight['score'] > 2]
         self.insights = insights
-        super().save()
 
+        super().save()
         return True
 
     def generate_insights(self):
@@ -102,8 +116,8 @@ class Tile(models.Model):
 
         insights = [insight for insight in insights if insight['score'] > 2]
         self.insights = insights
-        super().save()
 
+        super().save()
         return True
 
     def generate_top_skills(self):
@@ -119,8 +133,8 @@ class Tile(models.Model):
         data_handler = DataHandler(start)
 
         self.top_skills = data_handler.get_top_skills(10, filters, companies, titles, locations)
-        super().save()
 
+        super().save()
         return True
 
 
