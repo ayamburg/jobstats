@@ -13,20 +13,33 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Typography, SnackbarContent } from '@material-ui/core';
+import {Typography, SnackbarContent} from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import InsightCards from './InsightCards.js';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import SimpleSnackbar from './Snackbar.js';
+import Fab from '@material-ui/core/Fab';
+import Edit from '@material-ui/icons/Edit';
+
+
 import {
     BrowserView,
     MobileView,
     isBrowser,
     isMobile,
     isMobileOnly
-  } from "react-device-detect";
+} from "react-device-detect";
+
+const fab_style = ({
+    margin: 0,
+    top: 'auto',
+    right: 20,
+    bottom: 20,
+    left: 'auto',
+    position: 'fixed',
+});
 
 class CustomGraph extends React.Component {
     constructor(props) {
@@ -176,7 +189,7 @@ class CustomGraph extends React.Component {
                         raw: raw,
                     }
                 }).then(response => {
-                    function compare_keywords(a,b) {
+                    function compare_keywords(a, b) {
                         let a_index = response.data.keywords.indexOf(a);
                         let b_index = response.data.keywords.indexOf(b);
                         if (response.data.y[a_index] < response.data.y[b_index])
@@ -185,6 +198,7 @@ class CustomGraph extends React.Component {
                             return 1;
                         return 0;
                     }
+
                     response.data.keywords.sort(compare_keywords).reverse();
                     response.data.y.sort().reverse();
                     this.setState({
@@ -301,14 +315,13 @@ class CustomGraph extends React.Component {
         );
     }
 
-    detectDeviceOrientation(){
-        if (isMobileOnly){
+    detectDeviceOrientation() {
+        if (isMobileOnly) {
             let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
             let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-            if (w > h){
+            if (w > h) {
                 return <p>This is Landscape Mode</p>
-            }
-            else if (w < h){
+            } else if (w < h) {
                 return (
                     <SimpleSnackbar/>
                 )
@@ -319,9 +332,14 @@ class CustomGraph extends React.Component {
     render() {
         return (
             <div>
+                <Link style={{ textDecoration: 'none' }} to={"/" + this.props.name + "/edit"}>
+                    <Fab color="primary" style={fab_style} aria-label="Edit">
+                        <Edit/>
+                    </Fab>
+                </Link>
                 <div align="center">
                     <Typography paragraph></Typography>
-                    <Typography paragraph align = "center" variant = "h4">{this.props.title}</Typography>
+                    <Typography paragraph align="center" variant="h4">{this.props.title}</Typography>
                 </div>
                 {this.getDataComponent()}
 
