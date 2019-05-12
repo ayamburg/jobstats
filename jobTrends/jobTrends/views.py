@@ -11,7 +11,6 @@ from elasticsearchapp.tile_models import Tile, CustomTile
 from django.forms.models import model_to_dict
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from random_word import RandomWords
 import time
 import json
 import re
@@ -144,12 +143,6 @@ class CustomTiles(View):
             title = request_data['title']
             user_id = request.user
 
-            r = RandomWords()
-            words = r.get_random_words()[:3]
-            regex = re.compile('[^a-zA-Z]')
-            name = ""
-            for word in words:
-                name += regex.sub('', word).capitalize()
             new_custom_tile = CustomTile.objects.create(
                 filters=filters,
                 locations=locations,
@@ -158,13 +151,69 @@ class CustomTiles(View):
                 blacklists=blacklists,
                 whitelists=whitelists,
                 title=title,
-                user_id=user_id,
-                name=name)
+                user_id=user_id)
             new_custom_tile.save()
             new_custom_tile.generate_top_skills()
             new_custom_tile.generate_insights()
+
             print('---Success---')
             return JsonResponse({'tile': model_to_dict(new_custom_tile), 'success': True})
+        else:
+            return JsonResponse({'error': 'Not Signed In', 'success': False}, status=403)
+
+        # create a custom tile
+
+    def put(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            request_data = json.loads(request.body)
+            print('---Updating Custom Tile with Params---')
+            print(request_data)
+            filters = request_data['filters']
+            locations = request_data['locations']
+            companies = request_data['companies']
+            titles = request_data['titles']
+            blacklists = request_data['blacklists']
+            whitelists = request_data['whitelists']
+            title = request_data['title']
+            name = request_data['name']
+
+            custom_tiles = CustomTile.objects.filter(name=name)
+            if not request.user.is_authenticated | request.user.id != custom_tiles[0].user_id:
+                return JsonResponse({'error': 'Tile Does not Exist', 'success': False}, status=403)
+
+            custom_tile = CustomTile.objects.update_or_create(
+                id=custom_tiles[0].id,
+                defaults={'filters': filters,
+                          'locations': locations,
+                          'companies': companies,
+                          'titles': titles,
+                          'blacklists': blacklists,
+                          'whitelists': whitelists,
+                          'title': title})
+
+            custom_tile[0].save()
+            custom_tile[0].generate_top_skills()
+            custom_tile[0].generate_insights()
+
+            print('---Success---')
+            return JsonResponse({'tile': model_to_dict(custom_tile[0]), 'success': True})
+        else:
+            return JsonResponse({'error': 'Not Signed In', 'success': False}, status=403)
+
+    def delete(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            request_data = json.loads(request.body)
+            print('---Deleting Custom Tile')
+            print(request_data)
+            name = request_data['name']
+
+            custom_tile = CustomTile.objects.filter(name=name)[0]
+            if not request.user.is_authenticated | request.user.id != custom_tile.user_id:
+                return JsonResponse({'error': 'Tile Does not Exist', 'success': False}, status=403)
+
+            custom_tile.delete()
+            print('---Success---')
+            return JsonResponse({'success': True})
         else:
             return JsonResponse({'error': 'Not Signed In', 'success': False}, status=403)
 
