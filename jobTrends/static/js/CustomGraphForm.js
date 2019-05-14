@@ -1,25 +1,32 @@
 import React from 'react'
-import BlockCard from './BlockCard';
-import RankedList from './RankedList';
-import HorizontalBarGraph from './bar_graph.js'
-import TrendChart from './trend_chart.js'
+import DynamicForm from './DynamicForm';
+import Card from '@material-ui/core/Card';
 import axios from 'axios'
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import {Typography} from '@material-ui/core';
-import InsightCards from './InsightCards.js';
+import {Typography, CardActions} from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Search from 'react-search'
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
+
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 axios.defaults.headers.common = {
   "Content-Type": "application/json"
 };
+
+var cardStyle = {
+    display: 'block',
+    justifyContent: 'center',
+    justify: 'center',
+    width: '65vw',
+    transitionDuration: '0.3s',
+}
 
 class CustomGraphForm extends React.Component {
     constructor(props) {
@@ -28,8 +35,7 @@ class CustomGraphForm extends React.Component {
             filters: [],
             locations: [],
             companies: [],
-            titles: [],
-            blacklists: [],
+            jobTitles: [],
             whitelists: [],
             title: ""
         };
@@ -57,8 +63,7 @@ class CustomGraphForm extends React.Component {
             filters: this.state.filters,
             locations: this.state.locations,
             companies: this.state.companies,
-            titles: this.state.titles,
-            blacklists: this.state.blacklists,
+            jobTitles: this.state.jobTitles,
             whitelists: this.state.whitelists,
             title: this.state.title
         }, {
@@ -77,70 +82,76 @@ class CustomGraphForm extends React.Component {
     render() {
         return (
             <div>
-                <div align="center">
-                    <Typography align="center" variant="h4">{this.props.title}</Typography>
-                </div>
                 <form noValidate>
-                    <TextField
-                        label="Filters"
-                        value={this.state.filters}
-                        onChange={this.handleArrayChange}
-                        margin="normal"
-                        variant="outlined"
-                        name="filters"
-                    />
-                    <TextField
-                        label="Locations"
-                        value={this.state.locations}
-                        onChange={this.handleArrayChange}
-                        margin="normal"
-                        variant="outlined"
-                        name="locations"
-                    />
-                    <TextField
-                        label="Companies"
-                        value={this.state.companies}
-                        onChange={this.handleArrayChange}
-                        margin="normal"
-                        variant="outlined"
-                        name="companies"
-                    />
-                    <TextField
-                        label="Titles"
-                        value={this.state.titles}
-                        onChange={this.handleArrayChange}
-                        margin="normal"
-                        variant="outlined"
-                        name="titles"
-                    />
-                    <TextField
-                        label="Blacklists"
-                        value={this.state.blacklists}
-                        onChange={this.handleArrayChange}
-                        margin="normal"
-                        variant="outlined"
-                        name="blacklists"
-                    />
-                    <TextField
-                        label="Whitelists"
-                        value={this.state.whitelists}
-                        onChange={this.handleArrayChange}
-                        margin="normal"
-                        variant="outlined"
-                        name="whitelists"
-                    />
-                    <TextField
-                        label="Title"
-                        value={this.state.title}
-                        onChange={this.handleTextChange}
-                        margin="normal"
-                        variant="outlined"
-                        name="title"
-                    />
-                </form>
-                <Button variant="contained" color="primary" size="large" onClick={this.handleSubmit}>
-                    Submit
-                </Button>
+                <Grid
+                container
+                justify = 'center'
+                >
+                    <Card style={cardStyle}>
+                    {/* <CardActions style={{justifyContent: 'center'}}> */}
+                    
+                        <Grid item xs ={12}>
+                            <DynamicForm
+                            label = "Filters"
+                            value={this.state.filters}
+                            name="filters"
+                            plus = "+ Filters"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <DynamicForm
+                            label = "Locations"
+                            value={this.state.locations}
+                            name="locations"
+                            plus = "+ Locations"
+                            />
+                        </Grid>
+                        <Grid item xs ={12}>
+                            <DynamicForm
+                            label = "Companies"
+                            value={this.state.companies}
+                            name="companies"
+                            plus = "+ Companies"
+                            />
+                        </Grid>
+                        <Grid item xs ={12}>
+                            <DynamicForm
+                            label = "Job Titles"
+                            value={this.state.companies}
+                            name="job titles"
+                            plus = "+ Job Titles"
+                            />
+                        </Grid>
+                        <Grid item xs ={12}>
+                            <TextField
+                                label="Whitelists"
+                                value={this.state.whitelists}
+                                onChange={this.handleArrayChange}
+                                margin="normal"
+                                variant="outlined"
+                                name="whitelists"
+                            />
+                        </Grid>
+                        <Grid item xs ={12}>
+                            <TextField
+                                label="Title"
+                                value={this.state.title}
+                                onChange={this.handleTextChange}
+                                margin="normal"
+                                variant="outlined"
+                                name="title"
+                            />
+                        </Grid>
+                        <CardActions style={{justifyContent: 'center'}}>
+                        <Button justify = "right" variant="contained" color="primary" size="large" onClick={this.handleSubmit}>
+                            Submit
+                        </Button>  
+                        </CardActions> 
+                    
+                    {/* </CardActions> */}
+                    </Card> 
+                </Grid>  
+                </form>                             
             </div>
         );
     }
