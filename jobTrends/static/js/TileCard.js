@@ -17,10 +17,10 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 var styles = {
   card: {
-    minWidth: 250,
-    minHeight: 250,
-    maxWidth: 250,
-    maxHeight: 250,
+    minWidth: 210,
+    minHeight: 210,
+    maxWidth: 210,
+    maxHeight: 210,
     //height: '10vw',
     // background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
   },
@@ -46,9 +46,9 @@ function TileCard(props) {
       <CardActionArea className={classes.card}>
         <Card className={classes.card} style={props.backColor}>
           <CardContent align="center">
-              <Typography align="center" variant="display1">{props.cardTitle}</Typography>
+              <Typography align="center" variant="h5">{props.cardTitle}</Typography>
               <CardMedia
-                style={{height: 60, width: 120, paddingTop: '60.25%'}}
+                style={{height: 0, width: 130, paddingBottom: '70.25%'}}
                 image={props.image}
               >
               </CardMedia>
