@@ -1,5 +1,5 @@
 import React from 'react';
-import { GoogleApiWrapper, InfoWindow, Map, Marker } from 'google-maps-react';
+import { GoogleApiWrapper, InfoWindow, Map, Marker, HeatMap } from 'google-maps-react';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ClippedDrawer from './MapSideBar.js';
@@ -99,6 +99,8 @@ class GoogleMapsContainer extends React.Component {
           center = {this.props.center}
         >
 
+          {this.props.heatmap}
+
           <Marker
           onClick = { this.onMarkerClick }
           title = { 'Changing Colors Garage' }
@@ -140,5 +142,6 @@ class GoogleMapsContainer extends React.Component {
   }
 }
 export default GoogleApiWrapper({
-    apiKey: 'AIzaSyDtOudqRRf_cjgHfaM8qQQ4WwheBlGG0og'
+    apiKey: 'AIzaSyDtOudqRRf_cjgHfaM8qQQ4WwheBlGG0og',
+    libraries: ['visualization']
 })(GoogleMapsContainer);
