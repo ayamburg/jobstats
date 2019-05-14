@@ -154,19 +154,19 @@ class Home extends React.Component {
         const style = {
             display: 'flex',
             flexDirection: 'row',
-            width: '60vw',
-            height: '60vh',
+            width: '90vw',
+            height: '90vh',
             float: 'none',
             margin: '0 auto',
         }
         const mapStyle = {
             float: 'left',
-            width: '60vw',
-            height: '60vh',
+            width: '90vw',
+            height: '90vh',
         }
         const innerMapStyle = {
-            width: '60vw',
-            height: '60vh',
+            width: '90vw',
+            height: '90vh',
         }
         const MapAndSideBarStyle = {
             float: 'none',
@@ -183,7 +183,20 @@ class Home extends React.Component {
                     <Switch>
                         <Route exact path="/" component={TileCardGrid}/>
 
-                        <Route exact path="/map" component={MapAndSideBar}/>
+                        <Route exact path="/map"                             
+                            render={
+                                (props) =>
+                                    <div style={ MapAndSideBarStyle }>
+                                        <MapAndSideBar 
+                                            {...props}
+                                            stylep={ style } 
+                                            listStylep={ listStyle} 
+                                            mapStylep={ mapStyle } 
+                                            innerMapStylep={ innerMapStyle }
+                                        />
+                                    </div>
+                            }
+                        />
 
                         <Route
                             path="/amazon"
@@ -352,16 +365,7 @@ class Home extends React.Component {
 
                         <Route
                             path="/manual"
-                            render={
-                                (props) =>
-                                    <MapAndSideBar
-                                        {...props} 
-                                        stylep={ style } 
-                                        listStylep={ listStyle} 
-                                        mapStylep={ mapStyle } 
-                                        innerMapStylep={ innerMapStyle }
-                                    />
-                            }
+                            component={ManualGraphForm}
                         />
 
                         {this.loadCustomTileRoutes()}
