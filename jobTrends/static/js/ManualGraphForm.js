@@ -14,6 +14,8 @@ import InsightCards from './InsightCards.js';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
+import MapContainer from './MapContainer';
+import MapAndSideBar from './MapAndSideBar.js';
 
 class ManualGraphForm extends React.Component {
     constructor(props) {

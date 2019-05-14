@@ -125,8 +125,8 @@ class MapAndSideBar extends React.Component {
         radius={20}
     />
     return(
-        <div style= {style}>
-            <Paper style={ listStyle }>
+        <div style= {this.props.stylep}>
+            <Paper style={ this.props.listStylep }>
                 <List>
                 {this.state.city_names.map((text, index) => (
                     <Link key={text} style={{ textDecoration: 'none' }} to={'/google'}>
@@ -138,11 +138,12 @@ class MapAndSideBar extends React.Component {
                 ))}
                 </List>
             </Paper>
-            <GoogleMapsContainer style = { mapStyle } 
+            <GoogleMapsContainer style = { this.props.mapStylep } 
             city_names = {this.state.city_names}
             cities = {this.state.cities}
             center = {this.state.mapCenter}
             heatmap = {heatmap}
+            stylep = { this.props.innerMapStylep }
             />
         </div>
         

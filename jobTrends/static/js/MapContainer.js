@@ -91,7 +91,7 @@ class GoogleMapsContainer extends React.Component {
         <Map
           item
           xs = { 12 }
-          style = { style }
+          style = { this.props.stylep }
           google = { this.props.google }
           onClick = { this.onMapClick }
           zoom = { 14 }

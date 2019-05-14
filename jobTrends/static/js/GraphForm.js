@@ -13,26 +13,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Typography, SnackbarContent } from '@material-ui/core';
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+import { Typography } from '@material-ui/core';
 import InsightCards from './InsightCards.js';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
-import SimpleSnackbar from './Snackbar.js';
-import {
-    BrowserView,
-    MobileView,
-    isBrowser,
-    isMobile,
-    isMobileOnly
-  } from "react-device-detect";
+import MapAndSideBar from './MapAndSideBar.js';
 
 class GraphForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            snack_bar_open: true,
             keywords: [],
             filters: this.props.filters,
             period: this.props.period,
@@ -57,16 +46,25 @@ class GraphForm extends React.Component {
     }
     
     componentDidMount() {
-        axios.get('/tiles', {
+        axios.get('/api/get_json_file', {
             responseType: 'json',
             params: {
-                name: this.props.name
+                category: "top_skills",
+                name: this.props.name,
             }
         }).then(response => {
-            this.setState({insights: response.data.tile.insights});
             let state_params = this.state;
-            state_params['keywords'] = response.data.tile.top_skills.map(skill => skill.key);
+            state_params['keywords'] = response.data.skills.map(skill => skill.key);
             this.reloadData(state_params);
+        });
+        axios.get('/api/get_json_file', {
+            responseType: 'json',
+            params: {
+                category: "insights",
+                name: this.props.name,
+            }
+        }).then(response => {
+            this.setState({insights: response.data.insights});
         });
     }
 
@@ -232,7 +230,7 @@ class GraphForm extends React.Component {
         let rawButton = null;
         if (this.state.data_component === 'trend_chart') {
             periodButton =
-                <Grid item xs={1}>
+                <Grid item xs>
                     <Select
                         value={this.state.period}
                         onChange={this.handleChange}
@@ -248,7 +246,7 @@ class GraphForm extends React.Component {
 
         if (this.state.data_component === 'trend_chart' || this.state.data_component === 'bar_graph') {
             rawButton =
-                <Grid item xs={1}>
+                <Grid item xs>
                     <FormControlLabel
                         control={
                             <Checkbox
@@ -266,11 +264,12 @@ class GraphForm extends React.Component {
         return (
             <Grid
                 container
-                alignItems="center"
-                justify="space-evenly"
+                spacing={16}
+                alignItems="flex-start"
+                justify="flex-start"
             >
-                
-                <Grid item xs={1}>
+                <Grid item xs></Grid>
+                <Grid item xs={4}>
                     <Select
                         value={this.state.data_component}
                         onChange={this.handleChange}
@@ -283,7 +282,7 @@ class GraphForm extends React.Component {
                     </Select>
                 </Grid>
                 {periodButton}
-                <Grid item xs={1}>
+                <Grid item xs={4}>
                     <Select
                         value={this.state.age}
                         onChange={this.handleChange}
@@ -297,26 +296,37 @@ class GraphForm extends React.Component {
                     </Select>
                 </Grid>
                 {rawButton}
+                <Grid item xs></Grid>
             </Grid>
         );
-    } 
-
-    detectDeviceOrientation(){
-        if (isMobileOnly){
-            let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-            let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-            if (w > h){
-                return <p>This is Landscape Mode</p>
-            }
-            else if (w < h){
-                return (
-                    <SimpleSnackbar/>
-                )
-            }
-        }    
     }
 
     render() {
+        const listStyle = {
+            overflow: 'auto',
+            float: 'left'
+        }
+        const style = {
+            display: 'flex',
+            flexDirection: 'row',
+            width: '60vw',
+            height: '60vh',
+            float: 'none',
+            margin: '0 auto',
+        }
+        const mapStyle = {
+            float: 'left',
+            width: '60vw',
+            height: '60vh',
+        }
+        const innerMapStyle = {
+            width: '60vw',
+            height: '60vh',
+        }
+        const MapAndSideBarStyle = {
+            float: 'none',
+            margin: '0 auto',
+        }
         return (
             <div>
                 <div align="center">
@@ -324,9 +334,11 @@ class GraphForm extends React.Component {
                     <Typography paragraph align = "center" variant = "h4">{this.props.title}</Typography>
                 </div>
                 {this.getDataComponent()}
-
+            
                 <InsightCards InsightsValues={this.state.insights}/>
-                {this.detectDeviceOrientation()}
+                <div style={ MapAndSideBarStyle }>
+                    <MapAndSideBar stylep={ style } listStylep={ listStyle} mapStylep={ mapStyle } innerMapStylep={ innerMapStyle }/>
+                </div>
             </div>
         );
     }

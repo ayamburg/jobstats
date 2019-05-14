@@ -147,6 +147,31 @@ class Home extends React.Component {
     }
 
     render() {
+        const listStyle = {
+            overflow: 'auto',
+            float: 'left'
+        }
+        const style = {
+            display: 'flex',
+            flexDirection: 'row',
+            width: '60vw',
+            height: '60vh',
+            float: 'none',
+            margin: '0 auto',
+        }
+        const mapStyle = {
+            float: 'left',
+            width: '60vw',
+            height: '60vh',
+        }
+        const innerMapStyle = {
+            width: '60vw',
+            height: '60vh',
+        }
+        const MapAndSideBarStyle = {
+            float: 'none',
+            margin: '0 auto',
+        }
         let initial_data_component = "bar_graph";
         if (isMobileOnly) {
             initial_data_component = "list"
@@ -327,7 +352,16 @@ class Home extends React.Component {
 
                         <Route
                             path="/manual"
-                            component={ManualGraphForm}
+                            render={
+                                (props) =>
+                                    <MapAndSideBar
+                                        {...props} 
+                                        stylep={ style } 
+                                        listStylep={ listStyle} 
+                                        mapStylep={ mapStyle } 
+                                        innerMapStylep={ innerMapStyle }
+                                    />
+                            }
                         />
 
                         {this.loadCustomTileRoutes()}
