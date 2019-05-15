@@ -18,6 +18,32 @@ import InsightCards from './InsightCards.js';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import MapAndSideBar from './MapAndSideBar.js';
 
+const listStyle = {
+    overflow: 'auto',
+    float: 'left'
+}
+const style = {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '90vw',
+    height: '90vh',
+    float: 'none',
+    margin: '0 auto',
+}
+const mapStyle = {
+    float: 'left',
+    width: '90vw',
+    height: '90vh',
+}
+const innerMapStyle = {
+    width: '90vw',
+    height: '90vh',
+}
+const MapAndSideBarStyle = {
+    float: 'none',
+    margin: '0 auto',
+}
+
 class GraphForm extends React.Component {
     constructor(props) {
         super(props);
@@ -199,12 +225,18 @@ class GraphForm extends React.Component {
                     });
                 });
                 break;
+             case 'map':    
+                    this.setState({
+                        data_component: state_params.data_component
+                    });
+                    break;
         }
     }
     
     // display jsx for apropriate graphic type
     getDataComponent() {
         // array empty or does not exist
+        console.log(this.state.data_component)
         switch (this.state.data_component) {
             case 'trend_chart':
                 return (<BlockCard
@@ -220,6 +252,24 @@ class GraphForm extends React.Component {
                 return (<BlockCard
                         payload={<RankedList keys={this.state.graph_data.keywords}/>}
                         actions={this.createDropDowns()}/>
+                );
+            case 'map':
+                return(
+                    <Grid container alignItems="center">
+                        <Grid item xs={12}>
+                            <MapAndSideBar 
+                                stylep={ style } 
+                                listStylep={ listStyle} 
+                                mapStylep={ mapStyle } 
+                                innerMapStylep={ innerMapStyle }/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <BlockCard 
+                            // width='100vw'
+                            actions={this.createDropDowns()}/>
+                            
+                        </Grid>
+                    </Grid>
                 );
         }
     }
@@ -279,6 +329,7 @@ class GraphForm extends React.Component {
                         <MenuItem value={'trend_chart'}>Trend Chart</MenuItem>
                         <MenuItem value={'bar_graph'}>Bar Graph</MenuItem>
                         <MenuItem value={'list'}>List</MenuItem>
+                        <MenuItem value={'map'}>Map</MenuItem>
                     </Select>
                 </Grid>
                 {periodButton}
@@ -336,9 +387,9 @@ class GraphForm extends React.Component {
                 {this.getDataComponent()}
             
                 <InsightCards InsightsValues={this.state.insights}/>
-                <div style={ MapAndSideBarStyle }>
+                {/* <div style={ MapAndSideBarStyle }>
                     <MapAndSideBar stylep={ style } listStylep={ listStyle} mapStylep={ mapStyle } innerMapStylep={ innerMapStyle }/>
-                </div>
+                </div> */}
             </div>
         );
     }
