@@ -32,6 +32,10 @@ class CustomGraphForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            filtersField: "",
+            locationsField: "",
+            companiesField: "",
+            jobTitlesField: "",
             filters: [],
             locations: [],
             companies: [],
@@ -42,6 +46,9 @@ class CustomGraphForm extends React.Component {
         this.handleArrayChange = this.handleArrayChange.bind(this);
         this.handleTextChange = this.handleTextChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleFormChange = this.handleFormChange.bind(this);
+        this.handleAdd = this.handleAdd.bind(this);
+        this.handleRemove = this.handleRemove.bind(this);
     }
 
     handleTextChange(event) {
@@ -58,12 +65,36 @@ class CustomGraphForm extends React.Component {
         this.setState({[name]: value});
     }
 
+    handleFormChange(event) {
+        const target = event.target;
+        const name = target.name;
+        const value = target.value;
+        this.setState({[name]: value});
+    };
+
+     handleAdd(event) {
+        const target = event.currentTarget;
+        const name = target.name;
+        const val = this.state[name];
+        const newVal = this.state[name + "Field"];
+        if(newVal !== ""){
+            val.push(newVal);
+            this.setState({[name + "Field"]: "", [name]: val });
+        }
+    }
+
+    handleRemove(index, name) {
+        const val = this.state[name];
+        val.splice(index, 1);
+        this.setState({[name]: val});
+    }
+
     handleSubmit() {
         axios.post('custom_tiles', {
             filters: this.state.filters,
             locations: this.state.locations,
             companies: this.state.companies,
-            jobTitles: this.state.jobTitles,
+            titles: this.state.jobTitles,
             whitelists: this.state.whitelists,
             title: this.state.title
         }, {
@@ -93,15 +124,23 @@ class CustomGraphForm extends React.Component {
                         <Grid item xs ={12}>
                             <DynamicForm
                             label = "Filters"
+                            fieldValue={this.state.filtersField}
                             value={this.state.filters}
+                            onChange={this.handleFormChange}
+                            onAdd={this.handleAdd}
+                            onRemove={this.handleRemove}
                             name="filters"
-                            plus = "+ Filters"
+                            plus="+ Filters"
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <DynamicForm
                             label = "Locations"
+                            fieldValue={this.state.locationsField}
                             value={this.state.locations}
+                            onChange={this.handleFormChange}
+                            onAdd={this.handleAdd}
+                            onRemove={this.handleRemove}
                             name="locations"
                             plus = "+ Locations"
                             />
@@ -109,7 +148,11 @@ class CustomGraphForm extends React.Component {
                         <Grid item xs ={12}>
                             <DynamicForm
                             label = "Companies"
+                            fieldValue={this.state.companiesField}
                             value={this.state.companies}
+                            onChange={this.handleFormChange}
+                            onAdd={this.handleAdd}
+                            onRemove={this.handleRemove}
                             name="companies"
                             plus = "+ Companies"
                             />
@@ -117,8 +160,12 @@ class CustomGraphForm extends React.Component {
                         <Grid item xs ={12}>
                             <DynamicForm
                             label = "Job Titles"
-                            value={this.state.companies}
-                            name="job titles"
+                            fieldValue={this.state.jobTitlesField}
+                            value={this.state.jobTitles}
+                            onChange={this.handleFormChange}
+                            onAdd={this.handleAdd}
+                            onRemove={this.handleRemove}
+                            name="jobTitles"
                             plus = "+ Job Titles"
                             />
                         </Grid>
@@ -145,7 +192,7 @@ class CustomGraphForm extends React.Component {
                         <CardActions style={{justifyContent: 'center'}}>
                         <Button justify = "right" variant="contained" color="primary" size="large" onClick={this.handleSubmit}>
                             Submit
-                        </Button>  
+                        </Button>
                         </CardActions> 
                     
                     {/* </CardActions> */}

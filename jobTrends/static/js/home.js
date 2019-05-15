@@ -4,7 +4,7 @@ import React from 'react'
 import axios from 'axios'
 import ReactDOM from 'react-dom'
 import GraphForm from './GraphForm.js';
-import ManualGraphForm from './ManualGraphForm.js';
+import ManualGraph from './ManualGraph.js';
 import CustomGraphForm from './CustomGraphForm.js';
 import CustomGraph from './CustomGraph.js';
 import EditForm from './EditForm.js';
@@ -346,7 +346,7 @@ class Home extends React.Component {
 
                         <Route
                             path="/manual"
-                            component={ManualGraphForm}
+                            component={ManualGraph}
                         />
 
                         {this.loadCustomTileRoutes()}
