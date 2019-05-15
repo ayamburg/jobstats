@@ -25,23 +25,24 @@ const listStyle = {
 const style = {
     display: 'flex',
     flexDirection: 'row',
-    width: '90vw',
-    height: '90vh',
-    float: 'none',
+    width: '70vw',
+    height: '80vh',
+    float: 'left',
     margin: '0 auto',
 }
 const mapStyle = {
     float: 'left',
-    width: '90vw',
-    height: '90vh',
+    width: '70vw',
+    height: '80vh',
 }
 const innerMapStyle = {
-    width: '90vw',
-    height: '90vh',
+    width: '70vw',
+    height: '80vh',
 }
 const MapAndSideBarStyle = {
-    float: 'none',
-    margin: '0 auto',
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
 }
 
 class GraphForm extends React.Component {
@@ -255,21 +256,15 @@ class GraphForm extends React.Component {
                 );
             case 'map':
                 return(
-                    <Grid container alignItems="center">
-                        <Grid item xs={12}>
-                            <MapAndSideBar 
-                                stylep={ style } 
-                                listStylep={ listStyle} 
-                                mapStylep={ mapStyle } 
-                                innerMapStylep={ innerMapStyle }/>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <BlockCard 
-                            // width='100vw'
-                            actions={this.createDropDowns()}/>
-                            
-                        </Grid>
-                    </Grid>
+                    <BlockCard
+                        payload={<MapAndSideBar 
+                            stylep={ style } 
+                            listStylep={ listStyle} 
+                            mapStylep={ mapStyle } 
+                            innerMapStylep={ innerMapStyle }/>
+                        }
+                        actions={this.createDropDowns()}/>
+                    
                 );
         }
     }
