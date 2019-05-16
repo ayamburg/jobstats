@@ -1,65 +1,53 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { Typography } from '@material-ui/core';
-
+import {Typography} from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+import Chip from '@material-ui/core/Chip';
 
 class DynamicForm extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state = {
-            fieldData = '',
-            countries:[]
+    }
+
+    getChips() {
+        let chips = [];
+        for (let i = 0; i < this.props.value.length; i++) {
+            chips.push(
+                <Chip
+                    key={i}
+                    label={this.props.value[i]}
+                    onDelete={() => this.props.onRemove(i, this.props.name)}
+                    color="primary"
+                    variant="outlined"
+                />
+            )
         }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleRemove = this.handleRemove.bind(this);
+        return chips;
     }
 
-    addCountry(){
-        event.preventDefault();
-        <Typography gutterBottom></Typography>
-        this.setState({countries: [...this.state.countries, ""]})
-    }
-
-    handleChange(e,index){
-        this.state.countries[index] = e.target.value
-
-        this.setState({countries: this.state.countries})
-    }
-
-    handleRemove(index){
-        event.preventDefault();
-        this.state.countries.splice(index,1)
-        console.log(this.state.countries, "$$$$");
-
-        this.setState({countries: this.state.countries})
-    }
-
-    render(){
-        var df = this; 
-        
-        return( 
+    render() {
+        return (
             <div className="DynamicForm">
-
-            {
-                this.state.countries.map((country,index) =>{
-                    return(
-                        <div key={index}>
-                            <TextField name = {df.props.name} label = {df.props.label} variant = 'outlined' onChange={(e) =>this.handleChange(e,index)} value={df.props.value}></TextField>
-                            <Button size = 'large' style={{backgroundColor: '#ff6961 '}} onClick={(e) =>this.handleRemove(index)}>-</Button>
-                            <Typography gutterBottom></Typography>
-                        </div>
-                    );
-                })
-            }
-            
-            <hr />
-
-            <Button style={{backgroundColor: '#61a8ff'}} onClick={(e)=>this.addCountry(e)}> {df.props.plus} </Button>
-            <Typography gutterBottom></Typography>
-            
-
-            <hr />
+                <TextField
+                    id="outlined-name"
+                    label={this.props.label}
+                    name={this.props.name + "Field"}
+                    value={this.props.fieldValue}
+                    onChange={this.props.onChange}
+                    margin="normal"
+                    variant="outlined"
+                />
+                <Button
+                    variant="contained"
+                    color="primary"
+                    name={this.props.name}
+                    onClick={this.props.onAdd}
+                >
+                    <AddIcon/>
+                </Button>
+                {this.getChips()}
             </div>
         )
     }

@@ -83,6 +83,25 @@ class TopSkills(View):
         return JsonResponse({'top_skills': page_data})
 
 
+class TopLocations(View):
+    def get(self, request, *args, **kwargs):
+        request_data = parse_data_request(request)
+        filters = request_data['filters']
+        start = request_data['start']
+        count = request_data['count']
+        include = request_data['include']
+        companies = request_data['companies']
+        titles = request_data['titles']
+
+        if not start:
+            start = SCRAPE_DATA_START
+        start_time = time.time()
+        page_data = DataHandler(start).get_top_locations(count, filters, companies, titles, include=include)
+        print("--- get_top_locations Run Time: %s seconds ---" % (time.time() - start_time))
+
+        return JsonResponse({'top_locations': page_data})
+
+
 class GetJsonFile(View):
     def get(self, request, *args, **kwargs):
         category = request.GET.get('category')
@@ -138,7 +157,6 @@ class CustomTiles(View):
             locations = request_data['locations']
             companies = request_data['companies']
             titles = request_data['titles']
-            blacklists = request_data['blacklists']
             whitelists = request_data['whitelists']
             title = request_data['title']
             user_id = request.user
@@ -148,7 +166,6 @@ class CustomTiles(View):
                 locations=locations,
                 companies=companies,
                 titles=titles,
-                blacklists=blacklists,
                 whitelists=whitelists,
                 title=title,
                 user_id=user_id)
@@ -172,7 +189,6 @@ class CustomTiles(View):
             locations = request_data['locations']
             companies = request_data['companies']
             titles = request_data['titles']
-            blacklists = request_data['blacklists']
             whitelists = request_data['whitelists']
             title = request_data['title']
             name = request_data['name']
@@ -187,7 +203,6 @@ class CustomTiles(View):
                           'locations': locations,
                           'companies': companies,
                           'titles': titles,
-                          'blacklists': blacklists,
                           'whitelists': whitelists,
                           'title': title})
 
