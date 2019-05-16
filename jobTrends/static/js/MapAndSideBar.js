@@ -26,6 +26,7 @@ class MapAndSideBar extends React.Component {
         mapCenter: { lat: 36.9741, lng: -122.0308 }
     }
     this.handleSideBarClick = this.handleSideBarClick.bind(this);
+    this.createHeatMap = this.createHeatMap.bind(this);
  }
  
  handleSideBarClick(location) {
@@ -34,6 +35,23 @@ class MapAndSideBar extends React.Component {
     })
     console.log("logging location")
     console.log(location)
+ }
+
+ createHeatMap() {
+    axios.get('/api/get_top_locations', {
+        responseType: 'json',
+        params: {
+            // filters: this.props.filters.toString(),
+            // companies: this.props.companies.toString(),
+            // titles: this.props.titles.toString(),
+            filters: ["c"],
+            companies: ["Google"],
+            titles: ["frontend", "Front End", "FrontEnd"],
+        }
+    }).then(response => {
+        console.log("below is op city data");
+        console.log(response);
+    });
  }
 
  componentDidMount() {
@@ -57,6 +75,7 @@ class MapAndSideBar extends React.Component {
           city_names: citynames,
         })
     });
+    this.createHeatMap()
   }
 
  render(){
