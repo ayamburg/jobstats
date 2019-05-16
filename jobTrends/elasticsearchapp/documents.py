@@ -35,6 +35,10 @@ class JobListingDocument(DocType):
     shingles = fields.TextField(attr="description", analyzer="shingle", fielddata=True)
     triple_shingles = fields.TextField(attr="description", analyzer="triple_shingle", fielddata=True)
 
+    location_keywords = fields.TextField(attr="location", fielddata=True)
+    location_shingles = fields.TextField(attr="location", analyzer="shingle", fielddata=True)
+    location_triple_shingles = fields.TextField(attr="location", analyzer="triple_shingle", fielddata=True)
+
     class Meta:
         model = JobListing  # The model associated with this DocType
 

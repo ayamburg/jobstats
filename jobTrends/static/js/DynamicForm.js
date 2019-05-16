@@ -46,7 +46,7 @@ class DynamicForm extends React.Component {
                     onClick={this.props.onAdd}
                 >
                     <AddIcon/>
-                 </Button>
+                </Button>
                 {this.getChips()}
             </div>
         )
