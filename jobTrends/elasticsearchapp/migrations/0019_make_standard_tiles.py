@@ -1,4 +1,4 @@
-from elasticsearchapp.models import StandardTile
+from elasticsearchapp.tile_models import StandardTile
 from django.db import migrations
 
 

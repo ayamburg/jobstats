@@ -230,6 +230,45 @@ class DataHandler:
 
         return skills[:count]
 
+    def get_top_locations(self, count, filters, companies, titles, include=None):
+        queries = Q()
+
+        if not count:
+            count = 10
+
+        for f in filters:
+            queries = queries & Q("match_phrase", description=f)
+
+        if titles:
+            title_queries = Q("match_phrase", title=titles[0])
+            remaining_titles = titles[1:]
+            for title in remaining_titles:
+                title_queries = title_queries | Q("match_phrase", title=title)
+            queries = queries & title_queries
+
+        if companies:
+            company_queries = Q("match_phrase", company=companies[0])
+            remaining_companies = companies[1:]
+            for company in remaining_companies:
+                company_queries = company_queries | Q("match_phrase", company=company)
+            queries = queries & company_queries
+
+        queries = queries & Q("range", posted_date={'gte': self.start})
+        search = JobListingDocument.search().params(request_timeout=60).query(queries)
+        search.aggs.bucket('word_count', 'terms', field='location_keywords', size=50)
+        search.aggs.bucket('shingle_word_count', 'terms', field='location_shingles', size=50)
+        search.aggs.bucket('triple_shingle_word_count', 'terms', field='location_triple_shingles', size=50)
+        search = search.execute()
+        words = search.aggregations.word_count.to_dict()['buckets']
+        shingle_words = search.aggregations.shingle_word_count.to_dict()['buckets']
+        triple_shingle_words = search.aggregations.triple_shingle_word_count.to_dict()['buckets']
+
+        words = words + shingle_words + triple_shingle_words
+
+        skills = sorted(words, key=lambda k: k['doc_count'], reverse=True)
+
+        return skills[:count]
+
     def get_significant_terms(self, count, filters):
         queries = Q()
 

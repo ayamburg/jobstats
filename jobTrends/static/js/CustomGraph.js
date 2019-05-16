@@ -1,3 +1,7 @@
+// GraphForm generates the graphs and insights corresponding to a given data set
+// It dynamicly changes the displayed graphic based on the values of the Select components
+// It updates the displayed data via api calls made in reloadData()
+
 import React from 'react'
 import BlockCard from './BlockCard';
 import RankedList from './RankedList';
@@ -9,27 +13,49 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import {Typography} from '@material-ui/core';
+import {Typography, SnackbarContent} from '@material-ui/core';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import InsightCards from './InsightCards.js';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
-import MapContainer from './MapContainer';
-import MapAndSideBar from './MapAndSideBar.js';
+import SimpleSnackbar from './Snackbar.js';
+import Fab from '@material-ui/core/Fab';
+import Edit from '@material-ui/icons/Edit';
 
-class ManualGraphForm extends React.Component {
+
+import {
+    BrowserView,
+    MobileView,
+    isBrowser,
+    isMobile,
+    isMobileOnly
+} from "react-device-detect";
+
+const fab_style = ({
+    margin: 0,
+    top: 'auto',
+    right: 20,
+    bottom: 20,
+    left: 'auto',
+    position: 'fixed',
+});
+
+class CustomGraph extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            keywords: ['python'],
-            filters: [],
-            period: "week",
-            age: "all_time",
-            raw_bool: false,
-            locations: [],
-            companies: [],
-            titles: [],
-            data_component: 'trend_chart',
+            snack_bar_open: true,
+            keywords: [],
+            filters: this.props.filters,
+            period: this.props.period,
+            age: this.props.age,
+            raw_bool: this.props.raw_bool,
+            locations: this.props.locations,
+            companies: this.props.companies,
+            titles: this.props.titles,
+            data_component: this.props.data_component,
+            insights: [],
             graph_data: {
                 keywords: [],
                 filters: [],
@@ -40,15 +66,24 @@ class ManualGraphForm extends React.Component {
             }
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleTextChange = this.handleTextChange.bind(this);
         this.reloadData = this.reloadData.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
-        this.reloadData(this.state);
+        axios.get('/tiles', {
+            responseType: 'json',
+            params: {
+                name: this.props.name
+            }
+        }).then(response => {
+            this.setState({insights: response.data.tile.insights});
+            let state_params = this.state;
+            state_params['keywords'] = response.data.tile.top_skills.map(skill => skill.key);
+            this.reloadData(state_params);
+        });
     }
 
+    // reload data on selector change
     handleChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -57,17 +92,6 @@ class ManualGraphForm extends React.Component {
 
         state_params[name] = value;
         this.reloadData(state_params);
-    }
-
-    handleTextChange(event){
-        const target = event.target;
-        const name = target.name;
-        const value = target.value.split(',');
-        this.setState({[name]: value});
-    }
-
-    handleSubmit(event){
-        this.reloadData(this.state);
     }
 
     reloadData(state_params) {
@@ -165,6 +189,18 @@ class ManualGraphForm extends React.Component {
                         raw: raw,
                     }
                 }).then(response => {
+                    function compare_keywords(a, b) {
+                        let a_index = response.data.keywords.indexOf(a);
+                        let b_index = response.data.keywords.indexOf(b);
+                        if (response.data.y[a_index] < response.data.y[b_index])
+                            return -1;
+                        if (response.data.y[b_index] < response.data.y[a_index])
+                            return 1;
+                        return 0;
+                    }
+
+                    response.data.keywords.sort(compare_keywords).reverse();
+                    response.data.y.sort().reverse();
                     this.setState({
                         keywords: state_params.keywords,
                         filters: state_params.filters,
@@ -182,6 +218,7 @@ class ManualGraphForm extends React.Component {
         }
     }
 
+    // display jsx for apropriate graphic type
     getDataComponent() {
         // array empty or does not exist
         switch (this.state.data_component) {
@@ -197,18 +234,19 @@ class ManualGraphForm extends React.Component {
                 );
             case 'list':
                 return (<BlockCard
-                        payload={<RankedList keys={this.state.keywords}/>}
+                        payload={<RankedList keys={this.state.graph_data.keywords}/>}
                         actions={this.createDropDowns()}/>
                 );
         }
     }
 
+    // render the ui
     createDropDowns() {
         let periodButton = null;
         let rawButton = null;
         if (this.state.data_component === 'trend_chart') {
             periodButton =
-                <Grid item xs>
+                <Grid item xs={1}>
                     <Select
                         value={this.state.period}
                         onChange={this.handleChange}
@@ -224,7 +262,7 @@ class ManualGraphForm extends React.Component {
 
         if (this.state.data_component === 'trend_chart' || this.state.data_component === 'bar_graph') {
             rawButton =
-                <Grid item xs>
+                <Grid item xs={1}>
                     <FormControlLabel
                         control={
                             <Checkbox
@@ -240,108 +278,76 @@ class ManualGraphForm extends React.Component {
         }
 
         return (
-            <div>
-                <form style={{ display: 'inline-flex' }} noValidate >
-                    <TextField
-                        label="Keywords"
-                        value={this.state.keywords}
-                        onChange={this.handleTextChange}
-                        margin="normal"
-                        variant="outlined"
-                        name="keywords"
-                    />
-                    <TextField
-                        label="Filters"
-                        value={this.state.filters}
-                        onChange={this.handleTextChange}
-                        margin="normal"
-                        variant="outlined"
-                        name="filters"
-                    />
-                    <TextField
-                        label="Companies"
-                        value={this.state.companies}
-                        onChange={this.handleTextChange}
-                        margin="normal"
-                        variant="outlined"
-                        name="companies"
-                    />
-                    <TextField
-                        label="Locations"
-                        value={this.state.locations}
-                        onChange={this.handleTextChange}
-                        margin="normal"
-                        variant="outlined"
-                        name="locations"
-                    />
-                    <TextField
-                        label="Titles"
-                        value={this.state.titles}
-                        onChange={this.handleTextChange}
-                        margin="normal"
-                        variant="outlined"
-                        name="titles"
-                    />
-                </form>
-                <Button variant="contained" color="primary" size="large" onClick={this.handleSubmit}>
-                        Submit
-                </Button>
-                <Grid
-                    container
-                    spacing={24}
-                    alignItems="center"
-                    justify="center"
-                >
-                    <Grid item xs></Grid>
-                    <Grid item xs>
-                        <Select
-                            value={this.state.data_component}
-                            onChange={this.handleChange}
-                            displayEmpty
-                            name="data_component"
-                        >
-                            <MenuItem value={'trend_chart'}>Trend Chart</MenuItem>
-                            <MenuItem value={'bar_graph'}>Bar Graph</MenuItem>
-                            <MenuItem value={'list'}>List</MenuItem>
-                        </Select>
-                    </Grid>
-                    {periodButton}
-                    <Grid item xs>
-                        <Select
-                            value={this.state.age}
-                            onChange={this.handleChange}
-                            displayEmpty
-                            name="age"
-                        >
-                            <MenuItem value={'all_time'}>All Time</MenuItem>
-                            <MenuItem value={'past_week'}>Past Week</MenuItem>
-                            <MenuItem value={'past_month'}>Past Month</MenuItem>
-                            <MenuItem value={'past_six_months'}>Past 6 Months</MenuItem>
-                        </Select>
-                    </Grid>
-                    {rawButton}
-                    <Grid item xs></Grid>
+            <Grid
+                container
+                alignItems="center"
+                justify="space-evenly"
+            >
+
+                <Grid item xs={1}>
+                    <Select
+                        value={this.state.data_component}
+                        onChange={this.handleChange}
+                        displayEmpty
+                        name="data_component"
+                    >
+                        <MenuItem value={'trend_chart'}>Trend Chart</MenuItem>
+                        <MenuItem value={'bar_graph'}>Bar Graph</MenuItem>
+                        <MenuItem value={'list'}>List</MenuItem>
+                    </Select>
                 </Grid>
-            </div>
+                {periodButton}
+                <Grid item xs={1}>
+                    <Select
+                        value={this.state.age}
+                        onChange={this.handleChange}
+                        displayEmpty
+                        name="age"
+                    >
+                        <MenuItem value={'all_time'}>All Time</MenuItem>
+                        <MenuItem value={'past_week'}>Past Week</MenuItem>
+                        <MenuItem value={'past_month'}>Past Month</MenuItem>
+                        <MenuItem value={'past_six_months'}>Past 6 Months</MenuItem>
+                    </Select>
+                </Grid>
+                {rawButton}
+            </Grid>
         );
     }
 
+    detectDeviceOrientation() {
+        if (isMobileOnly) {
+            let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+            let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+            if (w > h) {
+                return <p>This is Landscape Mode</p>
+            } else if (w < h) {
+                return (
+                    <SimpleSnackbar/>
+                )
+            }
+        }
+    }
+
     render() {
-        let testInsights = [];
         return (
             <div>
-                <nav>
-                    <Link to="/">Index</Link>
-                </nav>
+                <Link style={{ textDecoration: 'none' }} to={"/" + this.props.name + "/edit"}>
+                    <Fab color="primary" style={fab_style} aria-label="Edit">
+                        <Edit/>
+                    </Fab>
+                </Link>
                 <div align="center">
-                    <Typography align="center" variant="h4">{this.props.title}</Typography>
+                    <Typography paragraph></Typography>
+                    <Typography paragraph align="center" variant="h4">{this.props.title}</Typography>
                 </div>
                 {this.getDataComponent()}
 
-                <InsightCards InsightsValues={testInsights}/>
+                <InsightCards InsightsValues={this.state.insights}/>
+                {this.detectDeviceOrientation()}
             </div>
         );
     }
 }
 
-export default ManualGraphForm;
+export default CustomGraph;
