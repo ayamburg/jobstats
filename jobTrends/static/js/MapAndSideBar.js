@@ -14,6 +14,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import LocationOn from '@material-ui/icons/LocationOn';
 import { HeatMap } from 'google-maps-react';
+import Grid from '@material-ui/core/Grid';
 
 
 class MapAndSideBar extends React.Component {
@@ -126,25 +127,33 @@ class MapAndSideBar extends React.Component {
     />
     return(
         <div style= {this.props.stylep}>
-            <Paper style={ this.props.listStylep }>
-                <List>
-                {this.state.city_names.map((text, index) => (
-                    <Link key={text} style={{ textDecoration: 'none' }} to={'/google'}>
-                    <ListItem button onClick={() => this.handleSideBarClick(this.state.cities[text].Location)}>
-                    <LocationOn fontSize = "large" nativeColor = "#add8e6"/>
-                    <ListItemText primary={text} />
-                    </ListItem>
-                    </Link>
-                ))}
-                </List>
-            </Paper>
-            <GoogleMapsContainer style = { this.props.mapStylep } 
-            city_names = {this.state.city_names}
-            cities = {this.state.cities}
-            center = {this.state.mapCenter}
-            heatmap = {heatmap}
-            stylep = { this.props.innerMapStylep }
-            />
+            <Grid 
+                container
+            >
+                <Grid item>
+                    <Paper style={ this.props.listStylep }>
+                        <List>
+                        {this.state.city_names.map((text, index) => (
+                            <Link key={text} style={{ textDecoration: 'none' }} to={'/google'}>
+                            <ListItem button onClick={() => this.handleSideBarClick(this.state.cities[text].Location)}>
+                            <LocationOn fontSize = "large" nativeColor = "#add8e6"/>
+                            <ListItemText primary={text} />
+                            </ListItem>
+                            </Link>
+                        ))}
+                        </List>
+                    </Paper>
+                </Grid>
+                <Grid item>
+                    <GoogleMapsContainer style = { this.props.mapStylep } 
+                    city_names = {this.state.city_names}
+                    cities = {this.state.cities}
+                    center = {this.state.mapCenter}
+                    heatmap = {heatmap}
+                    stylep = { this.props.innerMapStylep }
+                    />
+                </Grid>
+            </Grid>
         </div>
         
     )

@@ -20,29 +20,32 @@ import MapAndSideBar from './MapAndSideBar.js';
 
 const listStyle = {
     overflow: 'auto',
-    float: 'left'
+    //float: 'left',
+    height: '90vh',
 }
 const style = {
-    display: 'flex',
-    flexDirection: 'row',
-    width: '70vw',
-    height: '80vh',
-    float: 'left',
-    margin: '0 auto',
+    // display: 'flex',
+    // flexDirection: 'row',
+    // width: '65vw',
+    // height: '80vh',
+    // float: 'none',
+    // margin: '0 auto',
+    marginLeft: '2%'
 }
 const mapStyle = {
-    float: 'left',
-    width: '70vw',
-    height: '80vh',
+    // float: 'left',
+    // width: '65vw',
+    // height: '80vh',
 }
 const innerMapStyle = {
-    width: '70vw',
-    height: '80vh',
+    width: '65vw',
+    height: '90vh'
+    //height: '80vh',
 }
 const MapAndSideBarStyle = {
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    // display: 'block',
+    // marginLeft: 'auto',
+    // marginRight: 'auto',
 }
 
 class GraphForm extends React.Component {
