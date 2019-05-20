@@ -117,6 +117,7 @@ class CustomGraphForm extends React.Component {
                 <Grid
                 container
                 justify = 'center'
+                alignContent='center'
                 >
                     <Card style={cardStyle}>
                     {/* <CardActions style={{justifyContent: 'center'}}> */}
