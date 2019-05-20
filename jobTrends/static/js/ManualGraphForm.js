@@ -1,7 +1,3 @@
-// GraphForm generates the graphs and insights corresponding to a given data set
-// It dynamicly changes the displayed graphic based on the values of the Select components
-// It updates the displayed data via api calls made in reloadData()
-
 import React from 'react'
 import BlockCard from './BlockCard';
 import RankedList from './RankedList';
@@ -13,38 +9,25 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Typography } from '@material-ui/core';
+import {Typography} from '@material-ui/core';
 import InsightCards from './InsightCards.js';
-import MapAndSideBarContainer from './MapAndSideBarContainer.js';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
-const listStyle = {
-    overflow: 'auto',
-    height: '90vh',
-}
-const style = {
-    marginLeft: '2%'
-}
-const mapStyle = {
-}
-const innerMapStyle = {
-    width: '65vw',
-    height: '90vh'
-}
-
-class GraphForm extends React.Component {
+class ManualGraphForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            keywords: [],
-            filters: this.props.filters,
-            period: this.props.period,
-            age: this.props.age,
-            raw_bool: this.props.raw_bool,
-            locations: this.props.locations,
-            companies: this.props.companies,
-            titles: this.props.titles,
-            data_component: this.props.data_component,
-            insights: [],
+            keywords: ['python'],
+            filters: [],
+            period: "week",
+            age: "all_time",
+            raw_bool: false,
+            locations: [],
+            companies: [],
+            titles: [],
+            data_component: 'trend_chart',
             graph_data: {
                 keywords: [],
                 filters: [],
@@ -55,33 +38,15 @@ class GraphForm extends React.Component {
             }
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleTextChange = this.handleTextChange.bind(this);
         this.reloadData = this.reloadData.bind(this);
-    }
-    
-    componentDidMount() {
-        axios.get('/api/get_json_file', {
-            responseType: 'json',
-            params: {
-                category: "top_skills",
-                name: this.props.name,
-            }
-        }).then(response => {
-            let state_params = this.state;
-            state_params['keywords'] = response.data.skills.map(skill => skill.key);
-            this.reloadData(state_params);
-        });
-        axios.get('/api/get_json_file', {
-            responseType: 'json',
-            params: {
-                category: "insights",
-                name: this.props.name,
-            }
-        }).then(response => {
-            this.setState({insights: response.data.insights});
-        });
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    // reload data on selector change
+    componentDidMount() {
+        this.reloadData(this.state);
+    }
+
     handleChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -90,6 +55,17 @@ class GraphForm extends React.Component {
 
         state_params[name] = value;
         this.reloadData(state_params);
+    }
+
+    handleTextChange(event){
+        const target = event.target;
+        const name = target.name;
+        const value = target.value.split(',');
+        this.setState({[name]: value});
+    }
+
+    handleSubmit(event){
+        this.reloadData(this.state);
     }
 
     reloadData(state_params) {
@@ -187,17 +163,6 @@ class GraphForm extends React.Component {
                         raw: raw,
                     }
                 }).then(response => {
-                    function compare_keywords(a,b) {
-                        let a_index = response.data.keywords.indexOf(a);
-                        let b_index = response.data.keywords.indexOf(b);
-                        if (response.data.y[a_index] < response.data.y[b_index])
-                            return -1;
-                        if (response.data.y[b_index] < response.data.y[a_index])
-                            return 1;
-                        return 0;
-                    }
-                    response.data.keywords.sort(compare_keywords).reverse();
-                    response.data.y.sort().reverse();
                     this.setState({
                         keywords: state_params.keywords,
                         filters: state_params.filters,
@@ -212,18 +177,11 @@ class GraphForm extends React.Component {
                     });
                 });
                 break;
-             case 'map':    
-                    this.setState({
-                        data_component: state_params.data_component
-                    });
-                    break;
         }
     }
-    
-    // display jsx for apropriate graphic type
+
     getDataComponent() {
         // array empty or does not exist
-        console.log(this.state.data_component)
         switch (this.state.data_component) {
             case 'trend_chart':
                 return (<BlockCard
@@ -237,26 +195,12 @@ class GraphForm extends React.Component {
                 );
             case 'list':
                 return (<BlockCard
-                        payload={<RankedList keys={this.state.graph_data.keywords}/>}
+                        payload={<RankedList keys={this.state.keywords}/>}
                         actions={this.createDropDowns()}/>
-                );
-            case 'map':
-                return(
-                    <BlockCard
-                        payload={<MapAndSideBarContainer 
-                            style_prop={ style } 
-                            list_style_prop={ listStyle} 
-                            map_style_prop={ mapStyle } 
-                            inner_map_style_prop={ innerMapStyle }
-                            />
-                        }
-                        actions={this.createDropDowns()}/>
-                    
                 );
         }
     }
 
-    // render the ui
     createDropDowns() {
         let periodButton = null;
         let rawButton = null;
@@ -294,59 +238,108 @@ class GraphForm extends React.Component {
         }
 
         return (
-            <Grid
-                container
-                spacing={16}
-                alignItems="flex-start"
-                justify="flex-start"
-            >
-                <Grid item xs></Grid>
-                <Grid item xs={4}>
-                    <Select
-                        value={this.state.data_component}
-                        onChange={this.handleChange}
-                        displayEmpty
-                        name="data_component"
-                    >
-                        <MenuItem value={'trend_chart'}>Trend Chart</MenuItem>
-                        <MenuItem value={'bar_graph'}>Bar Graph</MenuItem>
-                        <MenuItem value={'list'}>List</MenuItem>
-                        <MenuItem value={'map'}>Map</MenuItem>
-                    </Select>
+            <div>
+                <form style={{ display: 'inline-flex' }} noValidate >
+                    <TextField
+                        label="Keywords"
+                        value={this.state.keywords}
+                        onChange={this.handleTextChange}
+                        margin="normal"
+                        variant="outlined"
+                        name="keywords"
+                    />
+                    <TextField
+                        label="Filters"
+                        value={this.state.filters}
+                        onChange={this.handleTextChange}
+                        margin="normal"
+                        variant="outlined"
+                        name="filters"
+                    />
+                    <TextField
+                        label="Companies"
+                        value={this.state.companies}
+                        onChange={this.handleTextChange}
+                        margin="normal"
+                        variant="outlined"
+                        name="companies"
+                    />
+                    <TextField
+                        label="Locations"
+                        value={this.state.locations}
+                        onChange={this.handleTextChange}
+                        margin="normal"
+                        variant="outlined"
+                        name="locations"
+                    />
+                    <TextField
+                        label="Titles"
+                        value={this.state.titles}
+                        onChange={this.handleTextChange}
+                        margin="normal"
+                        variant="outlined"
+                        name="titles"
+                    />
+                </form>
+                <Button variant="contained" color="primary" size="large" onClick={this.handleSubmit}>
+                        Submit
+                </Button>
+                <Grid
+                    container
+                    spacing={24}
+                    alignItems="center"
+                    justify="center"
+                >
+                    <Grid item xs></Grid>
+                    <Grid item xs>
+                        <Select
+                            value={this.state.data_component}
+                            onChange={this.handleChange}
+                            displayEmpty
+                            name="data_component"
+                        >
+                            <MenuItem value={'trend_chart'}>Trend Chart</MenuItem>
+                            <MenuItem value={'bar_graph'}>Bar Graph</MenuItem>
+                            <MenuItem value={'list'}>List</MenuItem>
+                        </Select>
+                    </Grid>
+                    {periodButton}
+                    <Grid item xs>
+                        <Select
+                            value={this.state.age}
+                            onChange={this.handleChange}
+                            displayEmpty
+                            name="age"
+                        >
+                            <MenuItem value={'all_time'}>All Time</MenuItem>
+                            <MenuItem value={'past_week'}>Past Week</MenuItem>
+                            <MenuItem value={'past_month'}>Past Month</MenuItem>
+                            <MenuItem value={'past_six_months'}>Past 6 Months</MenuItem>
+                        </Select>
+                    </Grid>
+                    {rawButton}
+                    <Grid item xs></Grid>
                 </Grid>
-                {periodButton}
-                <Grid item xs={4}>
-                    <Select
-                        value={this.state.age}
-                        onChange={this.handleChange}
-                        displayEmpty
-                        name="age"
-                    >
-                        <MenuItem value={'all_time'}>All Time</MenuItem>
-                        <MenuItem value={'past_week'}>Past Week</MenuItem>
-                        <MenuItem value={'past_month'}>Past Month</MenuItem>
-                        <MenuItem value={'past_six_months'}>Past 6 Months</MenuItem>
-                    </Select>
-                </Grid>
-                {rawButton}
-                <Grid item xs></Grid>
-            </Grid>
+            </div>
         );
     }
 
     render() {
+        let testInsights = [];
         return (
             <div>
+                <nav>
+                    <Link to="/">Index</Link>
+                </nav>
                 <div align="center">
-                    <Typography paragraph></Typography>
-                    <Typography paragraph align = "center" variant = "h4">{this.props.title}</Typography>
+                    <Typography align="center" variant="h4">{this.props.title}</Typography>
                 </div>
                 {this.getDataComponent()}
-            
-                <InsightCards InsightsValues={this.state.insights}/>
+
+                <InsightCards InsightsValues={testInsights}/>
             </div>
         );
     }
 }
 
-export default GraphForm;
+export default ManualGraphForm;

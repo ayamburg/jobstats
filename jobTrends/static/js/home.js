@@ -2,7 +2,6 @@
 
 import React from 'react'
 import axios from 'axios'
-import ReactDOM from 'react-dom'
 import GraphForm from './GraphForm.js';
 import ManualGraph from './ManualGraph.js';
 import CustomGraphForm from './CustomGraphForm.js';
@@ -11,16 +10,12 @@ import EditForm from './EditForm.js';
 import {BrowserRouter as Router, Link} from "react-router-dom";
 import {Switch, Route} from 'react-router'
 import TileCardGrid from './TileCardGrid.js';
-import PropTypes from 'prop-types';
-import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
-import GoogleMapsContainer from './MapContainer.js';
-import MapAndSideBar from './MapAndSideBar.js';
+import MapAndSideBarContainer from './MapAndSideBarContainer.js';
 import {
     BrowserView,
     MobileView,
@@ -209,12 +204,12 @@ class Home extends React.Component {
                             render={
                                 (props) =>
                                     <div style={ MapAndSideBarStyle }>
-                                        <MapAndSideBar 
+                                        <MapAndSideBarContainer 
                                             {...props}
-                                            stylep={ style } 
-                                            listStylep={ listStyle} 
-                                            mapStylep={ mapStyle } 
-                                            innerMapStylep={ innerMapStyle }
+                                            style_prop={ style } 
+                                            list_style_prop={ listStyle} 
+                                            map_style_prop={ mapStyle } 
+                                            inner_map_style_prop={ innerMapStyle }
                                         />
                                     </div>
                             }
