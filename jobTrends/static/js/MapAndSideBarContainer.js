@@ -32,9 +32,6 @@ class MapAndSideBarContainer extends React.Component {
  componentDidMount() {
     this.createTopCities()
     this.getCitiesAndCityNames()
-    console.log("Below is state")
-    console.log(this.state.cities)
-    console.log(this.state.top_cities)
  }
 
  createTopCities() {
@@ -51,7 +48,7 @@ class MapAndSideBarContainer extends React.Component {
           var cities_name = response.data.top_locations[city_object]["city"];
           top_cities_latlng_objects.push(this.props.cities[cities_name].Location);
         }
-        console.log("here is top_cities:", top_cities_latlng_objects )
+        console.log("createTopCities api request succeeded, here is top_cities:", top_cities_latlng_objects )
         this.setState({
           top_cities: top_cities_latlng_objects 
         })
@@ -71,8 +68,8 @@ class MapAndSideBarContainer extends React.Component {
         for(let city_name in response.data) {
           citynames.push(city_name);
         }
-        console.log("here is response:", response.data)
-        console.log("here is citynames:", citynames )
+        console.log("getCitiesAndCityNames api request succeeded, here is response.data:", response.data)
+        console.log("getCitiesAndCityNames api request succeeded, here is citynames:", citynames )
         this.setState({
           cities: response.data,
           city_names: citynames,

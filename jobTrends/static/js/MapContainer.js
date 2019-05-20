@@ -113,20 +113,10 @@ class GoogleMapsContainer extends React.Component {
   }
 
   componentDidMount(){
-    console.log("props under this")
+    console.log("below 2 lines are props cities and top_cities in MapContainer during componentDidMount")
     console.log(this.props.cities)
     console.log(this.props.top_cities)
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if(nextProps.cities != this.state.cities || nextProps.city_names != this.state.city_names || nextProps.top_cities != this.state.top_cities) {
-  //     this.setState({ 
-  //       cities: nextProps.cities,
-  //       city_names: nextProps.city_names,
-  //       top_cities: nextProps.top_cities,
-  //     });
-  //   }  
-  // }
 
   // static getDerivedStateFromProps(nextProps, prevState){
   //   if(nextProps.cities != prevState.cities || nextProps.city_names != prevState.city_names || nextProps.top_cities != prevState.top_cities) {
