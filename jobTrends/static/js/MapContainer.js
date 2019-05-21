@@ -20,29 +20,6 @@ const mapGradient = [
   'rgba(255, 0, 0, 1)'
 ];
 
-const testPositions = [
-  { lat: 37.782551, lng: -122.445368 },
-  { lat: 37.782745, lng: -122.444586 },
-  { lat: 37.782842, lng: -122.443688 },
-  { lat: 37.782919, lng: -122.442815 },
-  { lat: 37.782992, lng: -122.442112 },
-  { lat: 37.7831, lng: -122.441461 },
-  { lat: 37.783206, lng: -122.440829 },
-  { lat: 37.783273, lng: -122.440324 },
-  { lat: 37.783316, lng: -122.440023 },
-  { lat: 37.783357, lng: -122.439794 },
-  { lat: 37.783371, lng: -122.439687 },
-  { lat: 37.783368, lng: -122.439666 },
-  { lat: 37.783383, lng: -122.439594 },
-  { lat: 37.783508, lng: -122.439525 },
-  { lat: 37.783842, lng: -122.439591 },
-  { lat: 37.784147, lng: -122.439668 }
-];
-
-const testPositions2 = [
-  { lat: 37.774929, lng: -122.419418}
-];
-
 var MARKERS = [];
 
 
@@ -56,11 +33,11 @@ class GoogleMapsContainer extends React.Component {
       cities: [],
       city_names: [],
       top_cities: [],
+      heatmap: {},
     }
     // binding this to event-handler functions
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMapClick = this.onMapClick.bind(this);
-    // this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
   }
 
   onMarkerClick(props, marker, e) {
@@ -100,15 +77,22 @@ class GoogleMapsContainer extends React.Component {
   componentDidUpdate(prevProps) {
     if(prevProps.cities !== this.props.cities || prevProps.city_names !== this.props.city_names || prevProps.top_cities !== this.props.top_cities) {
       console.log("updated state in MapContainer from componentDidUpdate")
+      if(prevProps.cities !== this.props.cities) {
+        console.log("updated cities state in MapContainer from componentDidUpdate", prevProps.cities, this.props.cities)
+      }
+      if(prevProps.city_names !== this.props.city_names) {
+        console.log("updated city_names state in MapContainer from componentDidUpdate", prevProps.city_names, this.props.city_names)
+      }
       if(prevProps.top_cities !== this.props.top_cities) {
-        console.log("updated top_cities state in MapContainer from componentDidUpdate")
+        console.log("updated top_cities state in MapContainer from componentDidUpdate", prevProps.top_cities, this.props.top_cities)
+        //this.createHeatMap(this.props.top_cities)
       }
       this.setState({ 
         cities: this.props.cities,
         city_names: this.props.city_names,
         top_cities: this.props.top_cities,
       });
-      this.forceUpdate();
+      //this.forceUpdate();
     }
   }
 
@@ -118,20 +102,12 @@ class GoogleMapsContainer extends React.Component {
     console.log(this.props.top_cities)
   }
 
-  // static getDerivedStateFromProps(nextProps, prevState){
-  //   if(nextProps.cities != prevState.cities || nextProps.city_names != prevState.city_names || nextProps.top_cities != prevState.top_cities) {
-  //     return ({
-  //       cities: nextProps.cities,
-  //       city_names: nextProps.city_names,
-  //       top_cities: nextProps.top_cities,
-  //     });
-  //   }  
-  // }
-
   render() {
     MARKERS = this.createMarkers();
+    console.log("MapContainer is rendering")
+    //console.log("hotmap is rendering", this.state.heatmap)
     //this if statchecks to see if top_cities and cities have been filled by their api requests in MapAndSideBarContainer.js
-    if(/*this.props.top_cities.length == 0 || this.props.cities.length == 0*/ 1 != 1) {
+    if(this.props.top_cities.length === 0) {
       return ( <span> Loading... </span>);
     } else {
       return (
@@ -145,10 +121,10 @@ class GoogleMapsContainer extends React.Component {
           center = {this.props.center}
         >
 
-          <HeatMap
+          <HeatMap 
             gradient={mapGradient}
-            opacity={1.0}
-            positions={this.props.top_cities}
+            opaciy={1.0}
+            positions={this.state.top_cities}
             radius={200}
           />
 

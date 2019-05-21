@@ -30,7 +30,6 @@ class MapAndSideBarContainer extends React.Component {
  }
 
  componentDidMount() {
-    this.createTopCities()
     this.getCitiesAndCityNames()
  }
 
@@ -38,21 +37,16 @@ class MapAndSideBarContainer extends React.Component {
     var top_cities_latlng_objects = [];
     axios.get('/api/top_locations', {
         responseType: 'json',
-        params: {
-            filters: [],
-            companies: [],
-            titles: ["frontend"],
-        }
+        params: {}
     }).then(response => {
-        for(let city_object in response.data.top_locations) {
-          var cities_name = response.data.top_locations[city_object]["city"];
-          top_cities_latlng_objects.push(this.props.cities[cities_name].Location);
+        for(var city_object in response.data.top_locations) {
+          var cities_name = response.data.top_locations[city_object].city;
+          top_cities_latlng_objects.push(this.state.cities[cities_name].Location);
         }
         console.log("createTopCities api request succeeded, here is top_cities:", top_cities_latlng_objects )
         this.setState({
           top_cities: top_cities_latlng_objects 
         })
-        this.forceUpdate();
     });
  }
 
@@ -74,6 +68,7 @@ class MapAndSideBarContainer extends React.Component {
           cities: response.data,
           city_names: citynames,
         })
+        this.createTopCities()
     });
  }
 
