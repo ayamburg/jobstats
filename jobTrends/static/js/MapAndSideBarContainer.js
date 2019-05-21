@@ -35,9 +35,16 @@ class MapAndSideBarContainer extends React.Component {
 
  createTopCities() {
     var top_cities_latlng_objects = [];
+    console.log("this.props.Top_locations_filters is:", this.props.Top_locations_filters)
+    console.log("this.props.Top_locations_companies is:", this.props.Top_locations_companies)
+    console.log("this.props.Top_locations_titles is:", this.props.Top_locations_titles)
     axios.get('/api/top_locations', {
         responseType: 'json',
-        params: {}
+        params: {
+            filters: this.props.Top_locations_filters,
+            companies: this.props.Top_locations_companies,
+            titles: this.props.Top_locations_titles,
+        }
     }).then(response => {
         for(var city_object in response.data.top_locations) {
           var cities_name = response.data.top_locations[city_object].city;

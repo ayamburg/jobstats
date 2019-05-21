@@ -271,7 +271,7 @@ class DataHandler:
         for city in include.keys():
             cityObjs.append({city.split(',')[0].lower(): city})
             cityNamesFilter.append(city.split(',')[0].lower())
-        print(cityNamesFilter)
+        #print(cityNamesFilter)
         for word in words:
             if word['key'] in cityNamesFilter:
                 #locations.append(word)
@@ -279,7 +279,7 @@ class DataHandler:
                     #print("%s, %s", city.keys(), word['key'])
                     if list(city)[0] == word['key']:
                         locations.append({"city": city[list(city)[0]], "doc_count": word['doc_count']})
-        print(locations)
+        #print(locations)
 
         locations = sorted(locations, key=lambda k: k['doc_count'], reverse=True)
 
