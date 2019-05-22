@@ -47,7 +47,7 @@ class DynamicForm extends React.Component {
                     onChange={this.props.onChange}
                     margin="normal"
                     variant="outlined"
-                    style={{display: 'inline-block'}}
+                    style={{marginLeft: '2vw', display: 'inline-block'}}
                 />
             </div>
             <div style={{ display: 'inline-flex' }}>
@@ -62,7 +62,7 @@ class DynamicForm extends React.Component {
                     <AddIcon/>
                 </Button>
                 </div >
-                <div style={{ display: 'inline-flex', alignSelf: 'right', overflow: 'auto', maxWidth:'95vh', marginLeft:'5vh'}}>
+                <div style={{ display: 'inline-flex', alignSelf: 'right', overflow: 'auto', maxWidth:'85vh', marginLeft:'5vh'}}>
                 <Grid justify="right">
                 <Grid item>
                 {this.getChips()}
