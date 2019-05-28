@@ -1,0 +1,59 @@
+charlotte
+tulsa
+milwaukee
+madison
+seattle
+san antonio
+cincinnati
+new york
+raleigh
+jacksonville
+baltimore
+indianapolis
+rochester
+richmond
+minneapolis
+st. louis
+sacramento
+san diego
+knoxville
+dallas
+tampa
+reino
+pittsburgh
+nashville
+salt lake city
+albany
+atlanta
+kansas city
+oakland
+los angeles
+austin
+tuscon
+san jose
+san francisco
+miami
+boston
+columbus
+philadelphia
+memphis
+louisville
+brooklyn
+las vegas
+denver
+washington
+albuquerque
+phoenix
+detroit
+bellingham
+chicago
+fort worth
+fresno
+boise
+bakersfield
+little rock
+portland
+buffalo
+cleveland
+houston
+orlando

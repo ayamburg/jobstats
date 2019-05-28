@@ -2,7 +2,6 @@
 
 import React from 'react'
 import axios from 'axios'
-import ReactDOM from 'react-dom'
 import GraphForm from './GraphForm.js';
 import ManualGraph from './ManualGraph.js';
 import CustomGraphForm from './CustomGraphForm.js';
@@ -11,14 +10,13 @@ import EditForm from './EditForm.js';
 import {BrowserRouter as Router, Link} from "react-router-dom";
 import {Switch, Route} from 'react-router'
 import TileCardGrid from './TileCardGrid.js';
-import PropTypes from 'prop-types';
-import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
+import MapAndSideBarContainer from './MapAndSideBarContainer.js';
+//import citynames from './citynames.js';
 import {
     BrowserView,
     MobileView,
@@ -28,6 +26,67 @@ import {
 } from "react-device-detect";
 import Grid from "./TileCardGrid";
 
+const citynames = [
+    "Charlotte, NC",
+    "Tulsa, OK",
+    "Milwaukee, WI",
+    "Madison, WI",
+    "Seattle, WA",
+    "San Antonio, TX",
+    "Cincinnati, OH",
+    "New York, NY",
+    "Raleigh, NC",
+    "Jacksonville, FL",
+    "Baltimore, MD",
+    "Indianapolis, IN",
+    "Rochester, NY",
+    "Richmond, VA",
+    "Minneapolis, MN",
+    "St. Louis, MO",
+    "Sacramento, CA",
+    "San Diego, CA",
+    "Knoxville, TN",
+    "Dallas, TX",
+    "Tampa, FL",
+    "Reino, NV",
+    "Pittsburgh, PA",
+    "Nashville, TN",
+    "Salt Lake City, UT",
+    "Albany, NY",
+    "Atlanta, GA",
+    "Kansas City, MO",
+    "Oakland, CA",
+    "Los Angeles, CA",
+    "Austin, TX",
+    "Tuscon, AZ",
+    "San Jose, CA",
+    "San Francisco, CA",
+    "Miami, FL",
+    "Boston, MA",
+    "Columbus, OH",
+    "Philadelphia, PA",
+    "Memphis, TN",
+    "Louisville, KY",
+    "Brooklyn, NY",
+    "Las Vegas, CA",
+    "Denver, CO",
+    "Washington, DC",
+    "Albuquerque, NM",
+    "Phoenix, AZ",
+    "Detroit, MI",
+    "Bellingham, WA",
+    "Chicago, IL",
+    "Fort Worth, TX",
+    "Fresno, CA",
+    "Boise, ID",
+    "Bakersfield, CA",
+    "Little Rock, AR",
+    "Portland, OR",
+    "Buffalo, NY",
+    "Cleveland, OH",
+    "Houston, TX",
+    "Orlando, FL",
+]
 
 const styles = {
     root: {
@@ -168,6 +227,32 @@ class Home extends React.Component {
     }
 
     render() {
+        const listStyle = {
+            overflow: 'auto',
+            height: '90vh',
+            float: 'left',
+        }
+        const style = {
+            display: 'flex',
+            flexDirection: 'row',
+            width: '90vw',
+            height: '90vh',
+            float: 'none',
+            margin: '0 auto',
+        }
+        const mapStyle = {
+            float: 'left',
+            width: '90vw',
+            height: '90vh',
+        }
+        const innerMapStyle = {
+            width: '90vw',
+            height: '90vh',
+        }
+        const MapAndSideBarStyle = {
+            float: 'none',
+            margin: '0 auto',
+        }
         let initial_data_component = "bar_graph";
         if (isMobileOnly) {
             initial_data_component = "list"
@@ -178,6 +263,21 @@ class Home extends React.Component {
                     {this.createAppBar()}
                     <Switch>
                         <Route exact path="/" component={TileCardGrid}/>
+
+                        <Route exact path="/map"                             
+                            render={
+                                (props) =>
+                                    <div style={ MapAndSideBarStyle }>
+                                        <MapAndSideBarContainer 
+                                            {...props}
+                                            style_prop={ style } 
+                                            list_style_prop={ listStyle} 
+                                            map_style_prop={ mapStyle } 
+                                            inner_map_style_prop={ innerMapStyle }
+                                        />
+                                    </div>
+                            }
+                        />
 
                         <Route
                             path="/amazon"
@@ -335,6 +435,69 @@ class Home extends React.Component {
                                         data_component={initial_data_component}
                                         name={"cybersecurity"}
                                         title={"Top Cyber Security Skills"}
+                                    />
+                            }
+                        />
+
+                        {/*generate Location tiles routes*/}
+                        {citynames.map((cityname, index) => (
+                            <Route path = {"/" + cityname.replace(/\W/g, '')}
+                            key={index}
+                            render={
+                                (props) =>
+                                    <GraphForm
+                                        {...props}
+                                        filters={[]}
+                                        period={"week"}
+                                        age={"all_time"}
+                                        raw_bool={false}
+                                        locations={cityname}
+                                        companies={""}
+                                        titles={""}
+                                        data_component={initial_data_component}
+                                        name={cityname.replace(/\W/g, '')}
+                                        title={cityname}
+                                    />
+                                }
+                            />
+                        ))}
+
+                        <Route
+                            path="/pizzatown"
+                            render={
+                                (props) =>
+                                    <GraphForm
+                                        {...props}
+                                        filters={[]}
+                                        period={"week"}
+                                        age={"all_time"}
+                                        raw_bool={false}
+                                        locations={"pizzatown"}
+                                        companies={""}
+                                        titles={""}
+                                        data_component={initial_data_component}
+                                        name={"pizzatown"}
+                                        title={"pizzatown"}
+                                    />
+                            }
+                        />
+
+                        <Route
+                            path="/oakland"
+                            render={
+                                (props) =>
+                                    <GraphForm
+                                        {...props}
+                                        filters={[]}
+                                        period={"week"}
+                                        age={"all_time"}
+                                        raw_bool={false}
+                                        locations={"oakland"}
+                                        companies={""}
+                                        titles={""}
+                                        data_component={initial_data_component}
+                                        name={"oakland"}
+                                        title={"Oakland, CA"}
                                     />
                             }
                         />

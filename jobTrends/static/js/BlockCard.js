@@ -31,7 +31,7 @@ import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
     root: {
-        flexGrow: 1,
+        overflow: 'auto',
     },
     paper: {
         padding: theme.spacing.unit * 2,
