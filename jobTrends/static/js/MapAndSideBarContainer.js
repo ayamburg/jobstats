@@ -9,7 +9,6 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import LocationOn from '@material-ui/icons/LocationOn';
 import Grid from '@material-ui/core/Grid';
 import GraphForm from './GraphForm.js';
-import {Switch} from 'react-router'
 
 class MapAndSideBarContainer extends React.Component {
  constructor(props){
@@ -38,9 +37,6 @@ class MapAndSideBarContainer extends React.Component {
 
  createTopCities() {
     var top_cities_latlng_objects = [];
-    console.log("this.props.Top_locations_filters is:", this.props.Top_locations_filters)
-    console.log("this.props.Top_locations_companies is:", this.props.Top_locations_companies)
-    console.log("this.props.Top_locations_titles is:", this.props.Top_locations_titles)
     axios.get('/api/top_locations', {
         responseType: 'json',
         params: {
@@ -54,7 +50,6 @@ class MapAndSideBarContainer extends React.Component {
           var doc_count = response.data.top_locations[city_object].doc_count;
           top_cities_latlng_objects.push({location: this.state.cities[cities_name].Location, weight: doc_count});
         }
-        console.log("createTopCities api request succeeded, here is top_cities:", top_cities_latlng_objects )
         this.setState({
           top_cities: top_cities_latlng_objects 
         })
@@ -62,11 +57,6 @@ class MapAndSideBarContainer extends React.Component {
  }
 
  createLocationTileRoutes() {
-     
-    this.state.city_names.map((cityname, index) => (
-        console.log("ciyname is: ", cityname),
-        console.log("name is: ", cityname.replace(/\W/g, ''))
-    ))
     return (this.state.city_names.map((cityname, index) => (
         <Route path = {"/" + cityname.replace(/\W/g, '')}
         key={index}
@@ -102,8 +92,6 @@ class MapAndSideBarContainer extends React.Component {
         for(let city_name in response.data) {
           citynames.push(city_name);
         }
-        console.log("getCitiesAndCityNames api request succeeded, here is response.data:", response.data)
-        console.log("getCitiesAndCityNames api request succeeded, here is citynames:", citynames )
         this.setState({
           cities: response.data,
           city_names: citynames,

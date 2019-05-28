@@ -229,7 +229,8 @@ class Home extends React.Component {
     render() {
         const listStyle = {
             overflow: 'auto',
-            float: 'left'
+            height: '90vh',
+            float: 'left',
         }
         const style = {
             display: 'flex',

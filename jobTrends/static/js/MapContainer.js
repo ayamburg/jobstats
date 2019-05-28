@@ -76,17 +76,6 @@ class GoogleMapsContainer extends React.Component {
 
   componentDidUpdate(prevProps) {
     if(prevProps.cities !== this.props.cities || prevProps.city_names !== this.props.city_names || prevProps.top_cities !== this.props.top_cities) {
-      console.log("updated state in MapContainer from componentDidUpdate")
-      if(prevProps.cities !== this.props.cities) {
-        console.log("updated cities state in MapContainer from componentDidUpdate", prevProps.cities, this.props.cities)
-      }
-      if(prevProps.city_names !== this.props.city_names) {
-        console.log("updated city_names state in MapContainer from componentDidUpdate", prevProps.city_names, this.props.city_names)
-      }
-      if(prevProps.top_cities !== this.props.top_cities) {
-        console.log("updated top_cities state in MapContainer from componentDidUpdate", prevProps.top_cities, this.props.top_cities)
-
-      }
       this.setState({ 
         cities: this.props.cities,
         city_names: this.props.city_names,
@@ -95,15 +84,8 @@ class GoogleMapsContainer extends React.Component {
     }
   }
 
-  componentDidMount(){
-    console.log("below 2 lines are props cities and top_cities in MapContainer during componentDidMount")
-    console.log(this.props.cities)
-    console.log(this.props.top_cities)
-  }
-
   render() {
     MARKERS = this.createMarkers();
-    console.log("MapContainer is rendering")
     //this if statchecks to see if top_cities and cities have been filled by their api requests in MapAndSideBarContainer.js
     if(this.props.top_cities.length === 0) {
       return ( <span> Loading... </span>);
