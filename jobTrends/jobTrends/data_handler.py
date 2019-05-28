@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from datetime import datetime
 from elasticsearchapp.documents import JobListingDocument
 from elasticsearch_dsl import Q
+import json
 
 
 class DataHandler:
@@ -231,9 +232,6 @@ class DataHandler:
     def get_top_locations(self, count, filters, companies, titles, include=None):
         queries = Q()
 
-        if not count:
-            count = 10
-
         for f in filters:
             queries = queries & Q("match_phrase", description=f)
 
@@ -253,19 +251,37 @@ class DataHandler:
 
         queries = queries & Q("range", posted_date={'gte': self.start})
         search = JobListingDocument.search().params(request_timeout=60).query(queries)
-        search.aggs.bucket('word_count', 'terms', field='location_keywords', size=50)
-        search.aggs.bucket('shingle_word_count', 'terms', field='location_shingles', size=50)
-        search.aggs.bucket('triple_shingle_word_count', 'terms', field='location_triple_shingles', size=50)
+        search.aggs.bucket('word_count', 'terms', field='location_keywords', size=500)
+        search.aggs.bucket('shingle_word_count', 'terms', field='location_shingles', size=500)
+        search.aggs.bucket('triple_shingle_word_count', 'terms', field='location_triple_shingles', size=500)
         search = search.execute()
         words = search.aggregations.word_count.to_dict()['buckets']
         shingle_words = search.aggregations.shingle_word_count.to_dict()['buckets']
         triple_shingle_words = search.aggregations.triple_shingle_word_count.to_dict()['buckets']
 
         words = words + shingle_words + triple_shingle_words
+        locations = []
+        cityObjs = []
 
-        skills = sorted(words, key=lambda k: k['doc_count'], reverse=True)
+        include = open("jobTrends/location_data/col.json", "r")
+        include = json.load(include)
+        cityNamesFilter = []
+        for city in include.keys():
+            cityObjs.append({city.split(',')[0].lower(): city})
+            cityNamesFilter.append(city.split(',')[0].lower())
+        #print(cityNamesFilter)
+        for word in words:
+            if word['key'] in cityNamesFilter:
+                #locations.append(word)
+                for city in cityObjs:
+                    #print("%s, %s", city.keys(), word['key'])
+                    if list(city)[0] == word['key']:
+                        locations.append({"city": city[list(city)[0]], "doc_count": word['doc_count']})
+        #print(locations)
 
-        return skills[:count]
+        locations = sorted(locations, key=lambda k: k['doc_count'], reverse=True)
+
+        return locations
 
     def get_job_listings(self, count, filters, companies, titles, locations):
         if not count:
