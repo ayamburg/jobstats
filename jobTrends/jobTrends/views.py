@@ -102,6 +102,25 @@ class TopLocations(View):
         return JsonResponse({'top_locations': page_data})
 
 
+class JobListings(View):
+    def get(self, request, *args, **kwargs):
+        request_data = parse_data_request(request)
+        filters = request_data['filters']
+        start = request_data['start']
+        companies = request_data['companies']
+        titles = request_data['titles']
+        locations = request_data['locations']
+        count = request_data['count']
+
+        if not start:
+            start = SCRAPE_DATA_START
+        start_time = time.time()
+        page_data = DataHandler(start).get_job_listings(count, filters, companies, titles, locations)
+        print("--- get_job_listings Run Time: %s seconds ---" % (time.time() - start_time))
+
+        return JsonResponse(page_data)
+
+
 class GetJsonFile(View):
     def get(self, request, *args, **kwargs):
         category = request.GET.get('category')
