@@ -218,10 +218,8 @@ class DataHandler:
                 if (word['key'] in include) & (word['key'] not in filters):
                     skills.append(word)
         else:
-            exclude = open("jobTrends/word_lists/exclude.txt", "r")
+            exclude = open("jobTrends/word_lists/exactExclude.txt", "r")
             exclude = exclude.read().split('\n')
-            new_exclude = open("jobTrends/word_lists/new_exclude.txt", "r")
-            exclude += new_exclude.read().split('\n')
             for word in words:
                 if (word['key'] not in exclude) & (word['key'] not in filter_terms):
                     skills.append(word)
