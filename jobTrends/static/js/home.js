@@ -16,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
 import MapAndSideBarContainer from './MapAndSideBarContainer.js';
+//import citynames from './citynames.js';
 import {
     BrowserView,
     MobileView,
@@ -24,6 +25,68 @@ import {
     isMobileOnly
 } from "react-device-detect";
 import Grid from "./TileCardGrid";
+
+const citynames = [
+    "Charlotte, NC",
+    "Tulsa, OK",
+    "Milwaukee, WI",
+    "Madison, WI",
+    "Seattle, WA",
+    "San Antonio, TX",
+    "Cincinnati, OH",
+    "New York, NY",
+    "Raleigh, NC",
+    "Jacksonville, FL",
+    "Baltimore, MD",
+    "Indianapolis, IN",
+    "Rochester, NY",
+    "Richmond, VA",
+    "Minneapolis, MN",
+    "St. Louis, MO",
+    "Sacramento, CA",
+    "San Diego, CA",
+    "Knoxville, TN",
+    "Dallas, TX",
+    "Tampa, FL",
+    "Reino, NV",
+    "Pittsburgh, PA",
+    "Nashville, TN",
+    "Salt Lake City, UT",
+    "Albany, NY",
+    "Atlanta, GA",
+    "Kansas City, MO",
+    "Oakland, CA",
+    "Los Angeles, CA",
+    "Austin, TX",
+    "Tuscon, AZ",
+    "San Jose, CA",
+    "San Francisco, CA",
+    "Miami, FL",
+    "Boston, MA",
+    "Columbus, OH",
+    "Philadelphia, PA",
+    "Memphis, TN",
+    "Louisville, KY",
+    "Brooklyn, NY",
+    "Las Vegas, CA",
+    "Denver, CO",
+    "Washington, DC",
+    "Albuquerque, NM",
+    "Phoenix, AZ",
+    "Detroit, MI",
+    "Bellingham, WA",
+    "Chicago, IL",
+    "Fort Worth, TX",
+    "Fresno, CA",
+    "Boise, ID",
+    "Bakersfield, CA",
+    "Little Rock, AR",
+    "Portland, OR",
+    "Buffalo, NY",
+    "Cleveland, OH",
+    "Houston, TX",
+    "Orlando, FL",
+]
 
 const styles = {
     root: {
@@ -371,6 +434,69 @@ class Home extends React.Component {
                                         data_component={initial_data_component}
                                         name={"cybersecurity"}
                                         title={"Top Cyber Security Skills"}
+                                    />
+                            }
+                        />
+
+                        {/*generate Location tiles routes*/}
+                        {citynames.map((cityname, index) => (
+                            <Route path = {"/" + cityname.replace(/\W/g, '')}
+                            key={index}
+                            render={
+                                (props) =>
+                                    <GraphForm
+                                        {...props}
+                                        filters={[]}
+                                        period={"week"}
+                                        age={"all_time"}
+                                        raw_bool={false}
+                                        locations={cityname}
+                                        companies={""}
+                                        titles={""}
+                                        data_component={initial_data_component}
+                                        name={cityname.replace(/\W/g, '')}
+                                        title={cityname}
+                                    />
+                                }
+                            />
+                        ))}
+
+                        <Route
+                            path="/pizzatown"
+                            render={
+                                (props) =>
+                                    <GraphForm
+                                        {...props}
+                                        filters={[]}
+                                        period={"week"}
+                                        age={"all_time"}
+                                        raw_bool={false}
+                                        locations={"pizzatown"}
+                                        companies={""}
+                                        titles={""}
+                                        data_component={initial_data_component}
+                                        name={"pizzatown"}
+                                        title={"pizzatown"}
+                                    />
+                            }
+                        />
+
+                        <Route
+                            path="/oakland"
+                            render={
+                                (props) =>
+                                    <GraphForm
+                                        {...props}
+                                        filters={[]}
+                                        period={"week"}
+                                        age={"all_time"}
+                                        raw_bool={false}
+                                        locations={"oakland"}
+                                        companies={""}
+                                        titles={""}
+                                        data_component={initial_data_component}
+                                        name={"oakland"}
+                                        title={"Oakland, CA"}
                                     />
                             }
                         />

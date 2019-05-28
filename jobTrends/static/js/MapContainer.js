@@ -29,7 +29,7 @@ class GoogleMapsContainer extends React.Component {
     this.state = {
       showingInfoWindow: false,
       activeMarker: {},
-      selectedPlace: {},
+      selectedPlace: {name: 'default'},
       cities: [],
       city_names: [],
       top_cities: [],
@@ -85,14 +85,13 @@ class GoogleMapsContainer extends React.Component {
       }
       if(prevProps.top_cities !== this.props.top_cities) {
         console.log("updated top_cities state in MapContainer from componentDidUpdate", prevProps.top_cities, this.props.top_cities)
-        //this.createHeatMap(this.props.top_cities)
+
       }
       this.setState({ 
         cities: this.props.cities,
         city_names: this.props.city_names,
         top_cities: this.props.top_cities,
       });
-      //this.forceUpdate();
     }
   }
 
@@ -105,7 +104,6 @@ class GoogleMapsContainer extends React.Component {
   render() {
     MARKERS = this.createMarkers();
     console.log("MapContainer is rendering")
-    //console.log("hotmap is rendering", this.state.heatmap)
     //this if statchecks to see if top_cities and cities have been filled by their api requests in MapAndSideBarContainer.js
     if(this.props.top_cities.length === 0) {
       return ( <span> Loading... </span>);
@@ -125,7 +123,7 @@ class GoogleMapsContainer extends React.Component {
             gradient={mapGradient}
             opaciy={1.0}
             positions={this.state.top_cities}
-            radius={200}
+            radius={100}
           />
 
           {MARKERS}
@@ -140,7 +138,7 @@ class GoogleMapsContainer extends React.Component {
               <h2>Cost of Living Index: {this.state.selectedPlace.COL}</h2>
               <h4>Mean Salary for Computing Industry: {this.state.selectedPlace.annual_wage}</h4>
               <Router>
-                <Link style={{ textDecoration: 'none' }} to={'/google'}>
+                <Link style={{ textDecoration: 'none' }} to={"/" + this.state.selectedPlace.name.replace(/\W/g, '')}>
                   <Button variant="outlined">
                     Click for more info
                   </Button>
@@ -155,6 +153,6 @@ class GoogleMapsContainer extends React.Component {
 }
 
 export default GoogleApiWrapper({
-    //apiKey: 'AIzaSyDtOudqRRf_cjgHfaM8qQQ4WwheBlGG0og',
+    apiKey: 'AIzaSyDtOudqRRf_cjgHfaM8qQQ4WwheBlGG0og',
     libraries: ['visualization']
 })(GoogleMapsContainer);
