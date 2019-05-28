@@ -218,12 +218,20 @@ class DataHandler:
                 if (word['key'] in include) & (word['key'] not in filters):
                     skills.append(word)
         else:
-            exclude = open("jobTrends/word_lists/exactExclude.txt", "r")
-            exclude = exclude.read().split('\n')
+            exact_exclude = open("jobTrends/word_lists/exactExclude.txt", "r")
+            exact_exclude = exact_exclude.read().split('\n')
+            power_exclude = open("jobTrends/word_lists/powerExclude.txt", "r")
+            power_exclude = power_exclude.read().split('\n')
             for word in words:
-                if (word['key'] not in exclude) & (word['key'] not in filter_terms):
-                    skills.append(word)
-                    exclude.append(word['key'])
+                include = 1
+                if (word['key'] not in exact_exclude) & (word['key'] not in filter_terms):
+                    for exclude_word in power_exclude:
+                        words = word['key'].split(' ')
+                        if exclude_word in words:
+                            include = 0
+                    if include:
+                        skills.append(word)
+                        exact_exclude.append(word['key'])
         skills = sorted(skills, key=lambda k: k['doc_count'], reverse=True)
 
         return skills[:count]
