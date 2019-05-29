@@ -176,7 +176,6 @@ class CustomTiles(View):
             locations = request_data['locations']
             companies = request_data['companies']
             titles = request_data['titles']
-            whitelists = request_data['whitelists']
             title = request_data['title']
             user_id = request.user
 
@@ -185,7 +184,6 @@ class CustomTiles(View):
                 locations=locations,
                 companies=companies,
                 titles=titles,
-                whitelists=whitelists,
                 title=title,
                 user_id=user_id)
             new_custom_tile.save()
@@ -208,7 +206,6 @@ class CustomTiles(View):
             locations = request_data['locations']
             companies = request_data['companies']
             titles = request_data['titles']
-            whitelists = request_data['whitelists']
             title = request_data['title']
             name = request_data['name']
 
@@ -222,7 +219,6 @@ class CustomTiles(View):
                           'locations': locations,
                           'companies': companies,
                           'titles': titles,
-                          'whitelists': whitelists,
                           'title': title})
 
             custom_tile[0].save()

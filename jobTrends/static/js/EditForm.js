@@ -68,13 +68,13 @@ class EditForm extends React.Component {
         this.handleDelete = this.handleDelete.bind(this);
     }
     handleUpdate() {
+        console.log('titles');
+        console.log(this.state.jobTitles);
         axios.put('custom_tiles', {
             filters: this.state.filters,
             locations: this.state.locations,
             companies: this.state.companies,
-            titles: this.state.titles,
-            blacklists: this.state.blacklists,
-            whitelists: this.state.whitelists,
+            titles: this.state.jobTitles,
             title: this.state.title,
             name: this.state.name
         }, {
@@ -143,7 +143,7 @@ class EditForm extends React.Component {
     }
 
     handleSubmit() {
-        axios.post('custom_tiles', {
+        axios.put('custom_tiles', {
             filters: this.state.filters,
             locations: this.state.locations,
             companies: this.state.companies,
