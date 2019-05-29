@@ -188,6 +188,9 @@ class CustomTiles(View):
                 user_id=user_id)
             new_custom_tile.save()
             new_custom_tile.generate_top_skills()
+            if not new_custom_tile.top_skills:
+                new_custom_tile.delete()
+                return JsonResponse({'error': 'No data found for given parameters', 'success': False}, status=406)
             new_custom_tile.generate_insights()
 
             print('---Success---')
@@ -213,6 +216,14 @@ class CustomTiles(View):
             if not request.user.is_authenticated | request.user.id != custom_tiles[0].user_id:
                 return JsonResponse({'error': 'Tile Does not Exist', 'success': False}, status=403)
 
+            old_fields = {'filters': custom_tiles[0].filters,
+                          'locations': custom_tiles[0].locations,
+                          'companies': custom_tiles[0].companies,
+                          'titles': custom_tiles[0].titles,
+                          'title': custom_tiles[0].title,
+                          'top_skills': custom_tiles[0].top_skills}
+            print(old_fields)
+
             custom_tile = CustomTile.objects.update_or_create(
                 id=custom_tiles[0].id,
                 defaults={'filters': filters,
@@ -223,6 +234,14 @@ class CustomTiles(View):
 
             custom_tile[0].save()
             custom_tile[0].generate_top_skills()
+
+            # if no top skills found, rollback
+            if not custom_tile[0].top_skills:
+                custom_tile = CustomTile.objects.update_or_create(
+                    id=custom_tile[0].id,
+                    defaults=old_fields)
+                custom_tile[0].save()
+                return JsonResponse({'error': 'No data found for given parameters', 'success': False}, status=406)
             custom_tile[0].generate_insights()
 
             print('---Success---')
