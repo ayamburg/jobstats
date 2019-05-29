@@ -16,6 +16,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Spinner from './spinner';
 import {
     BrowserView,
     MobileView,
@@ -290,11 +291,11 @@ class CustomGraphForm extends React.Component {
                                 Submit
                             </Button>
                             </CardActions> 
-                        
+                            <Spinner></Spinner>  
                         {/* </CardActions> */}
                         </Card> 
                     </Grid>  
-                    </form>                             
+                    </form>                           
                 </div>
             );
         }
