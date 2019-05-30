@@ -15,6 +15,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
+
 class ManualGraph extends React.Component {
     constructor(props) {
         super(props);

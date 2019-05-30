@@ -32,8 +32,8 @@ job_listing.analyzer(triple_shingle_analyzer)
 @job_listing.doc_type
 class JobListingDocument(DocType):
     keywords = fields.TextField(attr="description", fielddata=True)
-    shingles = fields.TextField(attr="description", analyzer="shingle", fielddata=True)
-    triple_shingles = fields.TextField(attr="description", analyzer="triple_shingle", fielddata=True)
+#    shingles = fields.TextField(attr="description", analyzer="shingle", fielddata=True)
+#   triple_shingles = fields.TextField(attr="description", analyzer="triple_shingle", fielddata=True)
 
     location_keywords = fields.TextField(attr="location", fielddata=True)
     location_shingles = fields.TextField(attr="location", analyzer="shingle", fielddata=True)
