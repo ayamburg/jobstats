@@ -201,7 +201,7 @@ class Home extends React.Component {
     }
 
     handleMenuClose() {
-        this.setState({ menuAnchorEl: null })
+        this.setState({menuAnchorEl: null})
     }
 
     handleSignOut() {
@@ -209,12 +209,12 @@ class Home extends React.Component {
             responseType: 'json'
         }).then(response => {
             window.location.reload();
-            this.setState({ menuAnchorEl: null })
+            this.setState({menuAnchorEl: null})
         });
     }
 
     handleMenuOpen(event) {
-        this.setState({ menuAnchorEl: event.currentTarget })
+        this.setState({menuAnchorEl: event.currentTarget})
     };
 
     createSignIn() {
@@ -226,7 +226,9 @@ class Home extends React.Component {
                         onClick={this.handleMenuOpen}
 
                     >
-                        <Typography variant="h6" style={{color: "#ffffff"}}>{this.state.user_name}{this.state.menuAnchorEl ? <ArrowDropUp/> : <ArrowDropDown/>}</Typography>
+                        <Typography variant="h6"
+                                    style={{color: "#ffffff"}}>{this.state.user_name}{this.state.menuAnchorEl ?
+                            <ArrowDropUp/> : <ArrowDropDown/>}</Typography>
                     </Button>
                     <Menu
                         id="simple-menu"
@@ -261,6 +263,16 @@ class Home extends React.Component {
                             >
                                 <HomeIcon style={{color: '#fffafa'}}/>
                             </IconButton>
+                        </Link>
+                        <Link to="/map" style={{textDecoration: 'none'}}>
+                            <Button>
+                                <Typography variant="h6" style={{color: "#ffffff"}}>Map</Typography>
+                            </Button>
+                        </Link>
+                        <Link to="/manual" style={{textDecoration: 'none'}}>
+                            <Button>
+                                <Typography variant="h6" style={{color: "#ffffff"}}>Manual</Typography>
+                            </Button>
                         </Link>
                         <div style={{flex: 1}}>{this.createSignIn()}</div>
                     </Toolbar>
