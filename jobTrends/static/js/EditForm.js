@@ -68,8 +68,6 @@ class EditForm extends React.Component {
         this.handleDelete = this.handleDelete.bind(this);
     }
     handleUpdate() {
-        console.log('titles');
-        console.log(this.state.jobTitles);
         axios.put('custom_tiles', {
             filters: this.state.filters,
             locations: this.state.locations,

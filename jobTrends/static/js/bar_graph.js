@@ -7,7 +7,6 @@ import {HorizontalBar, Bar} from 'react-chartjs-2';
 export default class HorizontalBarGraph extends React.Component {
     render() {
         var displayData = this.props.data.y;
-        console.log(displayData);
         let ticks = {
             min: 0,
             stepSize: 0,
