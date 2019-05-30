@@ -16,6 +16,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Typography } from '@material-ui/core';
 import InsightCards from './InsightCards.js';
 import MapAndSideBarContainer from './MapAndSideBarContainer.js';
+import JobListingTable from './JobListingTable.js';
 
 const listStyle = {
     overflow: 'auto',
@@ -347,6 +348,7 @@ class GraphForm extends React.Component {
                 {this.getDataComponent()}
             
                 <InsightCards InsightsValues={this.state.insights}/>
+                <BlockCard payload={<JobListingTable/>}/>
             </div>
         );
     }
