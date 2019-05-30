@@ -57,7 +57,8 @@ class CustomGraphForm extends React.Component {
             companies: [],
             jobTitles: [],
             whitelists: [],
-            title: ""
+            title: "",
+            loading: false
         };
         this.handleArrayChange = this.handleArrayChange.bind(this);
         this.handleTextChange = this.handleTextChange.bind(this);
@@ -106,6 +107,7 @@ class CustomGraphForm extends React.Component {
     }
 
     handleSubmit() {
+        this.setState({loading:true});
         axios.post('custom_tiles', {
             filters: this.state.filters,
             locations: this.state.locations,
@@ -202,7 +204,8 @@ class CustomGraphForm extends React.Component {
                             </Grid>
                             <CardActions style={{justifyContent: 'center'}}>
                             <Button justify = "right" variant="contained" color="primary" size="large" onClick={this.handleSubmit}>
-                                Submit
+                            {this.state.loading && <span>Submit</span>}
+                            {!this.state.loading && <span>Loading...</span>}
                             </Button>
                             </CardActions> 
                         
@@ -291,7 +294,6 @@ class CustomGraphForm extends React.Component {
                                 Submit
                             </Button>
                             </CardActions> 
-                            <Spinner></Spinner>  
                         {/* </CardActions> */}
                         </Card> 
                     </Grid>  

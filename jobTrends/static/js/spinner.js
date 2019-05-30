@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Button from '@material-ui/core/Button';
 
 class Spinner extends React.Component {
     constructor(props) {
@@ -22,10 +22,10 @@ class Spinner extends React.Component {
 
     return (
       <div style={{ marginTop: "60px" }}>
-        <button className="button" onClick={this.handleClick} disabled={loading}>
+        <Button className="button" onClick={this.handleClick} disabled={loading}>
           {loading && <span>Loading Data from Server</span>}
-          {!loading && <span>Fetch Data from Server</span>}
-        </button>
+          {!loading && <span>Submit</span>}
+        </Button>
       </div>
     );
   }
