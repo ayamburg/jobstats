@@ -11,6 +11,7 @@ from elasticsearchapp.tile_models import Tile, CustomTile
 from django.forms.models import model_to_dict
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.contrib.auth import logout
 import time
 import json
 import re
@@ -142,6 +143,11 @@ class UserInfo(View):
         else:
             return JsonResponse({'signed_in': False})
 
+
+class Logout(View):
+    def post(self, request, *args, **kwargs):
+        logout(request)
+        return JsonResponse({'signed_in': False})
 
 class Tiles(View):
     def get(self, request, *args, **kwargs):
