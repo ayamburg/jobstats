@@ -219,14 +219,20 @@ class DataHandler:
                 if (word['key'] in include) & (word['key'] not in filters):
                     skills.append(word)
         else:
-            exclude = open("jobTrends/word_lists/exclude.txt", "r")
-            exclude = exclude.read().split('\n')
-            new_exclude = open("jobTrends/word_lists/new_exclude.txt", "r")
-            exclude += new_exclude.read().split('\n')
+            exact_exclude = open("jobTrends/word_lists/exactExclude.txt", "r")
+            exact_exclude = exact_exclude.read().split('\n')
+            power_exclude = open("jobTrends/word_lists/powerExclude.txt", "r")
+            power_exclude = power_exclude.read().split('\n')
             for word in words:
-                if (word['key'] not in exclude) & (word['key'] not in filter_terms):
-                    skills.append(word)
-                    exclude.append(word['key'])
+                include = 1
+                if (word['key'] not in exact_exclude) & (word['key'] not in filter_terms):
+                    for exclude_word in power_exclude:
+                        words = word['key'].split(' ')
+                        if exclude_word in words:
+                            include = 0
+                    if include:
+                        skills.append(word)
+                        exact_exclude.append(word['key'])
         skills = sorted(skills, key=lambda k: k['doc_count'], reverse=True)
 
         return skills[:count]
@@ -284,6 +290,58 @@ class DataHandler:
         locations = sorted(locations, key=lambda k: k['doc_count'], reverse=True)
 
         return locations
+
+    def get_job_listings(self, count, filters, companies, titles, locations):
+        if not count:
+            count = 5
+
+        queries = Q()
+        queries = queries & Q("range", posted_date={'gte': str(datetime.utcfromtimestamp(self.start / 1000).date())})
+        # apply filters
+        for f in filters:
+            queries = queries & Q("match_phrase", description=f)
+
+        if titles:
+            title_queries = Q("match_phrase", title=titles[0])
+            remaining_titles = titles[1:]
+            for title in remaining_titles:
+                title_queries = title_queries | Q("match_phrase", title=title)
+            queries = queries & title_queries
+
+        if companies:
+            company_queries = Q("match_phrase", company=companies[0])
+            remaining_companies = companies[1:]
+            for company in remaining_companies:
+                company_queries = company_queries | Q("match_phrase", company=company)
+            queries = queries & company_queries
+
+        if locations:
+            location_queries = Q("match_phrase", location=locations[0])
+            remaining_locations = locations[1:]
+            for location in remaining_locations:
+                location_queries = location_queries | Q("match_phrase", location=location)
+            queries = queries & location_queries
+
+        # Get array of data for each keyword
+        listings_search = JobListingDocument.search().query(queries).sort('-posted_date')
+        listings_search = listings_search.execute()
+        job_listing_documents = listings_search[:count]
+        job_listings = []
+        for doc in job_listing_documents:
+            job_listings += [{
+                'indeed_id': doc.indeed_id,
+                'posted_date': doc.posted_date.isoformat(),
+                'title': doc.title,
+                'location': doc.location,
+                'company': doc.company,
+                'description': doc.description
+            }]
+
+        return {'job_listings': job_listings,
+                'filters': filters,
+                'companies': companies,
+                'titles': titles,
+                'locations': locations}
 
     def get_significant_terms(self, count, filters):
         queries = Q()

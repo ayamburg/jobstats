@@ -223,7 +223,6 @@ class GraphForm extends React.Component {
     // display jsx for apropriate graphic type
     getDataComponent() {
         // array empty or does not exist
-        console.log(this.state.data_component)
         switch (this.state.data_component) {
             case 'trend_chart':
                 return (<BlockCard
