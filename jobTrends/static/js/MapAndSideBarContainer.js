@@ -109,12 +109,10 @@ class MapAndSideBarContainer extends React.Component {
                 <Paper style={ this.props.list_style_prop }>
                     <List>
                         {this.state.city_names.map((text, index) => (
-                            <Link key={text} style={{ textDecoration: 'none' }} to={'/google'}>
-                            <ListItem button onClick={() => this.handleSideBarClick(this.state.cities[text].Location)}>
+                            <ListItem key={index} button onClick={() => this.handleSideBarClick(this.state.cities[text].Location)}>
                             <LocationOn fontSize = "large" nativeColor = "#add8e6"/>
                             <ListItemText primary={text} />
                             </ListItem>
-                            </Link>
                         ))}
                     </List>
                 </Paper>
