@@ -10,7 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import TopTenItem from './ListItem';
+import TopTenItem from './TopTenItem';
 import BlockCard from './BlockCard';
 import Divider from '@material-ui/core/Divider';
 
