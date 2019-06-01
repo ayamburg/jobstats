@@ -21,7 +21,6 @@ class MapAndSideBarContainer extends React.Component {
     }
     this.handleSideBarClick = this.handleSideBarClick.bind(this);
     this.getCitiesAndCityNames = this.getCitiesAndCityNames.bind(this);
-    this.createLocationTileRoutes = this.createLocationTileRoutes.bind(this);
  }
  
  handleSideBarClick(location) {
@@ -55,30 +54,6 @@ class MapAndSideBarContainer extends React.Component {
         })
     });
  }
-
- createLocationTileRoutes() {
-    return (this.state.city_names.map((cityname, index) => (
-        <Route path = {"/" + cityname.replace(/\W/g, '')}
-        key={index}
-        render={
-            (props) =>
-                <GraphForm
-                    {...props}
-                    filters={[]}
-                    period={"week"}
-                    age={"all_time"}
-                    raw_bool={false}
-                    locations={cityname}
-                    companies={""}
-                    titles={""}
-                    data_component={initial_data_component}
-                    name={cityname.replace(/\W/g, '')}
-                    title={cityname}
-                />
-            }
-        />
-    )))
-    }
 
  getCitiesAndCityNames() {
     axios.get('/api/get_json_file', {

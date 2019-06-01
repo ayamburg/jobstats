@@ -519,26 +519,6 @@ class Home extends React.Component {
                         ))}
 
                         <Route
-                            path="/pizzatown"
-                            render={
-                                (props) =>
-                                    <GraphForm
-                                        {...props}
-                                        filters={[]}
-                                        period={"week"}
-                                        age={"all_time"}
-                                        raw_bool={false}
-                                        locations={"pizzatown"}
-                                        companies={""}
-                                        titles={""}
-                                        data_component={initial_data_component}
-                                        name={"pizzatown"}
-                                        title={"pizzatown"}
-                                    />
-                            }
-                        />
-
-                        <Route
                             path="/oakland"
                             render={
                                 (props) =>
