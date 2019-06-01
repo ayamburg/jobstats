@@ -59,7 +59,7 @@
     "Annual mean wage": "$81,910",
     "Mean wage RSE": "1.50%"
   },
-  "Reino, NV": {
+  "Reno, NV": {
     "Location": {"lat": 39.526900, "lng": -119.813280},
     "COL": 61.46,
     "Employment": "3,550",
@@ -191,7 +191,7 @@
     "Annual mean wage": "$83,860",
     "Mean wage RSE": "1.40%"
   },
-  "Tuscon, AZ": {
+  "Tucson, AZ": {
     "Location": {"lat": 32.222607, "lng": -110.974709},
     "COL": 67.99,
     "Employment": "12,390",

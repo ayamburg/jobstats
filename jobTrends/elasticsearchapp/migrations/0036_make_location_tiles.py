@@ -13,6 +13,7 @@ def create_location_tiles(apps, schema_editor):
     for city in include.keys():
         print("city is: ", city.split(',')[0])
         print("name is: ", regex.sub('', city))
+        print("locations is: ", city.split(',')[0])
         new_custom_tile = StandardTile.objects.create(
             filters=[],
             locations=[city.split(',')[0]],
@@ -27,7 +28,7 @@ def create_location_tiles(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('elasticsearchapp', '0021_auto_20190512_0749'),
+        ('elasticsearchapp', '0034_auto_20190512_0749'),
     ]
 
     operations = [
