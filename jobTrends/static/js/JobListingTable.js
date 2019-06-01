@@ -5,6 +5,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import axios from 'axios';
+import Typography from '@material-ui/core/Typography';
 
 const styles = {
 root: {
@@ -17,42 +20,76 @@ root: {
   },
 };
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+class JobListingTable extends React.Component {
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+    constructor(props) {
+        super(props);
+        this.state = {
+            job_listings: [],
+        }
+        this.getJobListings = this.getJobListings.bind(this);
+    }
 
-function JobListingTable() {
-  const classes = styles;
+    getJobListings() {
+        axios.get('/api/job_listings', {
+            responseType: 'json',
+            params: {
+                filters: this.props.job_listings_filters,
+                companies: this.props.job_listings_companies,
+                titles: this.props.job_listings_titles,
+                locations: this.props.job_listings_locations,
+            }
+        }).then(response => {
+            console.log("got job_listings response is: ", response)
+            this.setState({
+              job_listings: response.data.job_listings
+            })
+        });
+    }
 
-  return (
-    <Paper className={classes.root}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell align="right">JobListings</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Paper>
-  );
+    componentDidMount() {
+        this.getJobListings()
+    }
+
+    render() {
+        const classes = styles;
+        if(this.state.job_listings.length === 0) {
+            return(<span> Loading... </span>)
+        } else {
+            return (
+                <div>
+                    <Typography variant="h5" align="center">Job Listings</Typography>
+                    <Typography variant="h6" align="center"> </Typography>
+                    <Paper className={classes.root}>
+                        <Table className={classes.table}>
+                            <TableHead>
+                            <TableRow>
+                                <TableCell>Positions</TableCell>
+                                <TableCell align="right">Date</TableCell>
+                                <TableCell align="right">Location</TableCell>
+                                <TableCell align="right">Company</TableCell>
+                            </TableRow>
+                            </TableHead>
+                            <TableBody>
+                            {this.state.job_listings.map(listing => (
+                                <TableRow key={listing.indeed_id}>
+                                        <TableCell component="th" scope="row">
+                                            <a href={"//www.indeed.com/viewjob?jk=" + listing.indeed_id}>
+                                                {listing.title}
+                                            </a>
+                                        </TableCell>
+                                        <TableCell align="right">{listing.posted_date.split('T')[0]}</TableCell>
+                                        <TableCell align="right">{listing.location}</TableCell>
+                                        <TableCell align="right">{listing.company}</TableCell>
+                                </TableRow>
+                            ))}
+                            </TableBody>
+                        </Table>
+                    </Paper>
+                </div>
+            );
+        }
+    }
 }
 
 export default JobListingTable;

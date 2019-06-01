@@ -338,6 +338,7 @@ class GraphForm extends React.Component {
         );
     }
 
+
     render() {
         return (
             <div>
@@ -348,7 +349,12 @@ class GraphForm extends React.Component {
                 {this.getDataComponent()}
             
                 <InsightCards InsightsValues={this.state.insights}/>
-                <BlockCard payload={<JobListingTable/>}/>
+                <BlockCard payload={<JobListingTable
+                    job_listings_filters={this.state.filters}
+                    job_listings_companies={this.state.companies}
+                    job_listings_titles={this.state.titles}
+                    job_listings_locations={this.state.locations}
+                />}/>
             </div>
         );
     }
