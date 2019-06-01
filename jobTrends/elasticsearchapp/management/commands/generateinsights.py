@@ -8,4 +8,5 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         tiles = Tile.objects.all()
         for tile in tiles:
+            print("generate insights for tile ", tile.title, " with locations: ", tile.locations)
             tile.generate_insights()

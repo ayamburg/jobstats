@@ -5,18 +5,6 @@ import re
 
 
 def create_location_tiles(apps, schema_editor):
-
-    # new_custom_tile = StandardTile.objects.create(
-    #     filters=[],
-    #     locations=['pizzatown'],
-    #     companies=[],
-    #     titles=[],
-    #     blacklists=[],
-    #     whitelists=[],
-    #     title='pizzatown',
-    #     name='pizzatown')
-    # new_custom_tile.save()e
-
     regex = re.compile('[^a-zA-Z]')
     #First parameter is the replacement, second parameter is your input string   
 
@@ -25,9 +13,10 @@ def create_location_tiles(apps, schema_editor):
     for city in include.keys():
         print("city is: ", city)
         print("name is: ", regex.sub('', city))
+        print("locations is: ", city.split(',')[0])
         new_custom_tile = StandardTile.objects.create(
             filters=[],
-            locations=[city],
+            locations=[city.split(',')[0]],
             companies=[],
             titles=[],
             blacklists=[],
@@ -38,7 +27,7 @@ def create_location_tiles(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('elasticsearchapp', '0021_auto_20190512_0749'),
+        ('elasticsearchapp', '0034_auto_20190512_0749'),
     ]
 
     operations = [
