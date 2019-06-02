@@ -1,4 +1,4 @@
-A# .NET
+A# NET
 A-0 System
 A++
 ABAP
@@ -53,7 +53,6 @@ Active Server Pages
 Babbage
 Ballerina
 Bash
-BASIC
 BCPL
 BeanShell
 Batch file
@@ -149,7 +148,7 @@ Escher
 ESPOL
 Esterel
 Etoys
-EusLisp Robot Programming Language
+EusLisp
 CMS EXEC
 EXEC 2
 Executable UML
@@ -162,19 +161,18 @@ FFP
 Fjölnir
 FL
 FlooP
-FLOW-MATIC
+FLOW MATIC
 FOIL
 FORMAC
 @Formula
-Forth
 Fortran
 Fortress
 Franz Lisp
-F-Script
+F Script
 Game Maker Language
 GameMonkey Script
 GAMS
-G-code
+G code
 GDScript
 Genie
 GDL
@@ -217,7 +215,7 @@ Icon
 IBM Basic assembly language
 IBM BASICA
 IBM HAScript
-IBM Informix-4GL
+IBM Informix 4GL
 IBM RPG
 Irineu
 IDL
@@ -239,14 +237,14 @@ Joule
 JOVIAL
 Joy
 JScript
-JScript .NET
+JScript NET
 Julia
 Jython
 Kaleidoscope
 Karel
 KEE
 Kixtart
-Klerer-May System
+Klerer May System
 KIF
 Kojo
 Kotlin
@@ -260,7 +258,7 @@ Ladder
 LANSA
 Lasso
 Lava
-LC-3
+LC 3
 Legoscript
 LIL
 LilyPond
@@ -272,7 +270,7 @@ LINQ
 LIS
 LISA
 Lisp
-Lite-C
+Lite C
 Lithe
 Little b
 LLL
@@ -298,22 +296,22 @@ Magma
 Maude system
 Máni
 Maple
-MARK-IV
+MARK IV
 Mary
-MASM Microsoft Assembly x86
-MATH-MATIC
+MASM
+MATH MATIC
 Mathematica
 MATLAB
 Maxima
 Max 
-MaxScript internal language 3D Studio Max
+MaxScript
 Maya
 MDL
 Mercury
 Mesa
 Metafont
 MetaQuotes Language
-MHEG-5 
+MHEG 5
 Microcode
 MicroScript
 MIIS
@@ -325,8 +323,8 @@ MIVA Script
 Model 204
 Modelica
 Modula
-Modula-2
-Modula-3
+Modula 2
+Modula 3
 Mohol
 MOO
 Mortran
@@ -343,7 +341,7 @@ Napier88
 Neko
 Nemerle
 NESL
-Net.Data
+Net Data
 NetLogo
 NetRexx
 NewLISP
@@ -360,7 +358,7 @@ Not Quite C
 NSIS
 Nu
 NWScript
-NXT-G
+NXT G
 o:XML
 Oak
 Oberon
@@ -370,11 +368,11 @@ ObjectLOGO
 Object REXX
 Object Pascal
 Objective C
-Objective-J
+Objective J
 Obliq
 OCaml
 occam
-occam-π
+occam π
 Octave
 OmniMark
 Onyx
@@ -387,7 +385,7 @@ OpenVera
 OPS5
 OptimJ
 Orc
-ORCA/Modula-2
+ORCA/Modula 2
 Oriel
 Orwell
 Oxygene
@@ -416,7 +414,7 @@ PIKT
 PILOT
 Pipelines
 Pizza
-PL-11
+PL 11
 PL/0
 PL/B
 PL/C
@@ -431,17 +429,16 @@ Planner
 PLEX
 PLEXIL
 Plus
-POP-11
-POP-2
+POP 11
+POP 2
 PostScript
 PortablE
-POV-Ray SDL
+POV Ray SDL
 Powerhouse
 PowerBuilder
 PowerShell
 PPL
-Processing
-Processing.js
+Processing js
 Prograph
 PROIV
 Prolog
@@ -486,9 +483,9 @@ RuneScript
 Rust
 S2
 S3
-S-Lang
-S-PLUS
-SA-C
+S Lang
+S PLUS
+SA C
 SabreTalk
 SAIL
 SALSA
@@ -500,7 +497,7 @@ Sawzall
 Scala
 Scheme
 Scilab
-Script.NET
+Script NET
 Sed
 Seed7
 SenseTalk
@@ -555,7 +552,7 @@ Topspeed
 TPU
 Trac
 TTM
-T-SQL
+T SQL
 Transcript
 TTCN
 Turing
@@ -577,7 +574,7 @@ VHDL
 Vim script
 Viper
 Visual Basic
-Visual Basic .NET
+Visual Basic NET
 Visual DataFlex
 Visual DialogScript
 Visual Fortran
@@ -626,7 +623,7 @@ Zsh
 ZPL
 Z++
 Cassowary
-CHR.js
+CHR js
 Google Polymer
 Dojo Toolkit
 jQuery
@@ -634,19 +631,19 @@ midori
 MooTools
 Prototype JavaScript Framework
 AnyChart
-D3.js
+D3 js
 FusionCharts
 Highcharts
 JavaScript InfoVis Toolkit
-p5.js
-Pixi.js
+p5 js
+Pixi js
 Plotly
-Processing.js
+Processing js
 Raphaël
 SWFObject
 Teechart
-Three.js
-Velocity.js
+Three js
+Velocity js
 Verge3D
 WhitestormJS 
 Angular
@@ -667,21 +664,21 @@ Joose
 JsPHP
 Ajax
 MochiKit
-PDF.js
+PDF js
 Rico
-Socket.IO
+Socket IO
 Spry framework
-Underscore.js
+Underscore js
 Cascade Framework
-Jinja-JS
-Twig.js
+Jinja JS
+Twig js
 Mocha
 QUnit
-Unit.js
-Backbone.js
+Unit js
+Backbone js
 Cappuccino
-Chaplin.js
-Ember.js
+Chaplin js
+Ember js
 Enyo
 Express
 Google Web Toolkit
@@ -689,7 +686,7 @@ JavaScriptMVC
 JsRender/JsViews
 Meteor
 Mojito 
-Cannon.js
+Cannon js
 MathJax
 AWS
 GCP
@@ -742,4 +739,4 @@ CRISC
 Ruby on rails
 Reddis
 Rabbitmq
-ASP.net
+ASP

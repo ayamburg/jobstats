@@ -184,7 +184,7 @@ class Home extends React.Component {
                                 {...props}
                                 filters={custom_tiles[i].filters}
                                 period={"week"}
-                                age={"all_time"}
+                                age={"past_six_months"}
                                 raw_bool={false}
                                 locations={custom_tiles[i].locations}
                                 companies={custom_tiles[i].companies}
@@ -343,7 +343,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={"amazon.com"}
@@ -363,7 +363,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={"apple"}
@@ -383,7 +383,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={"google"}
@@ -403,7 +403,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={"microsoft"}
@@ -423,7 +423,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={""}
@@ -443,7 +443,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={""}
@@ -463,7 +463,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={""}
@@ -483,7 +483,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={""}
@@ -505,7 +505,7 @@ class Home extends React.Component {
                                                {...props}
                                                filters={[]}
                                                period={"week"}
-                                               age={"all_time"}
+                                               age={"past_six_months"}
                                                raw_bool={false}
                                                locations={cityname}
                                                companies={""}
@@ -526,7 +526,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={"oakland"}
                                         companies={""}

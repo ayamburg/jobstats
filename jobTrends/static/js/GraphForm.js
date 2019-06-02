@@ -58,26 +58,17 @@ class GraphForm extends React.Component {
         this.reloadData = this.reloadData.bind(this);
     }
     
-    componentDidMount() {
-        axios.get('/api/get_json_file', {
+     componentDidMount() {
+        axios.get('/tiles', {
             responseType: 'json',
             params: {
-                category: "top_skills",
-                name: this.props.name,
+                name: this.props.name
             }
         }).then(response => {
+            this.setState({insights: response.data.tile.insights});
             let state_params = this.state;
-            state_params['keywords'] = response.data.skills.map(skill => skill.key);
+            state_params['keywords'] = response.data.tile.top_skills.map(skill => skill.key);
             this.reloadData(state_params);
-        });
-        axios.get('/api/get_json_file', {
-            responseType: 'json',
-            params: {
-                category: "insights",
-                name: this.props.name,
-            }
-        }).then(response => {
-            this.setState({insights: response.data.insights});
         });
     }
 

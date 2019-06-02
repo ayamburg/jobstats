@@ -149,6 +149,7 @@ class Logout(View):
         logout(request)
         return JsonResponse({'signed_in': False})
 
+
 class Tiles(View):
     def get(self, request, *args, **kwargs):
         if request.GET.get('name'):
