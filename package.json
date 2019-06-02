@@ -36,6 +36,7 @@
     "react-dom": "^16.8.1",
     "react-final-form": "^4.1.0",
     "react-final-form-arrays": "^2.0.3",
+    "react-loader-spinner": "^2.3.0",
     "react-plotly.js": "^2.2.0",
     "react-router-dom": "^4.3.1",
     "react-screen-orientation": "0.0.3",
