@@ -25,7 +25,7 @@ citynames = [
     "Knoxville, TN",
     "Dallas, TX",
     "Tampa, FL",
-    "Reino, NV",
+    "Reno, NV",
     "Pittsburgh, PA",
     "Nashville, TN",
     "Salt Lake City, UT",
@@ -35,7 +35,7 @@ citynames = [
     "Oakland, CA",
     "Los Angeles, CA",
     "Austin, TX",
-    "Tuscon, AZ",
+    "Tucson, AZ",
     "San Jose, CA",
     "San Francisco, CA",
     "Miami, FL",
@@ -65,10 +65,11 @@ citynames = [
     "Orlando, FL",
 ]
 
+
 def create_location_tiles(apps, schema_editor):
     regex = re.compile('[^a-zA-Z]')
     # First parameter is the replacement, second parameter is your input string
-    for city in new_citynames:
+    for city in citynames:
         print("city is: ", city.split(',')[0])
         print("name is: ", regex.sub('', city))
         print("locations is: ", city.split(',')[0])

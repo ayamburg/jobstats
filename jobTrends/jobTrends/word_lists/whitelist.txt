@@ -130,7 +130,6 @@ DRAKON
 Dylan
 DYNAMO
 DAX
-Ease
 Easy PL/I
 EASYTRIEVE PLUS
 eC
@@ -428,7 +427,6 @@ Plankalkül
 Planner
 PLEX
 PLEXIL
-Plus
 POP 11
 POP 2
 PostScript
@@ -448,7 +446,6 @@ PROSE modeling language
 PROTEL
 ProvideX
 Pro*C
-Pure
 PureBasic
 Pure Data
 Python
@@ -467,7 +464,6 @@ Ratfor
 rc
 Reason
 REBOL
-Red
 Redcode
 REFAL
 REXX
@@ -553,10 +549,8 @@ TPU
 Trac
 TTM
 T SQL
-Transcript
 TTCN
 Turing
-TUTOR
 TXL
 TypeScript
 Tynker
