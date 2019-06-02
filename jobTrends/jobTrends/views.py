@@ -11,6 +11,7 @@ from elasticsearchapp.tile_models import Tile, CustomTile
 from django.forms.models import model_to_dict
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.contrib.auth import logout
 import time
 import json
 import re
@@ -143,6 +144,12 @@ class UserInfo(View):
             return JsonResponse({'signed_in': False})
 
 
+class Logout(View):
+    def post(self, request, *args, **kwargs):
+        logout(request)
+        return JsonResponse({'signed_in': False})
+
+
 class Tiles(View):
     def get(self, request, *args, **kwargs):
         if request.GET.get('name'):
@@ -176,7 +183,6 @@ class CustomTiles(View):
             locations = request_data['locations']
             companies = request_data['companies']
             titles = request_data['titles']
-            whitelists = request_data['whitelists']
             title = request_data['title']
             user_id = request.user
 
@@ -185,11 +191,13 @@ class CustomTiles(View):
                 locations=locations,
                 companies=companies,
                 titles=titles,
-                whitelists=whitelists,
                 title=title,
                 user_id=user_id)
             new_custom_tile.save()
             new_custom_tile.generate_top_skills()
+            if not new_custom_tile.top_skills:
+                new_custom_tile.delete()
+                return JsonResponse({'error': 'No data found for given parameters', 'success': False}, status=406)
             new_custom_tile.generate_insights()
 
             print('---Success---')
@@ -208,7 +216,6 @@ class CustomTiles(View):
             locations = request_data['locations']
             companies = request_data['companies']
             titles = request_data['titles']
-            whitelists = request_data['whitelists']
             title = request_data['title']
             name = request_data['name']
 
@@ -216,17 +223,32 @@ class CustomTiles(View):
             if not request.user.is_authenticated | request.user.id != custom_tiles[0].user_id:
                 return JsonResponse({'error': 'Tile Does not Exist', 'success': False}, status=403)
 
+            old_fields = {'filters': custom_tiles[0].filters,
+                          'locations': custom_tiles[0].locations,
+                          'companies': custom_tiles[0].companies,
+                          'titles': custom_tiles[0].titles,
+                          'title': custom_tiles[0].title,
+                          'top_skills': custom_tiles[0].top_skills}
+            print(old_fields)
+
             custom_tile = CustomTile.objects.update_or_create(
                 id=custom_tiles[0].id,
                 defaults={'filters': filters,
                           'locations': locations,
                           'companies': companies,
                           'titles': titles,
-                          'whitelists': whitelists,
                           'title': title})
 
             custom_tile[0].save()
             custom_tile[0].generate_top_skills()
+
+            # if no top skills found, rollback
+            if not custom_tile[0].top_skills:
+                custom_tile = CustomTile.objects.update_or_create(
+                    id=custom_tile[0].id,
+                    defaults=old_fields)
+                custom_tile[0].save()
+                return JsonResponse({'error': 'No data found for given parameters', 'success': False}, status=406)
             custom_tile[0].generate_insights()
 
             print('---Success---')

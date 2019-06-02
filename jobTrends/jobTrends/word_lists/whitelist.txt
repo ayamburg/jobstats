@@ -1,0 +1,736 @@
+A# NET
+A-0 System
+A++
+ABAP
+ABC
+ABC ALGOL
+ABSET
+ABSYS
+ACC
+Accent
+Ace DASL
+ACL2
+ACT-III
+Action!
+ActionScript
+Actor
+Adenine
+Agda
+Agilent VEE
+Agora
+AIMMS
+Aldor
+Alef
+ALF
+ALGOL 58
+ALGOL 60
+ALGOL 68
+ALGOL W
+Alma-0
+AmbientTalk
+Amiga E
+AMOS
+AMPL
+AngelScript
+Apex
+APL
+App Inventor for Android's visual block language
+AppleScript
+ARexx
+Argus
+AspectJ
+Assembly language
+ATS
+Ateji PX
+AutoHotkey
+Autocoder
+AutoIt
+AutoLISP
+Averest
+AWK
+Axum
+Active Server Pages
+Babbage
+Ballerina
+Bash
+BCPL
+BeanShell
+Batch file
+Bertrand
+BLISS
+Blockly
+BlooP
+Boomerang
+Bourne shell
+BPEL
+Business Basic
+C
+C--
+C++
+C*
+C#
+C/AL
+Caché ObjectScript
+C Shell
+Caml
+Cayenne
+CDuce
+Cecil
+Cesil
+Céu
+Ceylon
+CFEngine
+CHIP-8
+chomski
+Cilk
+Citrine
+CL (IBM)
+Clarion
+Clojure
+CLU
+CMS-2
+COBOL
+CobolScript
+Cobra
+CoffeeScript
+ColdFusion
+COMAL
+Combined Programming Language
+COMIT
+Common Intermediate Language
+Common Lisp
+COMPASS
+Component Pascal
+Constraint Handling Rules
+COMTRAN
+Coq
+Coral 66
+CorVision
+COWSEL
+CPL
+Cryptol
+Csound
+CSP
+Cuneiform
+Curl
+Cybil
+Cython
+DASL
+Darwin
+DataFlex
+Datalog
+DATATRIEVE
+dBase
+DCL
+DinkC
+DIBOL
+Draco
+Dragon
+DRAKON
+Dylan
+DYNAMO
+DAX
+Easy PL/I
+EASYTRIEVE PLUS
+eC
+ECMAScript
+Edinburgh IMP
+EGL
+ELAN
+Elixir
+Elm
+Emacs Lisp
+Emerald
+Epigram
+Erlang
+Escher
+ESPOL
+Esterel
+Etoys
+EusLisp
+CMS EXEC
+EXEC 2
+Executable UML
+Ezhil
+F#
+F*
+Fantom
+FAUST
+FFP
+Fjölnir
+FL
+FlooP
+FLOW MATIC
+FOIL
+FORMAC
+@Formula
+Fortran
+Fortress
+Franz Lisp
+F Script
+Game Maker Language
+GameMonkey Script
+GAMS
+G code
+GDScript
+Genie
+GDL
+GEORGE
+GLSL
+GNU E
+Golang
+Go!
+GOAL
+Gödel
+Golo
+GOM
+Google Apps Script
+Gosu
+GOTRAN
+GPSS
+GraphTalk
+GRASS
+Grasshopper
+Groovy
+Hack
+HAGGIS
+HAL/S
+Halide
+Hamilton C shell
+Harbour
+Hartmann pipelines
+Haskell
+Haxe
+Hermes
+High Level Assembly
+HLSL
+HolyC
+Hop
+Hopscotch
+Hugo
+Hume
+HyperTalk
+Icon
+IBM Basic assembly language
+IBM BASICA
+IBM HAScript
+IBM Informix 4GL
+IBM RPG
+Irineu
+IDL
+Idris
+Inform
+J#
+J++
+JADE
+JAL
+JASS
+Java
+JavaFX Script
+JavaScript
+JCL
+JEAN
+Join Java
+JOSS
+Joule
+JOVIAL
+Joy
+JScript
+JScript NET
+Julia
+Jython
+Kaleidoscope
+Karel
+KEE
+Kixtart
+Klerer May System
+KIF
+Kojo
+Kotlin
+KRC
+KRYPTON
+Korn shell
+Kodu
+Kv
+LabVIEW
+Ladder
+LANSA
+Lasso
+Lava
+LC 3
+Legoscript
+LIL
+LilyPond
+Limbo
+Limnor
+LINC
+Lingo
+LINQ
+LIS
+LISA
+Lisp
+Lite C
+Lithe
+Little b
+LLL
+Logo
+Logtalk
+LotusScript
+LPC
+LSE
+LSL
+LiveCode
+LiveScript
+Lua
+Lucid
+Lustre
+LYaPAS
+Lynx
+M2001
+M4
+M#
+Machine code
+Magik
+Magma
+Maude system
+Máni
+Maple
+MARK IV
+Mary
+MASM
+MATH MATIC
+Mathematica
+MATLAB
+Maxima
+Max 
+MaxScript
+Maya
+MDL
+Mercury
+Mesa
+Metafont
+MetaQuotes Language
+MHEG 5
+Microcode
+MicroScript
+MIIS
+Milk 
+MIMIC
+Mirah
+Miranda
+MIVA Script
+Model 204
+Modelica
+Modula
+Modula 2
+Modula 3
+Mohol
+MOO
+Mortran
+Mouse
+MPD
+Mathcad
+MSL
+MUMPS
+MuPAD
+Mutan
+Mystic Programming Language
+NASM
+Napier88
+Neko
+Nemerle
+NESL
+Net Data
+NetLogo
+NetRexx
+NewLISP
+NEWP
+Newspeak
+NewtonScript
+Nial
+Nice
+Nickle
+Nim
+NPL
+Not eXactly C
+Not Quite C
+NSIS
+Nu
+NWScript
+NXT G
+o:XML
+Oak
+Oberon
+OBJ2
+Object Lisp
+ObjectLOGO
+Object REXX
+Object Pascal
+Objective C
+Objective J
+Obliq
+OCaml
+occam
+occam π
+Octave
+OmniMark
+Onyx
+Opa
+Opal
+OpenCL
+OpenEdge ABL
+OPL
+OpenVera
+OPS5
+OptimJ
+Orc
+ORCA/Modula 2
+Oriel
+Orwell
+Oxygene
+Oz
+P4
+P′′
+ParaSail
+PARI/GP
+Pascal
+Pascal Script
+PCASTL
+PCF
+PEARL
+PeopleCode
+Perl
+PDL
+Perl 6
+Pharo
+PHP
+Pico
+Picolisp
+Pict
+Pig
+Pike
+PIKT
+PILOT
+Pipelines
+Pizza
+PL 11
+PL/0
+PL/B
+PL/C
+PL/I – ISO 6160
+PL/M
+PL/P
+PL/SQL
+PL360
+PLANC
+Plankalkül
+Planner
+PLEX
+PLEXIL
+POP 11
+POP 2
+PostScript
+PortablE
+POV Ray SDL
+Powerhouse
+PowerBuilder
+PowerShell
+PPL
+Processing js
+Prograph
+PROIV
+Prolog
+PROMAL
+Promela
+PROSE modeling language
+PROTEL
+ProvideX
+Pro*C
+PureBasic
+Pure Data
+Python
+Q#
+Qalb
+QtScript
+QuakeC
+QPL
+R
+R++
+Racket
+RAPID
+Rapira
+Ratfiv
+Ratfor
+rc
+Reason
+REBOL
+Redcode
+REFAL
+REXX
+Ring
+Rlab
+ROOP
+RPG
+RPL
+RSL
+RTL/2
+Ruby
+RuneScript
+Rust
+S2
+S3
+S Lang
+S PLUS
+SA C
+SabreTalk
+SAIL
+SALSA
+SAM76
+SAS
+SASL
+Sather
+Sawzall
+Scala
+Scheme
+Scilab
+Script NET
+Sed
+Seed7
+SenseTalk
+SequenceL
+Serpent
+SETL
+SIMPOL
+SIMSCRIPT
+Simula
+Simulink
+SISAL
+Smalltalk
+SML
+Strongtalk
+Snap!
+SNOBOL (SPITBOL)
+SOL
+Solidity
+SOPHAEROS
+SPARK
+Speakeasy
+Speedcode
+SPIN
+SP/k
+SPS
+SQL
+SQR
+Squeak
+Squirrel
+SR
+S/SL
+Starlogo
+Stata
+Stateflow
+SBL
+SuperCollider
+SuperTalk
+Swift
+SYMPL
+SystemVerilog
+TACL
+TACPOL
+TADS
+TAL
+Tcl
+Tea
+TECO
+TeX
+TEX
+Toi
+Topspeed
+TPU
+Trac
+TTM
+T SQL
+TTCN
+Turing
+TXL
+TypeScript
+Tynker
+Ubercode
+UCSD Pascal
+Umple
+Unicon
+Uniface
+UNITY
+Unix shell
+UnrealScript
+Vala
+Verilog
+VHDL
+Vim script
+Viper
+Visual Basic
+Visual Basic NET
+Visual DataFlex
+Visual DialogScript
+Visual Fortran
+Visual FoxPro
+Visual J++
+Visual J#
+Visual LISP
+Visual Objects
+Visual Prolog
+VSXu
+WATFIV, WATFOR
+WebAssembly
+WebDNA
+Whiley
+Winbatch
+Wolfram Language
+Wyvern
+X++
+X10
+xBase
+xBase++
+XBL
+XC
+xHarbour
+XL
+Xojo
+XOTcl
+XOD
+XPath
+XPL
+XPL0
+XQuery
+XSB
+XSharp
+XSLT
+Xtend
+Yorick
+YQL
+Yoix
+Z notation
+Zebra, ZPL, ZPL2
+Zeno
+ZetaLisp
+ZOPL
+Zsh
+ZPL
+Z++
+Cassowary
+CHR js
+Google Polymer
+Dojo Toolkit
+jQuery
+midori
+MooTools
+Prototype JavaScript Framework
+AnyChart
+D3 js
+FusionCharts
+Highcharts
+JavaScript InfoVis Toolkit
+p5 js
+Pixi js
+Plotly
+Processing js
+Raphaël
+SWFObject
+Teechart
+Three js
+Velocity js
+Verge3D
+WhitestormJS 
+Angular
+Bootstrap
+Dojo Widgets
+Ext JS
+jQWidgets
+OpenUI5
+Polymer
+qooxdoo
+React
+SmartClient
+Vue
+Webix
+WinJS
+Google Closure Library
+Joose
+JsPHP
+Ajax
+MochiKit
+PDF js
+Rico
+Socket IO
+Spry framework
+Underscore js
+Cascade Framework
+Jinja JS
+Twig js
+Mocha
+QUnit
+Unit js
+Backbone js
+Cappuccino
+Chaplin js
+Ember js
+Enyo
+Express
+Google Web Toolkit
+JavaScriptMVC
+JsRender/JsViews
+Meteor
+Mojito 
+Cannon js
+MathJax
+AWS
+GCP
+Azure
+Data structures
+Distributed systems
+Agile
+Scrum
+Machine learning
+iOS
+macOS
+Windows
+Linux
+Unix
+Debugging
+Testing
+QA
+Automation
+Android
+Css
+Html
+Html5
+Apis
+Cissp
+Network security
+Firewalls
+Penetration testing
+Application security
+Intrusion detetction
+Machine learning
+Natural Language Processing
+Cloud Based Computing
+Spring Boot
+Artificial Intelligence
+Data analytics
+Nosql
+Git
+Mongodb
+Django
+Elasticsearch
+Flask
+Apache
+CompTIA A+
+CompTIA Network+
+CCNA
+MCSE
+CISA
+CISM
+CRISC
+Ruby on rails
+Reddis
+Rabbitmq
+ASP

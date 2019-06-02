@@ -3,6 +3,7 @@ import DynamicForm from './DynamicForm';
 import Card from '@material-ui/core/Card';
 import axios from 'axios'
 import Grid from '@material-ui/core/Grid';
+import loader from '../homepage/css/loader.css';
 import Checkbox from '@material-ui/core/Checkbox';
 import {Typography, CardActions} from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
@@ -16,6 +17,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Spinner from './spinner';
 import {
     BrowserView,
     MobileView,
@@ -56,7 +58,8 @@ class CustomGraphForm extends React.Component {
             companies: [],
             jobTitles: [],
             whitelists: [],
-            title: ""
+            title: "",
+            loading: false
         };
         this.handleArrayChange = this.handleArrayChange.bind(this);
         this.handleTextChange = this.handleTextChange.bind(this);
@@ -105,6 +108,7 @@ class CustomGraphForm extends React.Component {
     }
 
     handleSubmit() {
+        this.setState({loading:false});
         axios.post('custom_tiles', {
             filters: this.state.filters,
             locations: this.state.locations,
@@ -123,6 +127,7 @@ class CustomGraphForm extends React.Component {
                 console.log(response);
             }
         });
+        this.setState({loading:true});
     }
 
     
@@ -200,8 +205,9 @@ class CustomGraphForm extends React.Component {
                                 />
                             </Grid>
                             <CardActions style={{justifyContent: 'center'}}>
-                            <Button justify = "right" variant="contained" color="primary" size="large" onClick={this.handleSubmit}>
-                                Submit
+                            <Button justify = "right" variant="contained" color="primary" size="large" onClick={this.handleSubmit} disabled={this.state.loading}>
+                            {this.state.loading && <span>Submit</span>}
+                            {!this.state.loading && <span> Loading...</span>}
                             </Button>
                             </CardActions> 
                         
@@ -286,15 +292,15 @@ class CustomGraphForm extends React.Component {
                                 />
                             </Grid>
                             <CardActions style={{justifyContent: 'center'}}>
-                            <Button justify = "right" variant="contained" color="primary" size="large" onClick={this.handleSubmit}>
-                                Submit
+                            <Button justify = "right" variant="contained" color="primary" size="large" onClick={this.handleSubmit} disabled={this.state.loading}>
+                            {!this.state.loading && <span>Submit</span>}
+                            {this.state.loading && <span>Loading...</span>}
                             </Button>
                             </CardActions> 
-                        
                         {/* </CardActions> */}
                         </Card> 
                     </Grid>  
-                    </form>                             
+                    </form>                           
                 </div>
             );
         }

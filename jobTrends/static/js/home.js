@@ -16,6 +16,12 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
 import MapAndSideBarContainer from './MapAndSideBarContainer.js';
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
+import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
+
 //import citynames from './citynames.js';
 import {
     BrowserView,
@@ -27,6 +33,10 @@ import {
 import Grid from "./TileCardGrid";
 
 const citynames = [
+    "Mountain View, CA",
+    "Cupertino, CA",
+    "Palo Alto, CA",
+    "Sunnyvale, CA",
     "Charlotte, NC",
     "Tulsa, OK",
     "Milwaukee, WI",
@@ -48,7 +58,7 @@ const citynames = [
     "Knoxville, TN",
     "Dallas, TX",
     "Tampa, FL",
-    "Reino, NV",
+    "Reno, NV",
     "Pittsburgh, PA",
     "Nashville, TN",
     "Salt Lake City, UT",
@@ -58,7 +68,7 @@ const citynames = [
     "Oakland, CA",
     "Los Angeles, CA",
     "Austin, TX",
-    "Tuscon, AZ",
+    "Tucson, AZ",
     "San Jose, CA",
     "San Francisco, CA",
     "Miami, FL",
@@ -110,9 +120,13 @@ class Home extends React.Component {
         this.state = {
             signed_in: false,
             user_name: '',
-            custom_tiles: []
+            custom_tiles: [],
+            menuAnchorEl: null
         };
-        this.createAppBar.bind(this);
+        this.createAppBar = this.createAppBar.bind(this);
+        this.handleMenuClose = this.handleMenuClose.bind(this);
+        this.handleMenuOpen = this.handleMenuOpen.bind(this);
+        this.handleSignOut = this.handleSignOut.bind(this);
     }
 
     componentDidMount() {
@@ -174,7 +188,7 @@ class Home extends React.Component {
                                 {...props}
                                 filters={custom_tiles[i].filters}
                                 period={"week"}
-                                age={"all_time"}
+                                age={"past_six_months"}
                                 raw_bool={false}
                                 locations={custom_tiles[i].locations}
                                 companies={custom_tiles[i].companies}
@@ -190,10 +204,46 @@ class Home extends React.Component {
         return custom_tile_cards;
     }
 
+    handleMenuClose() {
+        this.setState({menuAnchorEl: null})
+    }
+
+    handleSignOut() {
+        axios.post('logout', {
+            responseType: 'json'
+        }).then(response => {
+            window.location.reload();
+            this.setState({menuAnchorEl: null})
+        });
+    }
+
+    handleMenuOpen(event) {
+        this.setState({menuAnchorEl: event.currentTarget})
+    };
+
     createSignIn() {
         if (this.state.signed_in) {
             return (
-                <Typography variant="h6" style={{color: "#ffffff"}} align="right">{this.state.user_name}</Typography>
+                <div align="right">
+                    <Button
+                        aria-haspopup="true"
+                        onClick={this.handleMenuOpen}
+
+                    >
+                        <Typography variant="h6"
+                                    style={{color: "#ffffff"}}>{this.state.user_name}{this.state.menuAnchorEl ?
+                            <ArrowDropUp/> : <ArrowDropDown/>}</Typography>
+                    </Button>
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={this.state.menuAnchorEl}
+                        open={Boolean(this.state.menuAnchorEl)}
+                        onClose={this.handleMenuClose}
+                        anchorOrigin={{horizontal: 'right'}}
+                    >
+                        <MenuItem onClick={this.handleSignOut}>Sign Out</MenuItem>
+                    </Menu>
+                </div>
             );
         } else {
             return (
@@ -217,6 +267,16 @@ class Home extends React.Component {
                             >
                                 <HomeIcon style={{color: '#fffafa'}}/>
                             </IconButton>
+                        </Link>
+                        <Link to="/map" style={{textDecoration: 'none'}}>
+                            <Button>
+                                <Typography variant="h6" style={{color: "#ffffff"}}>Map</Typography>
+                            </Button>
+                        </Link>
+                        <Link to="/manual" style={{textDecoration: 'none'}}>
+                            <Button>
+                                <Typography variant="h6" style={{color: "#ffffff"}}>Manual</Typography>
+                            </Button>
                         </Link>
                         <div style={{flex: 1}}>{this.createSignIn()}</div>
                     </Toolbar>
@@ -264,19 +324,19 @@ class Home extends React.Component {
                     <Switch>
                         <Route exact path="/" component={TileCardGrid}/>
 
-                        <Route exact path="/map"                             
-                            render={
-                                (props) =>
-                                    <div style={ MapAndSideBarStyle }>
-                                        <MapAndSideBarContainer 
-                                            {...props}
-                                            style_prop={ style } 
-                                            list_style_prop={ listStyle} 
-                                            map_style_prop={ mapStyle } 
-                                            inner_map_style_prop={ innerMapStyle }
-                                        />
-                                    </div>
-                            }
+                        <Route exact path="/map"
+                               render={
+                                   (props) =>
+                                       <div style={MapAndSideBarStyle}>
+                                           <MapAndSideBarContainer
+                                               {...props}
+                                               style_prop={style}
+                                               list_style_prop={listStyle}
+                                               map_style_prop={mapStyle}
+                                               inner_map_style_prop={innerMapStyle}
+                                           />
+                                       </div>
+                               }
                         />
 
                         <Route
@@ -287,7 +347,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={"amazon.com"}
@@ -307,7 +367,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={"apple"}
@@ -327,7 +387,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={"google"}
@@ -347,7 +407,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={"microsoft"}
@@ -367,7 +427,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={""}
@@ -387,7 +447,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={""}
@@ -407,7 +467,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={""}
@@ -427,7 +487,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={""}
@@ -441,46 +501,26 @@ class Home extends React.Component {
 
                         {/*generate Location tiles routes*/}
                         {citynames.map((cityname, index) => (
-                            <Route path = {"/" + cityname.replace(/\W/g, '')}
-                            key={index}
-                            render={
-                                (props) =>
-                                    <GraphForm
-                                        {...props}
-                                        filters={[]}
-                                        period={"week"}
-                                        age={"all_time"}
-                                        raw_bool={false}
-                                        locations={cityname}
-                                        companies={""}
-                                        titles={""}
-                                        data_component={initial_data_component}
-                                        name={cityname.replace(/\W/g, '')}
-                                        title={cityname}
-                                    />
-                                }
+                            <Route path={"/" + cityname.replace(/\W/g, '')}
+                                   key={index}
+                                   render={
+                                       (props) =>
+                                           <GraphForm
+                                               {...props}
+                                               filters={[]}
+                                               period={"week"}
+                                               age={"past_six_months"}
+                                               raw_bool={false}
+                                               locations={cityname}
+                                               companies={""}
+                                               titles={""}
+                                               data_component={initial_data_component}
+                                               name={cityname.replace(/\W/g, '')}
+                                               title={cityname}
+                                           />
+                                   }
                             />
                         ))}
-
-                        <Route
-                            path="/pizzatown"
-                            render={
-                                (props) =>
-                                    <GraphForm
-                                        {...props}
-                                        filters={[]}
-                                        period={"week"}
-                                        age={"all_time"}
-                                        raw_bool={false}
-                                        locations={"pizzatown"}
-                                        companies={""}
-                                        titles={""}
-                                        data_component={initial_data_component}
-                                        name={"pizzatown"}
-                                        title={"pizzatown"}
-                                    />
-                            }
-                        />
 
                         <Route
                             path="/oakland"
@@ -490,7 +530,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={"oakland"}
                                         companies={""}

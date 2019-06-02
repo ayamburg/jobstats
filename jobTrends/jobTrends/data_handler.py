@@ -212,21 +212,13 @@ class DataHandler:
 
         words = words + shingle_words + triple_shingle_words
         skills = []
-        if include:
-            include = open("jobTrends/word_lists/{0}.txt".format(include), "r")
-            include = include.read().split('\n')
-            for word in words:
-                if (word['key'] in include) & (word['key'] not in filters):
+        whitelist = open("jobTrends/word_lists/whitelist.txt", "r")
+        whitelist = whitelist.read().split('\n')
+        whitelist = [skill.lower() for skill in whitelist]
+        for word in words:
+            if (word['key'] in whitelist) & (word['key'] not in filters):
                     skills.append(word)
-        else:
-            exclude = open("jobTrends/word_lists/exactExclude.txt", "r")
-            exclude = exclude.read().split('\n')
-            for word in words:
-                if (word['key'] not in exclude) & (word['key'] not in filter_terms):
-                    skills.append(word)
-                    exclude.append(word['key'])
         skills = sorted(skills, key=lambda k: k['doc_count'], reverse=True)
-
         return skills[:count]
 
     def get_top_locations(self, count, filters, companies, titles, include=None):
