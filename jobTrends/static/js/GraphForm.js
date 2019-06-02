@@ -16,6 +16,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Typography } from '@material-ui/core';
 import InsightCards from './InsightCards.js';
 import MapAndSideBarContainer from './MapAndSideBarContainer.js';
+import JobListingTable from './JobListingTable.js';
 
 const listStyle = {
     overflow: 'auto',
@@ -327,6 +328,7 @@ class GraphForm extends React.Component {
         );
     }
 
+
     render() {
         return (
             <div>
@@ -337,6 +339,12 @@ class GraphForm extends React.Component {
                 {this.getDataComponent()}
             
                 <InsightCards InsightsValues={this.state.insights}/>
+                <BlockCard payload={<JobListingTable
+                    job_listings_filters={this.state.filters}
+                    job_listings_companies={this.state.companies}
+                    job_listings_titles={this.state.titles}
+                    job_listings_locations={this.state.locations}
+                />}/>
             </div>
         );
     }
