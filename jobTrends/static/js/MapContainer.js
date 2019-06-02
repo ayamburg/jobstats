@@ -85,11 +85,11 @@ class GoogleMapsContainer extends React.Component {
   }
 
   render() {
-    MARKERS = this.createMarkers();
-    //this if statchecks to see if top_cities and cities have been filled by their api requests in MapAndSideBarContainer.js
-    if(this.props.top_cities.length === 0) {
+    //this checks to see if top_cities and cities have been filled by their api requests in MapAndSideBarContainer.js
+    if(this.state.top_cities.length === 0 || this.state.cities === 0) {
       return ( <span> Loading... </span>);
     } else {
+      MARKERS = this.createMarkers();
       return (
         <Map
           item

@@ -329,9 +329,6 @@ class ManualGraph extends React.Component {
         let testInsights = [];
         return (
             <div>
-                <nav>
-                    <Link to="/">Index</Link>
-                </nav>
                 <div align="center">
                     <Typography align="center" variant="h4">{this.props.title}</Typography>
                 </div>

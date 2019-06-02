@@ -1,4 +1,55 @@
 {
+  "Mountain View, CA":{
+    "Location": {"lat":37.387155, "lng": -122.084579},
+    "COL": 88.92,
+    "Employment": "141,030",
+    "Employment RSE": "2.30%",
+    "Employment per 1,000 jobs": 126.011,
+    "Location quotient": 4.16,
+    "Median hourly wage": "$59.36",
+    "Mean hourly wage": "$61.08",
+    "Annual mean wage": "$127,040",
+    "Mean wage RSE": "1.30%"
+  },
+  "Cupertino, CA": {
+    "Location": {"lat": 37.322297, "lng": -122.033020},
+    "COL": 88.92,
+    "Employment": "141,030",
+    "Employment RSE": "2.30%",
+    "Employment per 1,000 jobs": 126.011,
+    "Location quotient": 4.16,
+    "Median hourly wage": "$59.36",
+    "Mean hourly wage": "$61.08",
+    "Annual mean wage": "$127,040",
+    "Mean wage RSE": "1.30%"
+  },
+
+  "Palo Alto, CA": {
+    "Location": {"lat":37.438973, "lng": -122.143236},
+    "COL": 88.92,
+    "Employment": "141,030",
+    "Employment RSE": "2.30%",
+    "Employment per 1,000 jobs": 126.011,
+    "Location quotient": 4.16,
+    "Median hourly wage": "$59.36",
+    "Mean hourly wage": "$61.08",
+    "Annual mean wage": "$127,040",
+    "Mean wage RSE": "1.30%"
+  },
+
+  "Sunnyvale, CA": {
+    "Location": {"lat": 37.369750,  "lng": -122.036940},
+    "COL": 76.36,
+    "Employment": "141,030",
+    "Employment RSE": "2.30%",
+    "Employment per 1,000 jobs": 126.011,
+    "Location quotient": 4.16,
+    "Median hourly wage": "$59.36",
+    "Mean hourly wage": "$61.08",
+    "Annual mean wage": "$127,040",
+    "Mean wage RSE": "1.30%"
+  },
+  
   "Bellingham, WA": {
     "Location": {"lat": 48.754902, "lng": -122.478119},
     "COL": 75.7,
@@ -59,7 +110,7 @@
     "Annual mean wage": "$81,910",
     "Mean wage RSE": "1.50%"
   },
-  "Reino, NV": {
+  "Reno, NV": {
     "Location": {"lat": 39.526900, "lng": -119.813280},
     "COL": 61.46,
     "Employment": "3,550",
@@ -191,7 +242,7 @@
     "Annual mean wage": "$83,860",
     "Mean wage RSE": "1.40%"
   },
-  "Tuscon, AZ": {
+  "Tucson, AZ": {
     "Location": {"lat": 32.222607, "lng": -110.974709},
     "COL": 67.99,
     "Employment": "12,390",
