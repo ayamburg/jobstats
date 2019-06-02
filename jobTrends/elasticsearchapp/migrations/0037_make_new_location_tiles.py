@@ -3,66 +3,11 @@ from django.db import migrations
 import json
 import re
 
-citynames = [
-    "Charlotte, NC",
-    "Tulsa, OK",
-    "Milwaukee, WI",
-    "Madison, WI",
-    "Seattle, WA",
-    "San Antonio, TX",
-    "Cincinnati, OH",
-    "New York, NY",
-    "Raleigh, NC",
-    "Jacksonville, FL",
-    "Baltimore, MD",
-    "Indianapolis, IN",
-    "Rochester, NY",
-    "Richmond, VA",
-    "Minneapolis, MN",
-    "St. Louis, MO",
-    "Sacramento, CA",
-    "San Diego, CA",
-    "Knoxville, TN",
-    "Dallas, TX",
-    "Tampa, FL",
-    "Reino, NV",
-    "Pittsburgh, PA",
-    "Nashville, TN",
-    "Salt Lake City, UT",
-    "Albany, NY",
-    "Atlanta, GA",
-    "Kansas City, MO",
-    "Oakland, CA",
-    "Los Angeles, CA",
-    "Austin, TX",
-    "Tuscon, AZ",
-    "San Jose, CA",
-    "San Francisco, CA",
-    "Miami, FL",
-    "Boston, MA",
-    "Columbus, OH",
-    "Philadelphia, PA",
-    "Memphis, TN",
-    "Louisville, KY",
-    "Brooklyn, NY",
-    "Las Vegas, CA",
-    "Denver, CO",
-    "Washington, DC",
-    "Albuquerque, NM",
-    "Phoenix, AZ",
-    "Detroit, MI",
-    "Bellingham, WA",
-    "Chicago, IL",
-    "Fort Worth, TX",
-    "Fresno, CA",
-    "Boise, ID",
-    "Bakersfield, CA",
-    "Little Rock, AR",
-    "Portland, OR",
-    "Buffalo, NY",
-    "Cleveland, OH",
-    "Houston, TX",
-    "Orlando, FL",
+new_citynames = [
+    "Mountain View, CA",
+    "Cupertino, CA",
+    "Palo Alto, CA",
+    "Sunnyvale, CA",
 ]
 
 def create_location_tiles(apps, schema_editor):
@@ -106,7 +51,7 @@ def create_location_tiles(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('elasticsearchapp', '0034_auto_20190512_0749'),
+        ('elasticsearchapp', '0036_make_location_tiles'),
     ]
 
     operations = [
