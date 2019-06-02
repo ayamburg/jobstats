@@ -33,6 +33,10 @@ import {
 import Grid from "./TileCardGrid";
 
 const citynames = [
+    "Mountain View, CA",
+    "Cupertino, CA",
+    "Palo Alto, CA",
+    "Sunnyvale, CA",
     "Charlotte, NC",
     "Tulsa, OK",
     "Milwaukee, WI",
