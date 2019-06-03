@@ -334,6 +334,9 @@ class Home extends React.Component {
                                                list_style_prop={listStyle}
                                                map_style_prop={mapStyle}
                                                inner_map_style_prop={innerMapStyle}
+                                               Top_locations_filters={[]}
+                                               Top_locations_companies={[]}
+                                               Top_locations_titles={[]}
                                            />
                                        </div>
                                }

@@ -116,6 +116,8 @@ class JobListings(View):
         if not start:
             start = SCRAPE_DATA_START
         start_time = time.time()
+        print('titles---')
+        print(request_data)
         page_data = DataHandler(start).get_job_listings(count, filters, companies, titles, locations)
         print("--- get_job_listings Run Time: %s seconds ---" % (time.time() - start_time))
 

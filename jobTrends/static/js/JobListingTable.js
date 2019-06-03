@@ -31,13 +31,14 @@ class JobListingTable extends React.Component {
     }
 
     getJobListings() {
+        console.log(this.props.job_listings_titles);
         axios.get('/api/job_listings', {
             responseType: 'json',
             params: {
-                filters: this.props.job_listings_filters,
-                companies: this.props.job_listings_companies,
-                titles: this.props.job_listings_titles,
-                locations: this.props.job_listings_locations,
+                filters: this.props.job_listings_filters.toString(),
+                companies: this.props.job_listings_companies.toString(),
+                titles: this.props.job_listings_titles.toString(),
+                locations: this.props.job_listings_locations.toString(),
                 count: 10
             }
         }).then(response => {
