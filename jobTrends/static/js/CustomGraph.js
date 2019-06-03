@@ -22,7 +22,22 @@ import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import SimpleSnackbar from './Snackbar.js';
 import Fab from '@material-ui/core/Fab';
 import Edit from '@material-ui/icons/Edit';
+import MapAndSideBarContainer from './MapAndSideBarContainer.js';
+import JobListingTable from './JobListingTable.js';
 
+const listStyle = {
+    overflow: 'auto',
+    height: '90vh',
+}
+const style = {
+    marginLeft: '2%'
+}
+const mapStyle = {
+}
+const innerMapStyle = {
+    width: '65vw',
+    height: '90vh'
+}
 
 import {
     BrowserView,
@@ -215,6 +230,11 @@ class CustomGraph extends React.Component {
                     });
                 });
                 break;
+            case 'map':    
+                this.setState({
+                    data_component: state_params.data_component
+                });
+                break;
         }
     }
 
@@ -236,6 +256,22 @@ class CustomGraph extends React.Component {
                 return (<BlockCard
                         payload={<RankedList keys={this.state.graph_data.keywords}/>}
                         actions={this.createDropDowns()}/>
+                );
+            case 'map':
+                return(
+                    <BlockCard
+                        payload={<MapAndSideBarContainer 
+                            style_prop={ style } 
+                            list_style_prop={ listStyle} 
+                            map_style_prop={ mapStyle } 
+                            inner_map_style_prop={ innerMapStyle }
+                            Top_locations_filters={ this.state.filters }
+                            Top_locations_companies={ this.state.companies }
+                            Top_locations_titles={ this.state.titles }
+                            />
+                        }
+                        actions={this.createDropDowns()}/>
+                    
                 );
         }
     }
@@ -294,6 +330,7 @@ class CustomGraph extends React.Component {
                         <MenuItem value={'trend_chart'}>Trend Chart</MenuItem>
                         <MenuItem value={'bar_graph'}>Bar Graph</MenuItem>
                         <MenuItem value={'list'}>List</MenuItem>
+                        <MenuItem value={'map'}>Map</MenuItem>
                     </Select>
                 </Grid>
                 {periodButton}
@@ -344,6 +381,12 @@ class CustomGraph extends React.Component {
                 {this.getDataComponent()}
 
                 <InsightCards InsightsValues={this.state.insights}/>
+                <BlockCard payload={<JobListingTable
+                    job_listings_filters={this.state.filters}
+                    job_listings_companies={this.state.companies}
+                    job_listings_titles={this.state.titles}
+                    job_listings_locations={this.state.locations}
+                />}/>
                 {this.detectDeviceOrientation()}
             </div>
         );
