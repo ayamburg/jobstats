@@ -33,6 +33,10 @@ import {
 import Grid from "./TileCardGrid";
 
 const citynames = [
+    "Mountain View, CA",
+    "Cupertino, CA",
+    "Palo Alto, CA",
+    "Sunnyvale, CA",
     "Charlotte, NC",
     "Tulsa, OK",
     "Milwaukee, WI",
@@ -54,7 +58,7 @@ const citynames = [
     "Knoxville, TN",
     "Dallas, TX",
     "Tampa, FL",
-    "Reino, NV",
+    "Reno, NV",
     "Pittsburgh, PA",
     "Nashville, TN",
     "Salt Lake City, UT",
@@ -64,7 +68,7 @@ const citynames = [
     "Oakland, CA",
     "Los Angeles, CA",
     "Austin, TX",
-    "Tuscon, AZ",
+    "Tucson, AZ",
     "San Jose, CA",
     "San Francisco, CA",
     "Miami, FL",
@@ -184,7 +188,7 @@ class Home extends React.Component {
                                 {...props}
                                 filters={custom_tiles[i].filters}
                                 period={"week"}
-                                age={"all_time"}
+                                age={"past_six_months"}
                                 raw_bool={false}
                                 locations={custom_tiles[i].locations}
                                 companies={custom_tiles[i].companies}
@@ -330,6 +334,9 @@ class Home extends React.Component {
                                                list_style_prop={listStyle}
                                                map_style_prop={mapStyle}
                                                inner_map_style_prop={innerMapStyle}
+                                               Top_locations_filters={[]}
+                                               Top_locations_companies={[]}
+                                               Top_locations_titles={[]}
                                            />
                                        </div>
                                }
@@ -343,7 +350,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={"amazon.com"}
@@ -363,7 +370,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={"apple"}
@@ -383,7 +390,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={"google"}
@@ -403,7 +410,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={"microsoft"}
@@ -423,7 +430,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={""}
@@ -443,7 +450,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={""}
@@ -463,7 +470,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={""}
@@ -483,7 +490,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={""}
@@ -505,7 +512,7 @@ class Home extends React.Component {
                                                {...props}
                                                filters={[]}
                                                period={"week"}
-                                               age={"all_time"}
+                                               age={"past_six_months"}
                                                raw_bool={false}
                                                locations={cityname}
                                                companies={""}
@@ -519,26 +526,6 @@ class Home extends React.Component {
                         ))}
 
                         <Route
-                            path="/pizzatown"
-                            render={
-                                (props) =>
-                                    <GraphForm
-                                        {...props}
-                                        filters={[]}
-                                        period={"week"}
-                                        age={"all_time"}
-                                        raw_bool={false}
-                                        locations={"pizzatown"}
-                                        companies={""}
-                                        titles={""}
-                                        data_component={initial_data_component}
-                                        name={"pizzatown"}
-                                        title={"pizzatown"}
-                                    />
-                            }
-                        />
-
-                        <Route
                             path="/oakland"
                             render={
                                 (props) =>
@@ -546,7 +533,7 @@ class Home extends React.Component {
                                         {...props}
                                         filters={[]}
                                         period={"week"}
-                                        age={"all_time"}
+                                        age={"past_six_months"}
                                         raw_bool={false}
                                         locations={"oakland"}
                                         companies={""}

@@ -21,7 +21,6 @@ class MapAndSideBarContainer extends React.Component {
     }
     this.handleSideBarClick = this.handleSideBarClick.bind(this);
     this.getCitiesAndCityNames = this.getCitiesAndCityNames.bind(this);
-    this.createLocationTileRoutes = this.createLocationTileRoutes.bind(this);
  }
  
  handleSideBarClick(location) {
@@ -39,9 +38,9 @@ class MapAndSideBarContainer extends React.Component {
     axios.get('/api/top_locations', {
         responseType: 'json',
         params: {
-            filters: this.props.Top_locations_filters,
-            companies: this.props.Top_locations_companies,
-            titles: this.props.Top_locations_titles,
+            filters: this.props.Top_locations_filters.toString(),
+            companies: this.props.Top_locations_companies.toString(),
+            titles: this.props.Top_locations_titles.toString(),
         }
     }).then(response => {
         for(var city_object in response.data.top_locations) {
@@ -54,30 +53,6 @@ class MapAndSideBarContainer extends React.Component {
         })
     });
  }
-
- createLocationTileRoutes() {
-    return (this.state.city_names.map((cityname, index) => (
-        <Route path = {"/" + cityname.replace(/\W/g, '')}
-        key={index}
-        render={
-            (props) =>
-                <GraphForm
-                    {...props}
-                    filters={[]}
-                    period={"week"}
-                    age={"all_time"}
-                    raw_bool={false}
-                    locations={cityname}
-                    companies={""}
-                    titles={""}
-                    data_component={initial_data_component}
-                    name={cityname.replace(/\W/g, '')}
-                    title={cityname}
-                />
-            }
-        />
-    )))
-    }
 
  getCitiesAndCityNames() {
     axios.get('/api/get_json_file', {
@@ -109,12 +84,10 @@ class MapAndSideBarContainer extends React.Component {
                 <Paper style={ this.props.list_style_prop }>
                     <List>
                         {this.state.city_names.map((text, index) => (
-                            <Link key={text} style={{ textDecoration: 'none' }} to={'/google'}>
-                            <ListItem button onClick={() => this.handleSideBarClick(this.state.cities[text].Location)}>
+                            <ListItem key={index} button onClick={() => this.handleSideBarClick(this.state.cities[text].Location)}>
                             <LocationOn fontSize = "large" nativeColor = "#add8e6"/>
                             <ListItemText primary={text} />
                             </ListItem>
-                            </Link>
                         ))}
                     </List>
                 </Paper>

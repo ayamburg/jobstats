@@ -59,15 +59,15 @@ class GoogleMapsContainer extends React.Component {
 
   createMarkers() {
     let markers = [];
-    for(var city in this.props.cities) {     
+    for(var city in this.state.cities) {     
       var marker = <Marker
         key = { city }
         onClick = { this.onMarkerClick }
         title = { city }
-        position = {this.props.cities[city].Location}
+        position = {this.state.cities[city].Location}
         name = { city }
-        COL = {this.props.cities[city].COL}
-        annual_wage = {this.props.cities[city]["Annual mean wage"]}
+        COL = {this.state.cities[city].COL}
+        annual_wage = {this.state.cities[city]["Annual mean wage"]}
         />
       markers.push(marker);
     }
@@ -86,7 +86,7 @@ class GoogleMapsContainer extends React.Component {
 
   render() {
     //this checks to see if top_cities and cities have been filled by their api requests in MapAndSideBarContainer.js
-    if(this.props.top_cities.length === 0) {
+    if(this.state.top_cities.length === 0 || this.state.cities.length === 0) {
       return ( <span> Loading... </span>);
     } else {
       MARKERS = this.createMarkers();
