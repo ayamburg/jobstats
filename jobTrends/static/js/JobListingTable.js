@@ -14,10 +14,7 @@ root: {
     width: '100%',
     marginTop: 3,
     overflowX: 'auto',
-  },
-  table: {
-    minWidth: 650,
-  },
+  }
 };
 
 class JobListingTable extends React.Component {
@@ -40,7 +37,6 @@ class JobListingTable extends React.Component {
                 locations: this.props.job_listings_locations,
             }
         }).then(response => {
-            console.log("got job_listings response is: ", response)
             this.setState({
               job_listings: response.data.job_listings
             })
@@ -59,9 +55,8 @@ class JobListingTable extends React.Component {
             return (
                 <div>
                     <Typography variant="h5" align="center">Job Listings</Typography>
-                    <Typography variant="h6" align="center"> </Typography>
-                    <Paper className={classes.root}>
-                        <Table className={classes.table}>
+                    <Paper style={styles.root}>
+                        <Table>
                             <TableHead>
                             <TableRow>
                                 <TableCell>Positions</TableCell>
