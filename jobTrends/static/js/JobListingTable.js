@@ -38,6 +38,7 @@ class JobListingTable extends React.Component {
                 companies: this.props.job_listings_companies,
                 titles: this.props.job_listings_titles,
                 locations: this.props.job_listings_locations,
+                count: 10
             }
         }).then(response => {
             console.log("got job_listings response is: ", response)
