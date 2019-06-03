@@ -39,9 +39,9 @@ class MapAndSideBarContainer extends React.Component {
     axios.get('/api/top_locations', {
         responseType: 'json',
         params: {
-            filters: this.props.Top_locations_filters,
-            companies: this.props.Top_locations_companies,
-            titles: this.props.Top_locations_titles,
+            filters: this.props.Top_locations_filters.toString(),
+            companies: this.props.Top_locations_companies.toString(),
+            titles: this.props.Top_locations_titles.toString(),
         }
     }).then(response => {
         for(var city_object in response.data.top_locations) {
