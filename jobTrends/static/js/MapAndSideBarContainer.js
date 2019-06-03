@@ -31,7 +31,6 @@ class MapAndSideBarContainer extends React.Component {
  }
 
  componentDidMount() {
-    this.createTopCities()
     this.getCitiesAndCityNames()
  }
 
@@ -88,6 +87,7 @@ class MapAndSideBarContainer extends React.Component {
             name: 'col',
         }
     }).then(response => {
+	this.createTopCities()
         var citynames = [];
         for(let city_name in response.data) {
           citynames.push(city_name);
