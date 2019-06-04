@@ -10,6 +10,7 @@ import EditForm from './EditForm.js';
 import {BrowserRouter as Router, Link} from "react-router-dom";
 import {Switch, Route} from 'react-router'
 import TileCardGrid from './TileCardGrid.js';
+import AboutPage from './AboutPage.js';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -21,6 +22,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
+
+//import citynames from './citynames.js';
 import {
     BrowserView,
     MobileView,
@@ -28,8 +31,6 @@ import {
     isMobile,
     isMobileOnly
 } from "react-device-detect";
-
-//import citynames from './citynames.js';
 import Grid from "./TileCardGrid";
 
 const citynames = [
@@ -230,7 +231,7 @@ class Home extends React.Component {
                         onClick={this.handleMenuOpen}
 
                     >
-                        <Typography variant="h6"
+                        <Typography variant="BUTTONTEXT"
                                     style={{color: "#ffffff"}}>{this.state.user_name}{this.state.menuAnchorEl ?
                             <ArrowDropUp/> : <ArrowDropDown/>}</Typography>
                     </Button>
@@ -246,24 +247,13 @@ class Home extends React.Component {
                 </div>
             );
         } else {
-            if (isMobileOnly){
-                return (
-                    <div align="right">
-                        <a href="/accounts/linkedin_oauth2/login/?process=login">
-                            <img src="/static/images/signin-buttonMobile.png"/>
-                        </a>
-                    </div>
-                );
-            }
-            else{
-                return (
-                    <div align="right">
-                        <a href="/accounts/linkedin_oauth2/login/?process=login">
-                            <img src="/static/images/signin-button.png"/>
-                        </a>
-                    </div>
-                );
-            }
+            return (
+                <div align="right">
+                    <a href="/accounts/linkedin_oauth2/login/?process=login">
+                        <img src="/static/images/signin-button.png"/>
+                    </a>
+                </div>
+            );
         }
     }
 
@@ -281,12 +271,17 @@ class Home extends React.Component {
                         </Link>
                         <Link to="/map" style={{textDecoration: 'none'}}>
                             <Button>
-                                <Typography variant="h6" style={{color: "#ffffff"}}>Map</Typography>
+                                <Typography variant="BUTTONTEXT" style={{color: "#ffffff"}}>Map</Typography>
                             </Button>
                         </Link>
-                        <Link to="/sandbox" style={{textDecoration: 'none'}}>
+                        <Link to="/manual" style={{textDecoration: 'none'}}>
                             <Button>
-                                <Typography variant="h6" style={{color: "#ffffff"}}>Sandbox</Typography>
+                                <Typography variant="BUTTONTEXT" style={{color: "#ffffff"}}>Manual</Typography>
+                            </Button>
+                        </Link>
+                        <Link to="/about" style={{textDecoration: 'none'}}>
+                            <Button>
+                                <Typography variant="BUTTONTEXT" style={{color: "#ffffff"}}>About</Typography>
                             </Button>
                         </Link>
                         <div style={{flex: 1}}>{this.createSignIn()}</div>
@@ -333,16 +328,7 @@ class Home extends React.Component {
                 <div>
                     {this.createAppBar()}
                     <Switch>
-                        <Route exact path="/"
-                               render={
-                                   (props) =>
-                                        <TileCardGrid
-                                            {...props}
-                                            signed_in={this.state.signed_in}
-                                            custom_tiles={this.state.custom_tiles}
-                                        />
-                               }
-                        />
+                        <Route exact path="/" component={TileCardGrid}/>
 
                         <Route exact path="/map"
                                render={
@@ -571,10 +557,14 @@ class Home extends React.Component {
                         />
 
                         <Route
-                            path="/sandbox"
+                            path="/manual"
                             component={ManualGraph}
                         />
 
+                        <Route
+                            path="/about"
+                            component={AboutPage}
+                        />
                         {this.loadCustomTileRoutes()}
                     </Switch>
                 </div>
@@ -584,4 +574,3 @@ class Home extends React.Component {
 }
 
 export default Home;
-
