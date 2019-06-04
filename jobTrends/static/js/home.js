@@ -10,6 +10,7 @@ import EditForm from './EditForm.js';
 import {BrowserRouter as Router, Link} from "react-router-dom";
 import {Switch, Route} from 'react-router'
 import TileCardGrid from './TileCardGrid.js';
+import AboutPage from './AboutPage.js';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
