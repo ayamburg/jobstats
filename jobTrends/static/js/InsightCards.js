@@ -95,6 +95,10 @@ class InsightCards extends React.Component {
                 spacing={24}
                 alignItems="center"
                 justify="center"
+                style={{
+                    margin: 0,
+                    width: '100%',
+                }}
             >
             {genCards}
             </Grid>;

@@ -58,7 +58,7 @@ class BlockCard extends React.Component {
         return (
 
             <div className={classes.root}>
-                <Grid container spacing={24}>
+                <Grid container spacing={0}>
                     <Grid item xs></Grid>
                     <Grid item xs={10}>
                             <Card className={styles.card} size="50">
