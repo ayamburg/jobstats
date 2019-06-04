@@ -11,20 +11,12 @@ class TileCardGrid extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            custom_tiles: []
-        };
-    }
-
-    componentDidMount() {
-        axios.get('custom_tiles', {
-            responseType: 'json'
-        }).then(response => {
-            this.setState({custom_tiles: response.data.custom_tiles});
-        });
+           snack_bar_open: true
+        }
     }
 
     loadCustomTiles() {
-        let custom_tiles = this.state.custom_tiles;
+        let custom_tiles = this.props.custom_tiles;
         let custom_tile_cards = [];
 
         for (let i = 0; i < custom_tiles.length; i++) {
@@ -40,6 +32,24 @@ class TileCardGrid extends React.Component {
             )
         }
         return custom_tile_cards;
+    }
+
+    getAddButton() {
+        if (this.props.signed_in) {
+            return (
+                <TileCard image="/static/images/baseline-add-24px.svg" path="/custom" cardTitle="Add Custom Tile"
+                          backColor={{background: 'linear-gradient(45deg, #ffffff 17%, #ffffff 90%)'}}>
+                </TileCard>
+            )
+        } else {
+            return (
+                <TileCard image="/static/images/baseline-add-24px.svg" path="/custom" cardTitle="Add Custom Tile"
+                          backColor={{background: 'linear-gradient(45deg, #ffffff 17%, #ffffff 90%)'}}
+                          onClick={alert("Please sign in before creating custom tiles")}
+                >
+                </TileCard>
+            )
+        }
     }
 
     render() {
@@ -103,10 +113,7 @@ class TileCardGrid extends React.Component {
                 </Grid>
                 {this.loadCustomTiles()}
                 <Grid item xs={"auto"}>
-                    <TileCard image="/static/images/baseline-add-24px.svg" path="/custom" cardTitle="Add Custom Tile"
-                              backColor={{background: 'linear-gradient(45deg, #ffffff 17%, #ffffff 90%)'}}>
-
-                    </TileCard>
+                    {this.getAddButton()}
                 </Grid>
             </Grid>
         );

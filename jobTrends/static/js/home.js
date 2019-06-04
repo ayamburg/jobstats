@@ -322,7 +322,16 @@ class Home extends React.Component {
                 <div>
                     {this.createAppBar()}
                     <Switch>
-                        <Route exact path="/" component={TileCardGrid}/>
+                        <Route exact path="/"
+                               render={
+                                   (props) =>
+                                        <TileCardGrid
+                                            {...props}
+                                            signed_in={this.state.signed_in}
+                                            custom_tiles={this.state.custom_tiles}
+                                        />
+                               }
+                        />
 
                         <Route exact path="/map"
                                render={
