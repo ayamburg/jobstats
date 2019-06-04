@@ -10,6 +10,7 @@ import EditForm from './EditForm.js';
 import {BrowserRouter as Router, Link} from "react-router-dom";
 import {Switch, Route} from 'react-router'
 import TileCardGrid from './TileCardGrid.js';
+import AboutPage from './AboutPage.js';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -230,7 +231,7 @@ class Home extends React.Component {
                         onClick={this.handleMenuOpen}
 
                     >
-                        <Typography variant="h6"
+                        <Typography variant="BUTTONTEXT"
                                     style={{color: "#ffffff"}}>{this.state.user_name}{this.state.menuAnchorEl ?
                             <ArrowDropUp/> : <ArrowDropDown/>}</Typography>
                     </Button>
@@ -281,12 +282,17 @@ class Home extends React.Component {
                         </Link>
                         <Link to="/map" style={{textDecoration: 'none'}}>
                             <Button>
-                                <Typography variant="h6" style={{color: "#ffffff"}}>Map</Typography>
+                                <Typography variant="BUTTONTEXT" style={{color: "#ffffff"}}>Map</Typography>
                             </Button>
                         </Link>
                         <Link to="/sandbox" style={{textDecoration: 'none'}}>
                             <Button>
-                                <Typography variant="h6" style={{color: "#ffffff"}}>Sandbox</Typography>
+                                <Typography variant="BUTTONTEXT" style={{color: "#ffffff"}}>Sandbox</Typography>
+                            </Button>
+                        </Link>
+                        <Link to="/about" style={{textDecoration: 'none'}}>
+                            <Button>
+                                <Typography variant="BUTTONTEXT" style={{color: "#ffffff"}}>About</Typography>
                             </Button>
                         </Link>
                         <div style={{flex: 1}}>{this.createSignIn()}</div>
@@ -573,6 +579,11 @@ class Home extends React.Component {
                         <Route
                             path="/sandbox"
                             component={ManualGraph}
+                        />
+
+                        <Route
+                            path="/about"
+                            component={AboutPage}
                         />
 
                         {this.loadCustomTileRoutes()}
