@@ -344,7 +344,7 @@ class GraphForm extends React.Component {
                 return
             } else if (w < h) {
                 return (
-                    <SimpleSnackbar/>
+                    <SimpleSnackbar message={"For best experience use landscape mode"}/>
                 )
             }
         }

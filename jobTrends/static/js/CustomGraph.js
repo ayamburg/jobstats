@@ -30,6 +30,7 @@ import {
     isMobile,
     isMobileOnly
 } from "react-device-detect";
+import SimpleSnackbar from "./GraphForm";
 
 const listStyle = {
     overflow: 'auto',
@@ -358,7 +359,7 @@ class CustomGraph extends React.Component {
                 return
             } else if (w < h) {
                 return (
-                    <SimpleSnackbar/>
+                    <SimpleSnackbar message={"For best experience use landscape mode"}/>
                 )
             }
         }

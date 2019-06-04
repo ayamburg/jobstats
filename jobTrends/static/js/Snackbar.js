@@ -40,7 +40,7 @@ class SimpleSnackbar extends React.Component {
           ContentProps={{
             'aria-describedby': 'message-id',
           }}
-          message={<span id="message-id">For best experience use landscape mode</span>}
+          message={<span id="message-id">{this.props.message}</span>}
           action={[
             <IconButton
               key="close"
