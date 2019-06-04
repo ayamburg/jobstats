@@ -3,20 +3,11 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid';
 import TileCard from './TileCard.js'
-import Icon from '@material-ui/core/Icon';
-import {Typography} from '@material-ui/core';
-import axios from "axios";
 
 class TileCardGrid extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-           snack_bar_open: true
-        }
-    }
-
     loadCustomTiles() {
         let custom_tiles = this.props.custom_tiles;
+        console.log(this.props);
         let custom_tile_cards = [];
 
         for (let i = 0; i < custom_tiles.length; i++) {
@@ -43,9 +34,8 @@ class TileCardGrid extends React.Component {
             )
         } else {
             return (
-                <TileCard image="/static/images/baseline-add-24px.svg" path="/custom" cardTitle="Add Custom Tile"
+                <TileCard image="/static/images/baseline-add-24px.svg" cardTitle="Sign in to add custom tiles"
                           backColor={{background: 'linear-gradient(45deg, #ffffff 17%, #ffffff 90%)'}}
-                          onClick={alert("Please sign in before creating custom tiles")}
                 >
                 </TileCard>
             )

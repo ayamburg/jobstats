@@ -28,7 +28,6 @@ class JobListingTable extends React.Component {
     }
 
     getJobListings() {
-        console.log(this.props.job_listings_titles);
         axios.get('/api/job_listings', {
             responseType: 'json',
             params: {
