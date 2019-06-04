@@ -21,8 +21,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
-
-//import citynames from './citynames.js';
 import {
     BrowserView,
     MobileView,
@@ -30,6 +28,8 @@ import {
     isMobile,
     isMobileOnly
 } from "react-device-detect";
+
+//import citynames from './citynames.js';
 import Grid from "./TileCardGrid";
 
 const citynames = [
@@ -246,13 +246,24 @@ class Home extends React.Component {
                 </div>
             );
         } else {
-            return (
-                <div align="right">
-                    <a href="/accounts/linkedin_oauth2/login/?process=login">
-                        <img src="/static/images/signin-button.png"/>
-                    </a>
-                </div>
-            );
+            if (isMobileOnly){
+                return (
+                    <div align="right">
+                        <a href="/accounts/linkedin_oauth2/login/?process=login">
+                            <img src="/static/images/signin-buttonMobile.png"/>
+                        </a>
+                    </div>
+                );
+            }
+            else{
+                return (
+                    <div align="right">
+                        <a href="/accounts/linkedin_oauth2/login/?process=login">
+                            <img src="/static/images/signin-button.png"/>
+                        </a>
+                    </div>
+                );
+            }
         }
     }
 
