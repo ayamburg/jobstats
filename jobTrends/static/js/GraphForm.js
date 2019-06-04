@@ -17,6 +17,14 @@ import { Typography } from '@material-ui/core';
 import InsightCards from './InsightCards.js';
 import MapAndSideBarContainer from './MapAndSideBarContainer.js';
 import JobListingTable from './JobListingTable.js';
+import SimpleSnackbar from './Snackbar.js';
+import {
+    BrowserView,
+    MobileView,
+    isBrowser,
+    isMobile,
+    isMobileOnly
+} from "react-device-detect";
 
 const listStyle = {
     overflow: 'auto',
@@ -328,6 +336,19 @@ class GraphForm extends React.Component {
         );
     }
 
+    detectDeviceOrientation() {
+        if (isMobileOnly) {
+            let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+            let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+            if (w > h) {
+                return
+            } else if (w < h) {
+                return (
+                    <SimpleSnackbar/>
+                )
+            }
+        }
+    }
 
     render() {
         return (
@@ -345,6 +366,7 @@ class GraphForm extends React.Component {
                     job_listings_titles={this.state.titles}
                     job_listings_locations={this.state.locations}
                 />}/>
+                {this.detectDeviceOrientation()}
             </div>
         );
     }

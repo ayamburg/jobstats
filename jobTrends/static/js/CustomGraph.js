@@ -19,11 +19,17 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import InsightCards from './InsightCards.js';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
-import SimpleSnackbar from './Snackbar.js';
 import Fab from '@material-ui/core/Fab';
 import Edit from '@material-ui/icons/Edit';
 import MapAndSideBarContainer from './MapAndSideBarContainer.js';
 import JobListingTable from './JobListingTable.js';
+import {
+    BrowserView,
+    MobileView,
+    isBrowser,
+    isMobile,
+    isMobileOnly
+} from "react-device-detect";
 
 const listStyle = {
     overflow: 'auto',
@@ -38,14 +44,6 @@ const innerMapStyle = {
     width: '65vw',
     height: '90vh'
 }
-
-import {
-    BrowserView,
-    MobileView,
-    isBrowser,
-    isMobile,
-    isMobileOnly
-} from "react-device-detect";
 
 const fab_style = ({
     margin: 0,
@@ -357,7 +355,7 @@ class CustomGraph extends React.Component {
             let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
             let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
             if (w > h) {
-                return <p>This is Landscape Mode</p>
+                return
             } else if (w < h) {
                 return (
                     <SimpleSnackbar/>
