@@ -30,7 +30,6 @@ import {
     isMobile,
     isMobileOnly
 } from "react-device-detect";
-import SimpleSnackbar from "./GraphForm";
 
 const listStyle = {
     overflow: 'auto',
@@ -351,20 +350,6 @@ class CustomGraph extends React.Component {
         );
     }
 
-    detectDeviceOrientation() {
-        if (isMobileOnly) {
-            let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-            let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-            if (w > h) {
-                return
-            } else if (w < h) {
-                return (
-                    <SimpleSnackbar message={"For best experience use landscape mode"}/>
-                )
-            }
-        }
-    }
-
     render() {
         return (
             <div>
@@ -386,7 +371,6 @@ class CustomGraph extends React.Component {
                     job_listings_titles={this.state.titles}
                     job_listings_locations={this.state.locations}
                 />}/>
-                {this.detectDeviceOrientation()}
             </div>
         );
     }

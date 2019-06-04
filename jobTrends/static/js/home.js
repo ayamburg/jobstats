@@ -22,6 +22,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
+import SimpleSnackbar from './Snackbar.js';
 import {
     BrowserView,
     MobileView,
@@ -128,6 +129,7 @@ class Home extends React.Component {
         this.handleMenuClose = this.handleMenuClose.bind(this);
         this.handleMenuOpen = this.handleMenuOpen.bind(this);
         this.handleSignOut = this.handleSignOut.bind(this);
+        this.detectDeviceOrientation = this.detectDeviceOrientation.bind(this);
     }
 
     componentDidMount() {
@@ -247,7 +249,7 @@ class Home extends React.Component {
                 </div>
             );
         } else {
-            if (isMobileOnly){
+            if (isMobileOnly) {
                 return (
                     <div align="right">
                         <a href="/accounts/linkedin_oauth2/login/?process=login">
@@ -255,8 +257,7 @@ class Home extends React.Component {
                         </a>
                     </div>
                 );
-            }
-            else{
+            } else {
                 return (
                     <div align="right">
                         <a href="/accounts/linkedin_oauth2/login/?process=login">
@@ -298,9 +299,24 @@ class Home extends React.Component {
                         <div style={{flex: 1}}>{this.createSignIn()}</div>
                     </Toolbar>
                 </AppBar>
+                {this.detectDeviceOrientation()}
                 <Typography paragraph></Typography>
             </div>
         );
+    }
+
+    detectDeviceOrientation() {
+        if (isMobileOnly) {
+            let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+            let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+            if (w > h) {
+                return
+            } else if (w < h) {
+                return (
+                    <SimpleSnackbar message={"For best experience use landscape mode"}/>
+                )
+            }
+        }
     }
 
     render() {
@@ -342,11 +358,11 @@ class Home extends React.Component {
                         <Route exact path="/"
                                render={
                                    (props) =>
-                                        <TileCardGrid
-                                            {...props}
-                                            signed_in={this.state.signed_in}
-                                            custom_tiles={this.state.custom_tiles}
-                                        />
+                                       <TileCardGrid
+                                           {...props}
+                                           signed_in={this.state.signed_in}
+                                           custom_tiles={this.state.custom_tiles}
+                                       />
                                }
                         />
 
@@ -585,7 +601,6 @@ class Home extends React.Component {
                             path="/about"
                             component={AboutPage}
                         />
-
                         {this.loadCustomTileRoutes()}
                     </Switch>
                 </div>

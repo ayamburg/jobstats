@@ -219,6 +219,11 @@ class EditForm extends React.Component {
                                     plus="+ Job Titles"
                                 />
                             </Grid>
+                            <Typography align='center'
+                                        style={{color: "#ff0000"}}
+                            >
+                                {this.state.error}
+                            </Typography>
                             <CardActions style={{justifyContent: 'center'}}>
                                 <Button justify="right" variant="contained" color="primary" size="large"
                                         onClick={this.handleUpdate}>

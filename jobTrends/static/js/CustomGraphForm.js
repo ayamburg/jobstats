@@ -130,7 +130,6 @@ class CustomGraphForm extends React.Component {
         })
     }
 
-
     render() {
         if (isMobileOnly) {
             return (
@@ -204,11 +203,16 @@ class CustomGraphForm extends React.Component {
                                     plus="+ Job Titles"
                                 />
                             </Grid>
+                            <Typography align='center'
+                                        style={{color: "#ff0000"}}
+                            >
+                                {this.state.error}
+                            </Typography>
                             <CardActions style={{justifyContent: 'center'}}>
                                 <Button justify="right" variant="contained" color="primary" size="large"
                                         onClick={this.handleSubmit} disabled={this.state.loading}>
-                                    {this.state.loading && <span>Submit</span>}
-                                    {!this.state.loading && <span> Loading...</span>}
+                                    {!this.state.loading && <span>Submit</span>}
+                                    {this.state.loading && <span>Loading...</span>}
                                 </Button>
                             </CardActions>
 
