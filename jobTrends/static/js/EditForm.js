@@ -22,13 +22,13 @@ import {
     isBrowser,
     isMobile,
     isMobileOnly
-  } from "react-device-detect";
+} from "react-device-detect";
 
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 axios.defaults.headers.common = {
-  "Content-Type": "application/json"
+    "Content-Type": "application/json"
 };
 
 var cardStyle = {
@@ -57,17 +57,20 @@ class EditForm extends React.Component {
             jobTitles: this.props.titles,
             title: this.props.title,
             name: this.props.name,
+            error: "",
+            loading: false
         };
         this.handleArrayChange = this.handleArrayChange.bind(this);
         this.handleTextChange = this.handleTextChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.handleFormChange = this.handleFormChange.bind(this);
         this.handleAdd = this.handleAdd.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
     }
+
     handleUpdate() {
+        this.setState({loading: true, error: ""});
         axios.put('custom_tiles', {
             filters: this.state.filters,
             locations: this.state.locations,
@@ -85,7 +88,9 @@ class EditForm extends React.Component {
             } else {
                 console.log(response);
             }
-        });
+        }).catch(error => {
+            this.setState({loading: false, error: error.response.data.error});
+        })
     }
 
     handleDelete() {
@@ -96,8 +101,6 @@ class EditForm extends React.Component {
                 this.props.history.push('/');
                 window.location.reload();
                 this.props.history.push('/');
-            } else {
-                console.log(response);
             }
         });
     }
@@ -123,14 +126,14 @@ class EditForm extends React.Component {
         this.setState({[name]: value});
     };
 
-     handleAdd(event) {
+    handleAdd(event) {
         const target = event.currentTarget;
         const name = target.name;
         const val = this.state[name];
         const newVal = this.state[name + "Field"];
-        if(newVal !== ""){
+        if (newVal !== "") {
             val.push(newVal);
-            this.setState({[name + "Field"]: "", [name]: val });
+            this.setState({[name + "Field"]: "", [name]: val});
         }
     }
 
@@ -140,42 +143,20 @@ class EditForm extends React.Component {
         this.setState({[name]: val});
     }
 
-    handleSubmit() {
-        axios.put('custom_tiles', {
-            filters: this.state.filters,
-            locations: this.state.locations,
-            companies: this.state.companies,
-            titles: this.state.jobTitles,
-            whitelists: this.state.whitelists,
-            title: this.state.title
-        }, {
-            responseType: 'json'
-        }).then(response => {
-            if(response.data.success) {
-                this.props.history.push('/');
-                window.location.reload();
-                this.props.history.push('/');
-            }else{
-                console.log(response);
-            }
-        });
-    }
-
-    
     render() {
-        if (isMobileOnly){
+        if (isMobileOnly) {
             return (
                 <div>
                     <div align="center">
-                    <Typography align="center" variant="h4">{this.props.title}</Typography>
+                        <Typography align="center" variant="h4">{this.props.title}</Typography>
                     </div>
                     <form noValidate>
-                    <Grid
-                    container
-                    justify = 'center'
-                    alignContent='center'
-                    >
-                             <Grid item xs ={12}>
+                        <Grid
+                            container
+                            justify='center'
+                            alignContent='center'
+                        >
+                            <Grid item xs={12}>
                                 <TextField
                                     style={TextStyle}
                                     label="Title"
@@ -186,163 +167,171 @@ class EditForm extends React.Component {
                                     name="title"
                                 />
                             </Grid>
-                            <Grid item xs ={12}>
+                            <Grid item xs={12}>
                                 <DynamicForm
-                                style={TextStyle}
-                                label = "Skills"
-                                fieldValue={this.state.filtersField}
-                                value={this.state.filters}
-                                onChange={this.handleFormChange}
-                                onAdd={this.handleAdd}
-                                onRemove={this.handleRemove}
-                                name="filters"
-                                plus="+ Filters"
+                                    style={TextStyle}
+                                    label="Skills"
+                                    fieldValue={this.state.filtersField}
+                                    value={this.state.filters}
+                                    onChange={this.handleFormChange}
+                                    onAdd={this.handleAdd}
+                                    onRemove={this.handleRemove}
+                                    name="filters"
+                                    plus="+ Filters"
                                 />
                             </Grid>
                             <Grid item xs={12}>
                                 <DynamicForm
-                                style={TextStyle}
-                                label = "Locations"
-                                fieldValue={this.state.locationsField}
-                                value={this.state.locations}
-                                onChange={this.handleFormChange}
-                                onAdd={this.handleAdd}
-                                onRemove={this.handleRemove}
-                                name="locations"
-                                plus = "+ Locations"
+                                    style={TextStyle}
+                                    label="Locations"
+                                    fieldValue={this.state.locationsField}
+                                    value={this.state.locations}
+                                    onChange={this.handleFormChange}
+                                    onAdd={this.handleAdd}
+                                    onRemove={this.handleRemove}
+                                    name="locations"
+                                    plus="+ Locations"
                                 />
                             </Grid>
-                            <Grid item xs ={12}>
+                            <Grid item xs={12}>
                                 <DynamicForm
-                                style={TextStyle}
-                                label = "Companies"
-                                fieldValue={this.state.companiesField}
-                                value={this.state.companies}
-                                onChange={this.handleFormChange}
-                                onAdd={this.handleAdd}
-                                onRemove={this.handleRemove}
-                                name="companies"
-                                plus = "+ Companies"
+                                    style={TextStyle}
+                                    label="Companies"
+                                    fieldValue={this.state.companiesField}
+                                    value={this.state.companies}
+                                    onChange={this.handleFormChange}
+                                    onAdd={this.handleAdd}
+                                    onRemove={this.handleRemove}
+                                    name="companies"
+                                    plus="+ Companies"
                                 />
                             </Grid>
-                            <Grid item xs ={12}>
+                            <Grid item xs={12}>
                                 <DynamicForm
-                                style={TextStyle}
-                                label = "Job Titles"
-                                fieldValue={this.state.jobTitlesField}
-                                value={this.state.jobTitles}
-                                onChange={this.handleFormChange}
-                                onAdd={this.handleAdd}
-                                onRemove={this.handleRemove}
-                                name="jobTitles"
-                                plus = "+ Job Titles"
+                                    style={TextStyle}
+                                    label="Job Titles"
+                                    fieldValue={this.state.jobTitlesField}
+                                    value={this.state.jobTitles}
+                                    onChange={this.handleFormChange}
+                                    onAdd={this.handleAdd}
+                                    onRemove={this.handleRemove}
+                                    name="jobTitles"
+                                    plus="+ Job Titles"
                                 />
                             </Grid>
                             <CardActions style={{justifyContent: 'center'}}>
-                            <Button justify = "right" variant="contained" color="primary" size="large" onClick={this.handleUpdate}>
-                                Update
-                            </Button>
-                            <Button justify = "right" variant="contained" color="primary" size="large" onClick={this.handleDelete}>
-                                Delete
-                            </Button>
-                            </CardActions> 
-                        
-                        {/* </CardActions> */}
-                    </Grid>  
-                    </form>                             
+                                <Button justify="right" variant="contained" color="primary" size="large"
+                                        onClick={this.handleUpdate}>
+                                    Update
+                                </Button>
+                                <Button justify="right" variant="contained" color="primary" size="large"
+                                        onClick={this.handleDelete}>
+                                    Delete
+                                </Button>
+                            </CardActions>
+
+                            {/* </CardActions> */}
+                        </Grid>
+                    </form>
                 </div>
             );
-        }
-        else{
+        } else {
             return (
                 <div>
                     <div align="center">
-                    <Typography align="center" variant="h4">{this.props.title}</Typography>
+                        <Typography align="center" variant="h4">{this.props.title}</Typography>
                     </div>
                     <form noValidate>
-                    <Grid
-                    container
-                    justify = 'center'
-                    alignContent='center'
-                    >
-                        <Card style={cardStyle}>
-                        {/* <CardActions style={{justifyContent: 'center'}}> */}
-                            <Grid item xs ={12}>
-                                <TextField
-                                    style={TextStyle}
-                                    label="Tile Name"
-                                    value={this.state.title}
-                                    onChange={this.handleTextChange}
-                                    margin="normal"
-                                    variant="outlined"
-                                    name="title"
-                                />
-                            </Grid>
-                            <Grid item xs ={12}>
-                            <DynamicForm
-                                style={TextStyle}
-                                label = "Skills"
-                                fieldValue={this.state.filtersField}
-                                value={this.state.filters}
-                                onChange={this.handleFormChange}
-                                onAdd={this.handleAdd}
-                                onRemove={this.handleRemove}
-                                name="filters"
-                                plus="+ Filters"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <DynamicForm
-                                style={TextStyle}
-                                label = "Locations"
-                                fieldValue={this.state.locationsField}
-                                value={this.state.locations}
-                                onChange={this.handleFormChange}
-                                onAdd={this.handleAdd}
-                                onRemove={this.handleRemove}
-                                name="locations"
-                                plus = "+ Locations"
-                                />
-                            </Grid>
-                            <Grid item xs ={12}>
-                                <DynamicForm
-                                style={TextStyle}
-                                label = "Companies"
-                                fieldValue={this.state.companiesField}
-                                value={this.state.companies}
-                                onChange={this.handleFormChange}
-                                onAdd={this.handleAdd}
-                                onRemove={this.handleRemove}
-                                name="companies"
-                                plus = "+ Companies"
-                                />
-                            </Grid>
-                            <Grid item xs ={12}>
-                                <DynamicForm
-                                style={TextStyle}
-                                label = "Job Titles"
-                                fieldValue={this.state.jobTitlesField}
-                                value={this.state.jobTitles}
-                                onChange={this.handleFormChange}
-                                onAdd={this.handleAdd}
-                                onRemove={this.handleRemove}
-                                name="jobTitles"
-                                plus = "+ Job Titles"
-                                />
-                            </Grid>
-                            <CardActions style={{justifyContent: 'center'}}>
-                            <Button justify = "right" variant="contained" color="primary" size="large" onClick={this.handleUpdate}>
-                                Update
-                            </Button>
-                            <Button justify = "right" variant="contained" color="primary" size="large" onClick={this.handleDelete}>
-                                Delete
-                            </Button>
-                            </CardActions> 
-                        
-                        {/* </CardActions> */}
-                        </Card> 
-                    </Grid>  
-                    </form>                             
+                        <Grid
+                            container
+                            justify='center'
+                            alignContent='center'
+                        >
+                            <Card style={cardStyle}>
+                                {/* <CardActions style={{justifyContent: 'center'}}> */}
+                                <Grid item xs={12}>
+                                    <TextField
+                                        style={TextStyle}
+                                        label="Tile Name"
+                                        value={this.state.title}
+                                        onChange={this.handleTextChange}
+                                        margin="normal"
+                                        variant="outlined"
+                                        name="title"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <DynamicForm
+                                        style={TextStyle}
+                                        label="Skills"
+                                        fieldValue={this.state.filtersField}
+                                        value={this.state.filters}
+                                        onChange={this.handleFormChange}
+                                        onAdd={this.handleAdd}
+                                        onRemove={this.handleRemove}
+                                        name="filters"
+                                        plus="+ Filters"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <DynamicForm
+                                        style={TextStyle}
+                                        label="Locations"
+                                        fieldValue={this.state.locationsField}
+                                        value={this.state.locations}
+                                        onChange={this.handleFormChange}
+                                        onAdd={this.handleAdd}
+                                        onRemove={this.handleRemove}
+                                        name="locations"
+                                        plus="+ Locations"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <DynamicForm
+                                        style={TextStyle}
+                                        label="Companies"
+                                        fieldValue={this.state.companiesField}
+                                        value={this.state.companies}
+                                        onChange={this.handleFormChange}
+                                        onAdd={this.handleAdd}
+                                        onRemove={this.handleRemove}
+                                        name="companies"
+                                        plus="+ Companies"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <DynamicForm
+                                        style={TextStyle}
+                                        label="Job Titles"
+                                        fieldValue={this.state.jobTitlesField}
+                                        value={this.state.jobTitles}
+                                        onChange={this.handleFormChange}
+                                        onAdd={this.handleAdd}
+                                        onRemove={this.handleRemove}
+                                        name="jobTitles"
+                                        plus="+ Job Titles"
+                                    />
+                                </Grid>
+                                <Typography align='center'
+                                            style={{color: "#ff0000"}}
+                                >
+                                    {this.state.error}
+                                </Typography>
+                                <CardActions style={{justifyContent: 'center'}}>
+                                    <Button justify="right" variant="contained" color="primary" size="large"
+                                            onClick={this.handleUpdate}>
+                                        Update
+                                    </Button>
+                                    <Button justify="right" variant="contained" color="primary" size="large"
+                                            onClick={this.handleDelete}>
+                                        Delete
+                                    </Button>
+                                </CardActions>
+
+                                {/* </CardActions> */}
+                            </Card>
+                        </Grid>
+                    </form>
                 </div>
             );
         }

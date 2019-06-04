@@ -696,7 +696,6 @@ Windows
 Linux
 Unix
 Debugging
-Testing
 QA
 Automation
 Android
@@ -709,7 +708,7 @@ Network security
 Firewalls
 Penetration testing
 Application security
-Intrusion detetction
+Intrusion detection
 Machine learning
 Natural Language Processing
 Cloud Based Computing
@@ -731,6 +730,6 @@ CISA
 CISM
 CRISC
 Ruby on rails
-Reddis
+Redis
 Rabbitmq
 ASP

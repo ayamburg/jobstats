@@ -199,7 +199,7 @@ class CustomTiles(View):
             new_custom_tile.generate_top_skills()
             if not new_custom_tile.top_skills:
                 new_custom_tile.delete()
-                return JsonResponse({'error': 'No data found for given parameters', 'success': False}, status=406)
+                return JsonResponse({'error': 'No data found for the parameters you entered.', 'success': False}, status=406)
             new_custom_tile.generate_insights()
 
             print('---Success---')
@@ -250,7 +250,7 @@ class CustomTiles(View):
                     id=custom_tile[0].id,
                     defaults=old_fields)
                 custom_tile[0].save()
-                return JsonResponse({'error': 'No data found for given parameters', 'success': False}, status=406)
+                return JsonResponse({'error': 'No data found for the parameters you entered.', 'success': False}, status=406)
             custom_tile[0].generate_insights()
 
             print('---Success---')
