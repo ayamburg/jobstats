@@ -20,7 +20,7 @@ class ManualGraph extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            keywords: ['python'],
+            keywords: ['python', 'java'],
             filters: [],
             period: "week",
             age: "all_time",

@@ -7,7 +7,6 @@ import TileCard from './TileCard.js'
 class TileCardGrid extends React.Component {
     loadCustomTiles() {
         let custom_tiles = this.props.custom_tiles;
-        console.log(this.props);
         let custom_tile_cards = [];
 
         for (let i = 0; i < custom_tiles.length; i++) {

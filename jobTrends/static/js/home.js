@@ -273,9 +273,9 @@ class Home extends React.Component {
                                 <Typography variant="h6" style={{color: "#ffffff"}}>Map</Typography>
                             </Button>
                         </Link>
-                        <Link to="/manual" style={{textDecoration: 'none'}}>
+                        <Link to="/sandbox" style={{textDecoration: 'none'}}>
                             <Button>
-                                <Typography variant="h6" style={{color: "#ffffff"}}>Manual</Typography>
+                                <Typography variant="h6" style={{color: "#ffffff"}}>Sandbox</Typography>
                             </Button>
                         </Link>
                         <div style={{flex: 1}}>{this.createSignIn()}</div>
@@ -560,7 +560,7 @@ class Home extends React.Component {
                         />
 
                         <Route
-                            path="/manual"
+                            path="/sandbox"
                             component={ManualGraph}
                         />
 
