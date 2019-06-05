@@ -179,7 +179,6 @@ GEORGE
 GLSL
 GNU E
 Golang
-Go!
 GOAL
 Gödel
 Golo
@@ -191,8 +190,6 @@ GPSS
 GraphTalk
 GRASS
 Grasshopper
-Groovy
-Hack
 HAGGIS
 HAL/S
 Halide
@@ -273,7 +270,6 @@ Lite C
 Lithe
 Little b
 LLL
-Logo
 Logtalk
 LotusScript
 LPC
@@ -302,7 +298,6 @@ MATH MATIC
 Mathematica
 MATLAB
 Maxima
-Max 
 MaxScript
 Maya
 MDL
@@ -327,7 +322,6 @@ Modula 3
 Mohol
 MOO
 Mortran
-Mouse
 MPD
 Mathcad
 MSL
@@ -371,7 +365,6 @@ Objective J
 Obliq
 OCaml
 occam
-occam π
 Octave
 OmniMark
 Onyx
@@ -462,7 +455,6 @@ Rapira
 Ratfiv
 Ratfor
 rc
-Reason
 REBOL
 Redcode
 REFAL

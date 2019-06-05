@@ -189,7 +189,7 @@ class CustomTiles(View):
             user_id = request.user
 
             new_custom_tile = CustomTile.objects.create(
-                filters=filters,
+                filters=[f.lower() for f in filters],
                 locations=locations,
                 companies=companies,
                 titles=titles,
@@ -235,7 +235,7 @@ class CustomTiles(View):
 
             custom_tile = CustomTile.objects.update_or_create(
                 id=custom_tiles[0].id,
-                defaults={'filters': filters,
+                defaults={'filters': [f.lower() for f in filters],
                           'locations': locations,
                           'companies': companies,
                           'titles': titles,
