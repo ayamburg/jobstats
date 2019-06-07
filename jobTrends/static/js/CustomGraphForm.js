@@ -3,21 +3,9 @@ import DynamicForm from './DynamicForm';
 import Card from '@material-ui/core/Card';
 import axios from 'axios'
 import Grid from '@material-ui/core/Grid';
-import loader from '../homepage/css/loader.css';
-import Checkbox from '@material-ui/core/Checkbox';
 import {Typography, CardActions} from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Search from 'react-search'
-import {BrowserRouter as Router, Route, Link} from "react-router-dom";
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import FilledInput from '@material-ui/core/FilledInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Spinner from './spinner';
 import {
     BrowserView,
     MobileView,
@@ -111,11 +99,10 @@ class CustomGraphForm extends React.Component {
     handleSubmit() {
         this.setState({loading: true, error: ""});
         axios.post('custom_tiles', {
-            filters: this.state.filters,
-            locations: this.state.locations,
-            companies: this.state.companies,
-            titles: this.state.jobTitles,
-            whitelists: this.state.whitelists,
+            filters: this.state.filters.concat(this.state.filtersField),
+            locations: this.state.locations.concat(this.state.locationsField),
+            companies: this.state.companies.concat(this.state.companiesField),
+            titles: this.state.jobTitles.concat(this.state.jobTitlesField),
             title: this.state.title
         }, {
             responseType: 'json'
