@@ -186,6 +186,12 @@ class CustomTiles(View):
             companies = request_data['companies']
             titles = request_data['titles']
             title = request_data['title']
+            filters_is_empty = all('' == s or s.isspace() for s in filters)
+            locations_is_empty = all('' == s or s.isspace() for s in locations)
+            companies_is_empty = all('' == s or s.isspace() for s in companies)
+            titles_is_empty = all('' == s or s.isspace() for s in titles)
+            if filters_is_empty & locations_is_empty & companies_is_empty & titles_is_empty:
+                return JsonResponse({'error': 'Please enter at least one keyword, location, company or job title', 'success': False}, status=406)
             user_id = request.user
 
             new_custom_tile = CustomTile.objects.create(
