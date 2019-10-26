@@ -81,7 +81,7 @@ def get_company(soup):
 
 def get_description(soup):
     err = ''
-    thisresult = soup.find(name='div', attrs={"class": "jobsearch-JobComponent-description icl-u-xs-mt--md"})
+    thisresult = soup.find(name='div', attrs={"class": "jobsearch-jobDescriptionText"})
     if thisresult is None:
         err = "DESCRIPTION_NOT_FOUND"
         return '', err
