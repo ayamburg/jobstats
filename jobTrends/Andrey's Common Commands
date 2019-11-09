@@ -55,3 +55,9 @@ download https://drive.google.com/file/d/1icKBXmFBZi77tLDax6E1mGaU2XwBkvCE/view?
 The following command will take forever:
 python3 manage.py loaddata dump.json
 python3 manage.py search_index --rebuild
+
+#production elasticsearch
+systemctl status elasticsearch
+sudo systemctl restart elasticsearch
+sudo systemctl start elasticsearch
+

@@ -24,9 +24,9 @@ filter_shingle = token_filter(name_or_instance="filter_shingle", type="shingle",
 shingle_analyzer = analyzer("shingle", tokenizer=custom_tokenizer, type="custom", filter=["lowercase", filter_shingle])
 job_listing.analyzer(shingle_analyzer)
 
-triple_filter_shingle = token_filter(name_or_instance="triple_filter_shingle", type="shingle", max_shingle_size=3, min_shingle_size=3, output_unigrams="false")
-triple_shingle_analyzer = analyzer("triple_shingle", tokenizer=custom_tokenizer, type="custom", filter=["lowercase", triple_filter_shingle])
-job_listing.analyzer(triple_shingle_analyzer)
+# triple_filter_shingle = token_filter(name_or_instance="triple_filter_shingle", type="shingle", max_shingle_size=3, min_shingle_size=3, output_unigrams="false")
+# triple_shingle_analyzer = analyzer("triple_shingle", tokenizer=custom_tokenizer, type="custom", filter=["lowercase", triple_filter_shingle])
+# job_listing.analyzer(triple_shingle_analyzer)
 
 
 @job_listing.doc_type
@@ -37,7 +37,7 @@ class JobListingDocument(DocType):
 
     location_keywords = fields.TextField(attr="location", fielddata=True)
     location_shingles = fields.TextField(attr="location", analyzer="shingle", fielddata=True)
-    location_triple_shingles = fields.TextField(attr="location", analyzer="triple_shingle", fielddata=True)
+    #location_triple_shingles = fields.TextField(attr="location", analyzer="triple_shingle", fielddata=True)
 
     class Meta:
         model = JobListing  # The model associated with this DocType

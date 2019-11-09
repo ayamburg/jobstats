@@ -204,13 +204,13 @@ class DataHandler:
         search = JobListingDocument.search().params(request_timeout=60).query(queries)
         search.aggs.bucket('word_count', 'terms', field='keywords', size=1500)
         search.aggs.bucket('shingle_word_count', 'terms', field='shingles', size=1500)
-        search.aggs.bucket('triple_shingle_word_count', 'terms', field='triple_shingles', size=1500)
+        #search.aggs.bucket('triple_shingle_word_count', 'terms', field='triple_shingles', size=1500)
         search = search.execute()
         words = search.aggregations.word_count.to_dict()['buckets']
         shingle_words = search.aggregations.shingle_word_count.to_dict()['buckets']
-        triple_shingle_words = search.aggregations.triple_shingle_word_count.to_dict()['buckets']
+        #triple_shingle_words = search.aggregations.triple_shingle_word_count.to_dict()['buckets']
 
-        words = words + shingle_words + triple_shingle_words
+        words = words + shingle_words# + triple_shingle_words
         skills = []
         whitelist = open("jobTrends/word_lists/whitelist.txt", "r")
         whitelist = whitelist.read().split('\n')
@@ -245,13 +245,13 @@ class DataHandler:
         search = JobListingDocument.search().params(request_timeout=60).query(queries)
         search.aggs.bucket('word_count', 'terms', field='location_keywords', size=500)
         search.aggs.bucket('shingle_word_count', 'terms', field='location_shingles', size=500)
-        search.aggs.bucket('triple_shingle_word_count', 'terms', field='location_triple_shingles', size=500)
+        #search.aggs.bucket('triple_shingle_word_count', 'terms', field='location_triple_shingles', size=500)
         search = search.execute()
         words = search.aggregations.word_count.to_dict()['buckets']
         shingle_words = search.aggregations.shingle_word_count.to_dict()['buckets']
-        triple_shingle_words = search.aggregations.triple_shingle_word_count.to_dict()['buckets']
+        #triple_shingle_words = search.aggregations.triple_shingle_word_count.to_dict()['buckets']
 
-        words = words + shingle_words + triple_shingle_words
+        words = words + shingle_words# + triple_shingle_words
         locations = []
         cityObjs = []
 
