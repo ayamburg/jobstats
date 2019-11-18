@@ -56,7 +56,7 @@ class GraphForm extends React.Component {
             graph_data: {
                 keywords: [],
                 filters: [],
-                period: "week",
+                period: "month",
                 raw: false,
                 x: [[]],
                 y: [[]]

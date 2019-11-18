@@ -22,7 +22,7 @@ class ManualGraph extends React.Component {
         this.state = {
             keywords: ['python', 'java'],
             filters: [],
-            period: "week",
+            period: "month",
             age: "all_time",
             raw_bool: false,
             locations: [],
@@ -32,7 +32,7 @@ class ManualGraph extends React.Component {
             graph_data: {
                 keywords: [],
                 filters: [],
-                period: "week",
+                period: "month",
                 raw: false,
                 x: [[]],
                 y: [[]]
