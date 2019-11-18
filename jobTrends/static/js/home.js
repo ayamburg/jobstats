@@ -190,8 +190,8 @@ class Home extends React.Component {
                             <CustomGraph
                                 {...props}
                                 filters={custom_tiles[i].filters}
-                                period={"week"}
-                                age={"past_six_months"}
+                                period={"month"}
+                                age={"all_time"}
                                 raw_bool={false}
                                 locations={custom_tiles[i].locations}
                                 companies={custom_tiles[i].companies}
@@ -391,8 +391,8 @@ class Home extends React.Component {
                                     <GraphForm
                                         {...props}
                                         filters={[]}
-                                        period={"week"}
-                                        age={"past_six_months"}
+                                        period={"month"}
+                                        age={"all_time"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={"amazon.com"}
@@ -411,8 +411,8 @@ class Home extends React.Component {
                                     <GraphForm
                                         {...props}
                                         filters={[]}
-                                        period={"week"}
-                                        age={"past_six_months"}
+                                        period={"month"}
+                                        age={"all_time"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={"apple"}
@@ -431,8 +431,8 @@ class Home extends React.Component {
                                     <GraphForm
                                         {...props}
                                         filters={[]}
-                                        period={"week"}
-                                        age={"past_six_months"}
+                                        period={"month"}
+                                        age={"all_time"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={"google"}
@@ -451,8 +451,8 @@ class Home extends React.Component {
                                     <GraphForm
                                         {...props}
                                         filters={[]}
-                                        period={"week"}
-                                        age={"past_six_months"}
+                                        period={"month"}
+                                        age={"all_time"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={"microsoft"}
@@ -471,8 +471,8 @@ class Home extends React.Component {
                                     <GraphForm
                                         {...props}
                                         filters={[]}
-                                        period={"week"}
-                                        age={"past_six_months"}
+                                        period={"month"}
+                                        age={"all_time"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={""}
@@ -491,8 +491,8 @@ class Home extends React.Component {
                                     <GraphForm
                                         {...props}
                                         filters={[]}
-                                        period={"week"}
-                                        age={"past_six_months"}
+                                        period={"month"}
+                                        age={"all_time"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={""}
@@ -511,8 +511,8 @@ class Home extends React.Component {
                                     <GraphForm
                                         {...props}
                                         filters={[]}
-                                        period={"week"}
-                                        age={"past_six_months"}
+                                        period={"month"}
+                                        age={"all_time"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={""}
@@ -531,8 +531,8 @@ class Home extends React.Component {
                                     <GraphForm
                                         {...props}
                                         filters={[]}
-                                        period={"week"}
-                                        age={"past_six_months"}
+                                        period={"month"}
+                                        age={"all_time"}
                                         raw_bool={false}
                                         locations={""}
                                         companies={""}
@@ -553,8 +553,8 @@ class Home extends React.Component {
                                            <GraphForm
                                                {...props}
                                                filters={[]}
-                                               period={"week"}
-                                               age={"past_six_months"}
+                                               period={"month"}
+                                               age={"all_time"}
                                                raw_bool={false}
                                                locations={cityname}
                                                companies={""}
@@ -574,8 +574,8 @@ class Home extends React.Component {
                                     <GraphForm
                                         {...props}
                                         filters={[]}
-                                        period={"week"}
-                                        age={"past_six_months"}
+                                        period={"month"}
+                                        age={"all_time"}
                                         raw_bool={false}
                                         locations={"oakland"}
                                         companies={""}
